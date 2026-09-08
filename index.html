@@ -750,5 +750,16 @@ border-radius:999px;background:#fef3c7;color:#854d0e;font-weight:700}
   <div class="trust-badge">✅ Site verificat</div>
   <small>LucrăriDeFăcut.ro · Platformă verificată funcțional.</small>
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("body *").forEach(function(el) {
+    if (el.textContent.trim() === "Versiunea 12 – Consolidare") {
+      const bloc = el.closest("section, .card, .panel");
+      if (bloc) bloc.style.display = "none";
+      else el.style.display = "none";
+    }
+  });
+});
+</script>
 </body>
 </html>
