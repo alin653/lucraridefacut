@@ -181,7 +181,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     <section id="login" class="screen">
       <div class="page-head"><button class="back" data-nav="auth">←</button><h1>Autentificare</h1></div>
       <form id="loginForm" class="form-card">
-        <label>Telefon<input id="loginPhone" required inputmode="tel" placeholder="07xx xxx xxx"></label>
+<label>Email<input id="loginPhone" type="email" required placeholder="exemplu@email.ro"></label>
         <label>Parolă<input id="loginPassword" required type="password"></label>
         <button class="primary big" type="submit">Intră în cont</button>
         <p class="muted">În această versiune, conturile sunt salvate doar pe dispozitivul tău.</p>
