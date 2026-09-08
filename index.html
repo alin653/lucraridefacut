@@ -169,10 +169,10 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         <form id="registerForm" class="stack hidden">
           <input type="hidden" id="registerRole">
           <label>Nume și prenume<input id="registerName" required placeholder="Ex: Ion Popescu"></label>
-          <label>Număr de telefon<input id="registerPhone" required inputmode="tel" placeholder="07xx xxx xxx"></label>
+          <label>Email<input id="registerPhone" type="email" required placeholder="exemplu@email.ro"></label>
           <label>Parolă<input id="registerPassword" type="password" required minlength="6" placeholder="Minimum 6 caractere"></label>
           <p class="privacy-note">Nu cerem CNP pentru conturile utilizatorilor.</p>
-          <button class="primary big" type="submit">Continuă la verificarea telefonului</button>
+          <button class="primary big" type="submit">crează cont</button>
         </form>
         <div class="login-line">Ai deja cont? <button class="link-btn" id="showLogin">Autentifică-te</button></div>
       </div>
