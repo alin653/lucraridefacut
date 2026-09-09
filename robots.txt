@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alin653.github.io/lucraridefacut/sitemap.xml
