@@ -1,7 +1,28 @@
 (function(){
   'use strict';
 
+  function hardenPublicAdmin(){
+    document.querySelectorAll('.admin-link').forEach(function(el){el.remove();});
+    ['adminLogin','admin'].forEach(function(id){
+      const el=document.getElementById(id);
+      if(el){
+        el.classList.remove('active');
+        el.style.display='none';
+        el.setAttribute('aria-hidden','true');
+      }
+    });
+    const form=document.getElementById('adminLoginForm');
+    if(form){
+      form.addEventListener('submit',function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      },true);
+    }
+  }
+
   function installEvaluationEntry(){
+    hardenPublicAdmin();
+
     const evaluation=document.getElementById('v10-evaluare');
     if(!evaluation)return;
 
