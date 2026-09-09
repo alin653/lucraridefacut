@@ -38,6 +38,14 @@
     return data;
   }
 
+  async function getMyPhone(){
+    const client=readyClient();
+    const user=await requireUser();
+    const {data,error}=await client.from('profile_contacts').select('phone').eq('user_id',user.id).maybeSingle();
+    if(error) throw error;
+    return data?.phone||'';
+  }
+
   async function setMyPhone(phone){
     const client=readyClient();
     const user=await requireUser();
@@ -75,6 +83,14 @@
     const {data,error}=await client.from('jobs').insert(payload).select().single();
     if(error) throw error;
     return data;
+  }
+
+  async function listSavedJobs(){
+    const client=readyClient();
+    const user=await requireUser();
+    const {data,error}=await client.from('saved_jobs').select('job_id,created_at').eq('user_id',user.id).order('created_at',{ascending:false});
+    if(error) throw error;
+    return data||[];
   }
 
   async function saveJob(jobId){
@@ -115,9 +131,11 @@
     getSession,
     getMyProfile,
     updateMyProfile,
+    getMyPhone,
     setMyPhone,
     listOpenJobs,
     createJob,
+    listSavedJobs,
     saveJob,
     unsaveJob,
     getUnlockedContact,
