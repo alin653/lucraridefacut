@@ -22,6 +22,7 @@ jobs:
           data_tag = '<script src="supabase-data.js"></script>'
           bridge_tag = '<script src="supabase-bridge.js"></script>'
           evaluation_tag = '<script src="evaluation-entry.js"></script>'
+          buy_loader_tag = '<script src="buy-job-loader.js"></script>'
           if data_tag not in s:
               if '</body>' not in s:
                   raise SystemExit('Missing </body> in index.html')
@@ -30,6 +31,8 @@ jobs:
               s = s.replace(data_tag, data_tag + '\n' + bridge_tag, 1)
           if evaluation_tag not in s:
               s = s.replace(bridge_tag, bridge_tag + '\n' + evaluation_tag, 1)
+          if buy_loader_tag not in s:
+              s = s.replace(evaluation_tag, evaluation_tag + '\n' + buy_loader_tag, 1)
 
           replacements = {
             "x.jobId===id": "String(x.jobId)===String(id)",
@@ -52,5 +55,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Add separate evaluation command"
+          git commit -m "Inject purchase flow loader"
           git push
