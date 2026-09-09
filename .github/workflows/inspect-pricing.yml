@@ -1,0 +1,17 @@
+name: Inspect pricing code
+on:
+  push:
+    paths:
+      - '.github/workflows/inspect-pricing.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find pricing and contact code
+        run: |
+          echo '--- MATCHES ---'
+          grep -niE 'credit|unlock|budget|telefon verificat|phone|packages|debloc|cump' index.html | head -n 220 || true
