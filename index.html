@@ -184,7 +184,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 <label>Email<input id="loginPhone" type="email" required placeholder="exemplu@email.ro"></label>
         <label>Parolă<input id="loginPassword" required type="password"></label>
         <button class="primary big" type="submit">Intră în cont</button>
-        <p class="muted">În această versiune, conturile sunt salvate doar pe dispozitivul tău.</p>
+        <p class="muted">Autentificarea contului este securizată prin Supabase.</p>
       </form>
     </section>
 
@@ -355,11 +355,63 @@ $$('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));$('#menuBtn').oncl
 
 $$('[data-auth-role]').forEach(b=>b.onclick=()=>{const role=b.dataset.authRole;$('#registerRole').value=role;$('#registerForm').classList.remove('hidden');$$('[data-auth-role]').forEach(x=>x.classList.toggle('selected',x===b));$('#registerName').focus();});
 $('#showLogin').onclick=()=>nav('login');
-$('#registerForm').addEventListener('submit',e=>{e.preventDefault();const phone=$('#registerPhone').value.trim();if(users.some(u=>u.phone.replace(/\s/g,'')===phone.replace(/\s/g,''))){toast('Există deja un cont cu acest telefon.');return;}pendingRegistration={name:$('#registerName').value.trim(),phone,role:$('#registerRole').value==='worker'?'meseriaș':'client',password:$('#registerPassword').value,city:'',status:'activ',verified:false,reports:0,credits:0,notifPrefs:$('#registerRole').value==='worker'?{enabled:true,city:'',category:'Toate categoriile'}:undefined};nav('verify');});
-$('#verifyBtn').onclick=()=>{if($('#verifyCode').value.trim()!=='1234'){toast('Cod incorect. În demo folosește 1234.');return;}if(!pendingRegistration)return;pendingRegistration.id=Date.now();pendingRegistration.verified=true;users.push(pendingRegistration);currentUser=pendingRegistration;credits=currentUser.role==='meseriaș'?0:20;pendingRegistration=null;persist();updateCredits();updateNotificationBadge();toast('Cont creat și telefon verificat');nav(currentUser.role==='meseriaș'?'jobs':'profile');};
-$('#loginForm').addEventListener('submit',e=>{e.preventDefault();const p=$('#loginPhone').value.replace(/\s/g,''),pass=$('#loginPassword').value;const u=users.find(x=>x.phone.replace(/\s/g,'')===p&&x.password===pass);if(!u){toast('Telefon sau parolă incorectă.');return;}if(u.status!=='activ'){toast('Acest cont este suspendat sau blocat.');return;}currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();toast('Autentificare reușită');nav('profile');});
+$('#registerForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=$('#registerPhone').value.trim().toLowerCase();
+  const password=$('#registerPassword').value;
+  const role=$('#registerRole').value==='worker'?'meseriaș':'client';
+  const name=$('#registerName').value.trim();
+  if(!role||!name||!email||!password){toast('Completează toate câmpurile.');return;}
+  const btn=e.submitter; if(btn){btn.disabled=true;btn.textContent='Se creează contul...';}
+  try{
+    const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{name,role}}});
+    if(error) throw error;
+    const authUser=data.user;
+    if(!authUser){toast('Nu am putut crea contul. Încearcă din nou.');return;}
+    let u=users.find(x=>String(x.id)===String(authUser.id)||String(x.phone||'').toLowerCase()===email);
+    const base={id:authUser.id,name,phone:email,role,status:'activ',verified:!!data.session,reports:0,credits:role==='meseriaș'?0:20,notifPrefs:role==='meseriaș'?{enabled:true,city:'',category:'Toate categoriile'}:undefined};
+    if(u) Object.assign(u,base); else {u=base;users.push(u);}
+    persist();
+    if(data.session){currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();toast('Cont creat cu succes');nav(u.role==='meseriaș'?'jobs':'profile');}
+    else {toast('Cont creat. Verifică emailul pentru confirmare.');nav('login');}
+  }catch(err){toast(err?.message||'Eroare la crearea contului.');}
+  finally{if(btn){btn.disabled=false;btn.textContent='Creează cont';}}
+});
 
-function renderProfile(){const box=$('#profileContent');if(!currentUser){box.innerHTML='<div class="avatar">👤</div><h2>Nu ești autentificat</h2><p>Contul este gratuit pentru clienți și meseriași.</p><button class="primary big" id="profileCreate">Creează cont gratuit</button>';$('#profileCreate').onclick=()=>nav('auth');return;}box.innerHTML=`<div class="avatar">${currentUser.role==='meseriaș'?'👷':'👤'}</div><span class="account-badge">${currentUser.role==='meseriaș'?'Meseriaș':'Client'}</span><h2>${currentUser.name}</h2><div class="profile-meta"><p>📱 ${currentUser.phone}</p><p>${currentUser.verified?'✅ Telefon verificat':'⚠️ Telefon neverificat'}</p><p>🟢 Cont ${currentUser.status}</p>${currentUser.role==='meseriaș'?`<p>🪙 ${currentUser.credits} credite</p>`:''}</div><div class="profile-actions">${currentUser.role==='client'?'<button class="primary" id="profilePost">Postează o lucrare</button>':'<button class="primary" id="profileJobs">Vezi lucrările</button><button class="secondary plain" id="profileNotifications">🔔 Notificările mele</button>'}<button class="secondary plain" id="logoutBtn">Ieși din cont</button></div>`;const pp=$('#profilePost');if(pp)pp.onclick=()=>nav('post');const pj=$('#profileJobs');if(pj)pj.onclick=()=>nav('jobs');const pn=$('#profileNotifications');if(pn)pn.onclick=()=>nav('notifications');$('#logoutBtn').onclick=()=>{currentUser=null;persist();updateNotificationBadge();toast('Ai ieșit din cont');nav('home');};}
+$('#verifyBtn').onclick=()=>{toast('Verificarea contului se face acum prin email.');nav('login');};
+
+$('#loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=$('#loginPhone').value.trim().toLowerCase();
+  const password=$('#loginPassword').value;
+  const btn=e.submitter; if(btn){btn.disabled=true;btn.textContent='Se autentifică...';}
+  try{
+    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error) throw error;
+    const a=data.user,meta=a?.user_metadata||{};
+    let u=users.find(x=>String(x.id)===String(a.id)||String(x.phone||'').toLowerCase()===email);
+    if(!u){u={id:a.id,name:meta.name||email.split('@')[0],phone:email,city:'',role:meta.role||'client',status:'activ',verified:true,reports:0,credits:(meta.role==='meseriaș'?0:20)};users.push(u);}
+    else {u.id=a.id;u.phone=email;u.verified=true;if(meta.name)u.name=meta.name;if(meta.role)u.role=meta.role;}
+    if(u.status!=='activ'){await supabaseClient.auth.signOut();toast('Acest cont este suspendat sau blocat.');return;}
+    currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();toast('Autentificare reușită');nav('profile');
+  }catch(err){toast(err?.message||'Email sau parolă incorectă.');}
+  finally{if(btn){btn.disabled=false;btn.textContent='Intră în cont';}}
+});
+
+(async function restoreSupabaseSession(){
+  try{
+    const {data}=await supabaseClient.auth.getSession();
+    const a=data?.session?.user;
+    if(!a){currentUser=null;persist();updateNotificationBadge();return;}
+    const email=(a.email||'').toLowerCase(),meta=a.user_metadata||{};
+    let u=users.find(x=>String(x.id)===String(a.id)||String(x.phone||'').toLowerCase()===email);
+    if(!u){u={id:a.id,name:meta.name||email.split('@')[0],phone:email,city:'',role:meta.role||'client',status:'activ',verified:true,reports:0,credits:(meta.role==='meseriaș'?0:20)};users.push(u);}
+    else {u.id=a.id;u.phone=email;u.verified=true;if(meta.name)u.name=meta.name;if(meta.role)u.role=meta.role;}
+    currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();
+  }catch(_){ }
+})();
+
+function renderProfile(){const box=$('#profileContent');if(!currentUser){box.innerHTML='<div class="avatar">👤</div><h2>Nu ești autentificat</h2><p>Contul este gratuit pentru clienți și meseriași.</p><button class="primary big" id="profileCreate">Creează cont gratuit</button>';$('#profileCreate').onclick=()=>nav('auth');return;}box.innerHTML=`<div class="avatar">${currentUser.role==='meseriaș'?'👷':'👤'}</div><span class="account-badge">${currentUser.role==='meseriaș'?'Meseriaș':'Client'}</span><h2>${currentUser.name}</h2><div class="profile-meta"><p>📱 ${currentUser.phone}</p><p>${currentUser.verified?'✅ Telefon verificat':'⚠️ Telefon neverificat'}</p><p>🟢 Cont ${currentUser.status}</p>${currentUser.role==='meseriaș'?`<p>🪙 ${currentUser.credits} credite</p>`:''}</div><div class="profile-actions">${currentUser.role==='client'?'<button class="primary" id="profilePost">Postează o lucrare</button>':'<button class="primary" id="profileJobs">Vezi lucrările</button><button class="secondary plain" id="profileNotifications">🔔 Notificările mele</button>'}<button class="secondary plain" id="logoutBtn">Ieși din cont</button></div>`;const pp=$('#profilePost');if(pp)pp.onclick=()=>nav('post');const pj=$('#profileJobs');if(pj)pj.onclick=()=>nav('jobs');const pn=$('#profileNotifications');if(pn)pn.onclick=()=>nav('notifications');$('#logoutBtn').onclick=async()=>{await supabaseClient.auth.signOut();currentUser=null;persist();updateNotificationBadge();toast('Ai ieșit din cont');nav('home');};}
 
 function workflowLabel(j){return j.workflowStatus==='in_lucru'?'În lucru':j.workflowStatus==='finalizat'?'Finalizată':'Disponibilă';}
 function isSaved(id){return !!currentUser&&savedJobs.some(x=>String(x.userId)===String(currentUser.id)&&x.jobId===id);}
