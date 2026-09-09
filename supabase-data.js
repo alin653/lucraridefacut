@@ -2,7 +2,9 @@
   'use strict';
 
   function readyClient(){
-    return typeof window.supabaseClient !== 'undefined' && window.supabaseClient;
+    if(typeof supabaseClient !== 'undefined' && supabaseClient) return supabaseClient;
+    if(typeof window.supabaseClient !== 'undefined' && window.supabaseClient) return window.supabaseClient;
+    return null;
   }
 
   async function getSession(){
@@ -69,7 +71,7 @@
     const user=await requireUser();
     const profile=await getMyProfile();
     if(profile.role!=='client') throw new Error('Doar conturile de client pot publica lucrări.');
-    const payload={client_id:user.id,title:String(job?.title||'').trim(),description:String(job?.description||'').trim(),category:job?.category||null,city:job?.city||null,county:job?.county||null,budget:Number(job?.budget||0),status:'open'};
+    const payload={client_id:user.id,title:String(job?.title||'').trim(),description:String(job?.description||'').trim(),category:job?.category||null,city:job?.city||null,county:job?.county||null,budget:Number(job?.budget||0),status:'open',payment_status:'pending'};
     if(!payload.title || !payload.description) throw new Error('Titlul și descrierea sunt obligatorii.');
     const {data,error}=await client.from('jobs').insert(payload).select().single();
     if(error) throw error;
