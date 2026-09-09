@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add Supabase modules and cloud compatibility fixes
+      - name: Add Supabase modules and site compatibility fixes
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -21,12 +21,15 @@ jobs:
           s = p.read_text(encoding='utf-8')
           data_tag = '<script src="supabase-data.js"></script>'
           bridge_tag = '<script src="supabase-bridge.js"></script>'
+          evaluation_tag = '<script src="evaluation-entry.js"></script>'
           if data_tag not in s:
               if '</body>' not in s:
                   raise SystemExit('Missing </body> in index.html')
               s = s.replace('</body>', f'{data_tag}\n</body>', 1)
           if bridge_tag not in s:
               s = s.replace(data_tag, data_tag + '\n' + bridge_tag, 1)
+          if evaluation_tag not in s:
+              s = s.replace(bridge_tag, bridge_tag + '\n' + evaluation_tag, 1)
 
           replacements = {
             "x.jobId===id": "String(x.jobId)===String(id)",
@@ -49,5 +52,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Fix Supabase job links and saved jobs"
+          git commit -m "Add separate evaluation command"
           git push
