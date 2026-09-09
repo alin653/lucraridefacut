@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add Supabase modules to index
+      - name: Add Supabase modules and cloud compatibility fixes
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -26,10 +26,18 @@ jobs:
                   raise SystemExit('Missing </body> in index.html')
               s = s.replace('</body>', f'{data_tag}\n</body>', 1)
           if bridge_tag not in s:
-              if data_tag in s:
-                  s = s.replace(data_tag, data_tag + '\n' + bridge_tag, 1)
-              else:
-                  s = s.replace('</body>', f'{bridge_tag}\n</body>', 1)
+              s = s.replace(data_tag, data_tag + '\n' + bridge_tag, 1)
+
+          replacements = {
+            "x.jobId===id": "String(x.jobId)===String(id)",
+            "x=>x.id===id": "x=>String(x.id)===String(id)",
+            "selectedJob=jobs.find(j=>j.id===id)": "selectedJob=jobs.find(j=>String(j.id)===String(id))",
+            "openJob(+b.dataset.job)": "openJob(b.dataset.job)",
+            "toggleSaved(+b.dataset.saveJob)": "toggleSaved(b.dataset.saveJob)",
+            "selectedJob?.id===id": "String(selectedJob?.id)===String(id)"
+          }
+          for old,new in replacements.items():
+              s = s.replace(old,new)
           p.write_text(s, encoding='utf-8')
           PY
       - name: Commit patch
@@ -41,5 +49,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Load Supabase bridge module"
+          git commit -m "Fix Supabase job links and saved jobs"
           git push
