@@ -15,12 +15,18 @@ Deno.serve(async(req)=>{
     const session=event.data.object as Stripe.Checkout.Session
     if(session.payment_status==='paid'&&session.metadata?.purpose==='job_unlock'){
       const jobId=session.metadata.job_id, workerId=session.metadata.worker_id
+      if(!jobId||!workerId) return new Response('Missing metadata',{status:400})
       const admin=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)
       const {data:job}=await admin.from('jobs').select('max_unlocks').eq('id',jobId).single()
-      const {count}=await admin.from('job_unlocks').select('id',{count:'exact',head:true}).eq('job_id',jobId).eq('payment_status','paid')
-      if((count||0)<Number(job?.max_unlocks||6)){
-        await admin.from('job_unlocks').upsert({job_id:jobId,worker_id:workerId,payment_status:'paid',stripe_session_id:session.id,amount_paid:Number(session.amount_total||0)/100,paid_at:new Date().toISOString()},{onConflict:'job_id,worker_id'})
-      }
+      const {data:existing}=await admin.from('job_unlocks').select('id,status').eq('job_id',jobId).eq('worker_id',workerId).maybeSingle()
+      if(existing?.status==='paid') return new Response('ok',{status:200})
+      const {count}=await admin.from('job_unlocks').select('id',{count:'exact',head:true}).eq('job_id',jobId).eq('status','paid')
+      if((count||0)>=Number(job?.max_unlocks||6)) return new Response('Unlock limit reached',{status:409})
+      const payload={job_id:jobId,worker_id:workerId,amount:Number(session.amount_total||0)/100,status:'paid',provider_reference:session.id,paid_at:new Date().toISOString()}
+      const {error}=existing
+        ? await admin.from('job_unlocks').update(payload).eq('id',existing.id)
+        : await admin.from('job_unlocks').insert(payload)
+      if(error) return new Response('Database error',{status:500})
     }
   }
   return new Response('ok',{status:200})
