@@ -1,0 +1,32 @@
+name: Check JavaScript syntax
+on:
+  push:
+    paths:
+      - '.github/workflows/check-js.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract inline scripts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text(encoding='utf-8')
+          scripts=[]
+          for i,m in enumerate(re.finditer(r'<script(?:\s[^>]*)?>(.*?)</script>',s,re.S|re.I),1):
+              tag=s[m.start():s.find('>',m.start())+1]
+              if 'src=' in tag.lower():
+                  continue
+              code=m.group(1)
+              Path(f'/tmp/script{i}.js').write_text(code,encoding='utf-8')
+              scripts.append(f'/tmp/script{i}.js')
+          print('\n'.join(scripts))
+          PY
+      - name: Parse JavaScript
+        run: |
+          set -e
+          for f in /tmp/script*.js; do echo "CHECK $f"; node --check "$f"; done
