@@ -69,16 +69,7 @@
     const user=await requireUser();
     const profile=await getMyProfile();
     if(profile.role!=='client') throw new Error('Doar conturile de client pot publica lucrări.');
-    const payload={
-      client_id:user.id,
-      title:String(job?.title||'').trim(),
-      description:String(job?.description||'').trim(),
-      category:job?.category||null,
-      city:job?.city||null,
-      county:job?.county||null,
-      budget:Number(job?.budget||0),
-      status:'open'
-    };
+    const payload={client_id:user.id,title:String(job?.title||'').trim(),description:String(job?.description||'').trim(),category:job?.category||null,city:job?.city||null,county:job?.county||null,budget:Number(job?.budget||0),status:'open'};
     if(!payload.title || !payload.description) throw new Error('Titlul și descrierea sunt obligatorii.');
     const {data,error}=await client.from('jobs').insert(payload).select().single();
     if(error) throw error;
@@ -109,6 +100,15 @@
     return true;
   }
 
+  async function getJobAccessSummary(jobId){
+    const client=readyClient();
+    await requireUser();
+    const {data,error}=await client.rpc('get_job_access_summary',{p_job_id:jobId});
+    if(error) throw error;
+    const row=Array.isArray(data)?(data[0]||null):data;
+    return row?{unlockCount:Number(row.unlock_count||0),maxUnlocks:Number(row.max_unlocks||6),alreadyUnlocked:!!row.already_unlocked}:null;
+  }
+
   async function getUnlockedContact(jobId){
     const client=readyClient();
     await requireUser();
@@ -127,20 +127,6 @@
     return data;
   }
 
-  window.LDFCloud={
-    getSession,
-    getMyProfile,
-    updateMyProfile,
-    getMyPhone,
-    setMyPhone,
-    listOpenJobs,
-    createJob,
-    listSavedJobs,
-    saveJob,
-    unsaveJob,
-    getUnlockedContact,
-    sendSupportMessage
-  };
-
+  window.LDFCloud={getSession,getMyProfile,updateMyProfile,getMyPhone,setMyPhone,listOpenJobs,createJob,listSavedJobs,saveJob,unsaveJob,getJobAccessSummary,getUnlockedContact,sendSupportMessage};
   window.dispatchEvent(new CustomEvent('ldfcloudready'));
 })();
