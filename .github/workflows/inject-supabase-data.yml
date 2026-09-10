@@ -20,21 +20,8 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
-          # Hide old standalone/demo panels at source, not via a cached JS helper.
           if '#v12-shell,#v11-security,#v13-online{display:none!important;}' not in s:
               s = s.replace('#v12-shell{display:none!important;}', '#v12-shell,#v11-security,#v13-online{display:none!important;}', 1)
-
-          tags = [
-            '<script src="supabase-data.js"></script>',
-            '<script src="supabase-bridge.js"></script>',
-            '<script src="evaluation-entry.js"></script>',
-            '<script src="buy-job-loader.js"></script>',
-            '<script src="auth-entry.js"></script>',
-            '<script src="supabase-jobs.js"></script>'
-          ]
-          for tag in tags:
-            if tag not in s:
-              s = s.replace('</body>', tag+'\n</body>', 1)
 
           replacements = {
             "x.jobId===id": "String(x.jobId)===String(id)",
@@ -53,6 +40,20 @@ jobs:
           for old,new in replacements.items():
             s = s.replace(old,new)
 
+          old = "$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');"
+          new = "$('#postJobBtn').onclick=async()=>{try{const {data}=await supabaseClient.auth.getSession();if(data?.session?.user){nav('post');return;}}catch(e){}nav('auth');};"
+          s = s.replace(old,new)
+
+          versions = {
+            'supabase-data.js':'20260910-2',
+            'supabase-bridge.js':'20260910-2',
+            'auth-entry.js':'20260910-3',
+            'supabase-jobs.js':'20260910-2'
+          }
+          for name,ver in versions.items():
+            import re
+            s = re.sub(rf'<script src="{re.escape(name)}(?:\?v=[^"]*)?"></script>', f'<script src="{name}?v={ver}"></script>', s)
+
           p.write_text(s, encoding='utf-8')
           PY
       - name: Commit patch
@@ -64,5 +65,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Hide legacy demo panels at source"
+          git commit -m "Fix client post navigation and refresh scripts"
           git push
