@@ -23,6 +23,30 @@
     return window.supabaseClient || (typeof supabaseClient!=='undefined'?supabaseClient:null);
   }
 
+  async function syncLocalUserFromSession(){
+    try{
+      const cloud=window.LDFCloud;
+      if(!cloud?.getSession) return null;
+      const session=await cloud.getSession();
+      if(!session?.user) return null;
+      let profile=null;
+      try{ profile=await cloud.getMyProfile(); }catch(_e){}
+      if(typeof currentUser!=='undefined'){
+        currentUser=currentUser||{};
+        currentUser.id=session.user.id;
+        currentUser.email=session.user.email||currentUser.email||'';
+        if(profile){
+          currentUser.name=profile.full_name||currentUser.name||'';
+          currentUser.city=profile.city||currentUser.city||'';
+          currentUser.county=profile.county||currentUser.county||'';
+          currentUser.role=profile.role==='worker'?'meseriaș':'client';
+        }
+        if(typeof persist==='function') persist();
+      }
+      return {session,profile};
+    }catch(err){ console.warn('LDF user sync:',err); return null; }
+  }
+
   async function logout(){
     const client=getClient();
     if(!client?.auth?.signOut) return;
@@ -62,7 +86,9 @@
     try{
       if(window.LDFCloud?.getSession){
         const session=await window.LDFCloud.getSession();
-        renderState(!!session?.user); return;
+        renderState(!!session?.user);
+        if(session?.user) await syncLocalUserFromSession();
+        return;
       }
       const client=getClient();
       if(client?.auth?.getSession){
@@ -77,7 +103,36 @@
     const client=getClient();
     if(client?.auth?.onAuthStateChange && !window.__ldfAuthBarBound){
       window.__ldfAuthBarBound=true;
-      client.auth.onAuthStateChange((_event,session)=>renderState(!!session?.user));
+      client.auth.onAuthStateChange(async(_event,session)=>{renderState(!!session?.user);if(session?.user)await syncLocalUserFromSession();});
+    }
+  }
+
+  function bindRoleButtons(){
+    const post=document.getElementById('postJobBtn');
+    if(post && post.dataset.ldfSessionGuard!=='1'){
+      post.dataset.ldfSessionGuard='1';
+      post.onclick=async(e)=>{
+        e?.preventDefault?.();
+        const state=await syncLocalUserFromSession();
+        if(!state?.session?.user){go('auth');return;}
+        const role=state.profile?.role || (typeof currentUser!=='undefined'?currentUser?.role:null);
+        if(role==='client'){go('post');return;}
+        if(typeof window.toast==='function')window.toast('Pentru a posta o lucrare ai nevoie de cont de client.');
+        go('profile');
+      };
+    }
+    const find=document.getElementById('findJobsBtn');
+    if(find && find.dataset.ldfSessionGuard!=='1'){
+      find.dataset.ldfSessionGuard='1';
+      find.onclick=async(e)=>{
+        e?.preventDefault?.();
+        const state=await syncLocalUserFromSession();
+        if(!state?.session?.user){go('auth');return;}
+        const role=state.profile?.role || (typeof currentUser!=='undefined'?currentUser?.role:null);
+        if(role==='worker'||role==='meseriaș'){go('jobs');return;}
+        if(typeof window.toast==='function')window.toast('Pentru a vedea lucrările ca meseriaș ai nevoie de cont de meseriaș.');
+        go('profile');
+      };
     }
   }
 
@@ -95,6 +150,7 @@
         go('support');
       };
     });
+    bindRoleButtons();
   }
 
   function install(){
