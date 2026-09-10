@@ -357,7 +357,7 @@ function nav(id){if(id==='admin'&&!adminAuthenticated)id='adminLogin';$$('.scree
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
 function logAction(text){history.unshift({text,time:new Date().toLocaleString('ro-RO')});persist();}
 
-$$('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));$('#menuBtn').onclick=()=>$('#drawer').classList.toggle('open');$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');$('#findJobsBtn').onclick=()=>currentUser?.role==='meseriaș'?nav('jobs'):nav('auth');
+$$('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));$('#menuBtn').onclick=()=>$('#drawer').classList.toggle('open');$('#postJobBtn').onclick=async()=>{try{const {data}=await supabaseClient.auth.getSession();if(data?.session?.user){nav('post');return;}}catch(e){}nav('auth');};$('#findJobsBtn').onclick=()=>currentUser?.role==='meseriaș'?nav('jobs'):nav('auth');
 
 $$('[data-auth-role]').forEach(b=>b.onclick=()=>{const role=b.dataset.authRole;$('#registerRole').value=role;$('#registerForm').classList.remove('hidden');$$('[data-auth-role]').forEach(x=>x.classList.toggle('selected',x===b));$('#registerName').focus();});
 $('#showLogin').onclick=()=>nav('login');
@@ -814,11 +814,11 @@ border-radius:999px;background:#fef3c7;color:#854d0e;font-weight:700}
   <div class="trust-badge">✅ Site verificat</div>
   <small>LucrăriDeFăcut.ro · Platformă verificată funcțional.</small>
 </footer>
-<script src="supabase-data.js"></script>
-<script src="supabase-bridge.js"></script>
+<script src="supabase-data.js?v=20260910-2"></script>
+<script src="supabase-bridge.js?v=20260910-2"></script>
 <script src="evaluation-entry.js"></script>
 <script src="buy-job-loader.js"></script>
-<script src="auth-entry.js"></script>
-<script src="supabase-jobs.js"></script>
+<script src="auth-entry.js?v=20260910-3"></script>
+<script src="supabase-jobs.js?v=20260910-2"></script>
 </body>
 </html>
