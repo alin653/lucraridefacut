@@ -82,9 +82,10 @@
   async function refreshJobs(){
     try{
       const cloudJobs=await loadJobsFromSupabase();
-      if(Array.isArray(window.jobs)){
-        window.jobs.splice(0,window.jobs.length,...cloudJobs);
-        if(typeof window.renderJobs==='function') window.renderJobs();
+      if(typeof jobs!=='undefined' && Array.isArray(jobs)){
+        jobs.splice(0,jobs.length,...cloudJobs);
+        if(typeof persist==='function') persist();
+        if(typeof renderJobs==='function') renderJobs();
       }
       return cloudJobs;
     }catch(err){
@@ -95,6 +96,6 @@
 
   window.LDFSupabaseJobs={loadJobs:loadJobsFromSupabase,createJob:createJobInSupabase,mapJob:dbJobToUi,refreshJobs};
 
-  // Lucrarile trebuie sa fie vizibile si vizitatorilor neautentificati.
+  // Lucrarile publicate si platite sunt vizibile si vizitatorilor neautentificati.
   window.addEventListener('load',refreshJobs);
 })();
