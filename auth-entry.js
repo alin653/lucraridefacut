@@ -10,34 +10,68 @@
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  function setVisible(visible){
+  function getClient(){
+    return window.supabaseClient || (typeof supabaseClient!=='undefined'?supabaseClient:null);
+  }
+
+  async function logout(){
+    const client=getClient();
+    if(!client?.auth?.signOut) return;
+    try{
+      await client.auth.signOut();
+      try{ localStorage.removeItem('currentUser'); }catch(_e){}
+      if(typeof window.currentUser!=='undefined') window.currentUser=null;
+      renderState(false);
+      if(typeof window.toast==='function') window.toast('Te-ai delogat.');
+      if(typeof window.nav==='function') window.nav('home');
+      else window.location.reload();
+    }catch(err){
+      console.error('LDF logout:',err);
+      if(typeof window.toast==='function') window.toast('Nu am putut face delogarea. Încearcă din nou.');
+    }
+  }
+
+  function renderState(authenticated){
     const bar=document.getElementById('ldf-auth-entry');
-    if(bar) bar.style.display=visible?'flex':'none';
+    if(!bar) return;
+    bar.style.display='flex';
+    if(authenticated){
+      bar.classList.add('logged-in');
+      bar.innerHTML='<button type="button" class="ldf-account">Contul meu</button><button type="button" class="ldf-logout">Delogare</button>';
+      bar.querySelector('.ldf-account').onclick=()=>go('profile');
+      bar.querySelector('.ldf-logout').onclick=logout;
+    }else{
+      bar.classList.remove('logged-in');
+      bar.innerHTML='<button type="button" class="ldf-login">Autentificare</button><button type="button" class="ldf-signup">Creează cont</button>';
+      bar.querySelector('.ldf-login').onclick=()=>go('login');
+      bar.querySelector('.ldf-signup').onclick=()=>go('auth');
+    }
   }
 
   async function syncAuthBar(){
     try{
       if(window.LDFCloud?.getSession){
         const session=await window.LDFCloud.getSession();
-        setVisible(!session?.user);
+        renderState(!!session?.user);
         return;
       }
-      const client=window.supabaseClient || (typeof supabaseClient!=='undefined'?supabaseClient:null);
+      const client=getClient();
       if(client?.auth?.getSession){
         const {data}=await client.auth.getSession();
-        setVisible(!data?.session?.user);
+        renderState(!!data?.session?.user);
         return;
       }
+      renderState(false);
     }catch(err){
       console.warn('LDF auth bar sync:',err);
     }
   }
 
   function bindAuthChanges(){
-    const client=window.supabaseClient || (typeof supabaseClient!=='undefined'?supabaseClient:null);
+    const client=getClient();
     if(client?.auth?.onAuthStateChange && !window.__ldfAuthBarBound){
       window.__ldfAuthBarBound=true;
-      client.auth.onAuthStateChange((_event,session)=>setVisible(!session?.user));
+      client.auth.onAuthStateChange((_event,session)=>renderState(!!session?.user));
     }
   }
 
@@ -46,13 +80,10 @@
       const bar=document.createElement('div');
       bar.id='ldf-auth-entry';
       bar.setAttribute('aria-label','Acces cont');
-      bar.innerHTML='<button type="button" class="ldf-login">Autentificare</button><button type="button" class="ldf-signup">Creează cont</button>';
       const style=document.createElement('style');
-      style.textContent='#ldf-auth-entry{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:55;display:flex;gap:10px;width:min(94vw,430px);padding:10px;background:#fff;border:1px solid #dbe3ea;border-radius:16px;box-shadow:0 10px 28px #0002}#ldf-auth-entry button{flex:1;border:0;border-radius:12px;padding:14px 12px;font-size:16px;font-weight:900;cursor:pointer}.ldf-login{background:#0b2340;color:#fff}.ldf-signup{background:#ffbf00;color:#0b2340}@media(min-width:800px){#ldf-auth-entry{left:auto;right:18px;bottom:18px;transform:none;width:390px}}';
+      style.textContent='#ldf-auth-entry{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:55;display:flex;gap:10px;width:min(94vw,430px);padding:10px;background:#fff;border:1px solid #dbe3ea;border-radius:16px;box-shadow:0 10px 28px #0002}#ldf-auth-entry button{flex:1;border:0;border-radius:12px;padding:14px 12px;font-size:16px;font-weight:900;cursor:pointer}.ldf-login,.ldf-account{background:#0b2340;color:#fff}.ldf-signup{background:#ffbf00;color:#0b2340}.ldf-logout{background:#ffe8ea;color:#a01523}@media(min-width:800px){#ldf-auth-entry{left:auto;right:18px;bottom:18px;transform:none;width:390px}}';
       document.head.appendChild(style);
       document.body.appendChild(bar);
-      bar.querySelector('.ldf-login').onclick=()=>go('login');
-      bar.querySelector('.ldf-signup').onclick=()=>go('auth');
     }
     bindAuthChanges();
     syncAuthBar();
