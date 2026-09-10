@@ -1,4 +1,4 @@
-name: Inject Supabase data module
+name: Launch fixes
 
 on:
   push:
@@ -13,29 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add Supabase modules and site compatibility fixes
+      - name: Apply launch fixes
         run: |
           python - <<'PY'
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          data_tag = '<script src="supabase-data.js"></script>'
-          bridge_tag = '<script src="supabase-bridge.js"></script>'
-          evaluation_tag = '<script src="evaluation-entry.js"></script>'
-          buy_loader_tag = '<script src="buy-job-loader.js"></script>'
-          auth_entry_tag = '<script src="auth-entry.js"></script>'
-          if data_tag not in s:
-              if '</body>' not in s:
-                  raise SystemExit('Missing </body> in index.html')
-              s = s.replace('</body>', f'{data_tag}\n</body>', 1)
-          if bridge_tag not in s:
-              s = s.replace(data_tag, data_tag + '\n' + bridge_tag, 1)
-          if evaluation_tag not in s:
-              s = s.replace(bridge_tag, bridge_tag + '\n' + evaluation_tag, 1)
-          if buy_loader_tag not in s:
-              s = s.replace(evaluation_tag, evaluation_tag + '\n' + buy_loader_tag, 1)
-          if auth_entry_tag not in s:
-              s = s.replace(buy_loader_tag, buy_loader_tag + '\n' + auth_entry_tag, 1)
+
+          tags = [
+            '<script src="supabase-data.js"></script>',
+            '<script src="supabase-bridge.js"></script>',
+            '<script src="evaluation-entry.js"></script>',
+            '<script src="buy-job-loader.js"></script>',
+            '<script src="auth-entry.js"></script>',
+            '<script src="supabase-jobs.js"></script>'
+          ]
+          for tag in tags:
+            if tag not in s:
+              s = s.replace('</body>', tag+'\n</body>', 1)
 
           replacements = {
             "x.jobId===id": "String(x.jobId)===String(id)",
@@ -43,10 +38,22 @@ jobs:
             "selectedJob=jobs.find(j=>j.id===id)": "selectedJob=jobs.find(j=>String(j.id)===String(id))",
             "openJob(+b.dataset.job)": "openJob(b.dataset.job)",
             "toggleSaved(+b.dataset.saveJob)": "toggleSaved(b.dataset.saveJob)",
-            "selectedJob?.id===id": "String(selectedJob?.id)===String(id)"
+            "selectedJob?.id===id": "String(selectedJob?.id)===String(id)",
+            "currentUser.role==='meseriaș'?'Meseriaș':'Client'": "currentUser.role==='meseriaș'?'Meseriaș verificat':'Client verificat'",
+            "<b>Client: ${owner?.name||'Client'}</b>": "<b>✅ Client verificat: ${owner?.name||'Client'}</b>",
+            "Control monetizare demo.": "Control monetizare.",
+            "Rezumat venituri demo": "Rezumat venituri",
+            "Încasări simulate:": "Încasări:",
+            "Istoric complet al plăților simulate.": "Istoric plăți.",
           }
           for old,new in replacements.items():
-              s = s.replace(old,new)
+            s = s.replace(old,new)
+
+          old = "$('#jobForm').addEventListener('submit',e=>{e.preventDefault();if(!currentUser||currentUser.role!=='client'){toast('Trebuie să fii autentificat ca client.');nav('auth');return;}if(!currentUser.phone){toast('Completează numărul de telefon în cont înainte de publicare.');nav('profile');return;}const data={title:$('#jobCategory').value,city:$('#jobCity').value,cat:$('#jobCategory').value,budget:$('#jobBudget').value,start:$('#jobStart').value,desc:$('#jobDescription').value};const postingFee=clientPostingPrice(data.budget);openCheckout('Publicare lucrare',postingFee,()=>{const newJob={id:Date.now(),...data,access:0,max:MAX_WORKERS_PER_JOB,cost:workerUnlockPrice(data.budget),unlockedBy:[],status:'activ',ownerId:currentUser.id,workflowStatus:'disponibila'};jobs.unshift(newJob);addJobHistory(newJob.id,'Lucrarea a fost publicată după plată');notifyMatchingWorkers(newJob);addTransaction('Publicare lucrare',postingFee,'client',0);persist();e.target.reset();toast('Plată reușită. Lucrarea a fost publicată.');nav('jobs');});});"
+          new = "$('#jobForm').addEventListener('submit',e=>{e.preventDefault();if(!currentUser||currentUser.role!=='client'){toast('Trebuie să fii autentificat ca client.');nav('auth');return;}if(!currentUser.phone){toast('Completează numărul de telefon în cont înainte de publicare.');nav('profile');return;}const data={title:$('#jobCategory').value,city:$('#jobCity').value,cat:$('#jobCategory').value,budget:$('#jobBudget').value,start:$('#jobStart').value,desc:$('#jobDescription').value};const postingFee=clientPostingPrice(data.budget);openCheckout('Publicare lucrare',postingFee,async()=>{try{let newJob;if(window.LDFSupabaseJobs?.createJob){newJob=await window.LDFSupabaseJobs.createJob(data);}else{newJob={id:Date.now(),...data,access:0,max:MAX_WORKERS_PER_JOB,cost:workerUnlockPrice(data.budget),unlockedBy:[],status:'activ',ownerId:currentUser.id,workflowStatus:'disponibila'};}jobs.unshift(newJob);addJobHistory(newJob.id,'Lucrarea a fost publicată');notifyMatchingWorkers(newJob);addTransaction('Publicare lucrare',postingFee,'client',0);persist();e.target.reset();toast('Lucrarea a fost publicată cu succes.');nav('jobs');renderJobs();}catch(err){console.error(err);toast(err?.message||'Nu am putut publica lucrarea.');}});});"
+          if old in s:
+            s = s.replace(old,new,1)
+
           p.write_text(s, encoding='utf-8')
           PY
       - name: Commit patch
@@ -58,5 +65,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Inject visible auth buttons"
+          git commit -m "Apply launch fixes"
           git push
