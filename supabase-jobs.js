@@ -1,5 +1,4 @@
 // LucrariDeFacut.ro — persistenta lucrarilor in Supabase
-// Acest modul pastreaza compatibilitatea cu interfata existenta si muta datele reale in cloud.
 (function(){
   'use strict';
 
@@ -10,25 +9,31 @@
     return nums && nums.length ? Math.max(...nums.map(Number).filter(Number.isFinite)) : 0;
   }
 
+  function priceForBudget(budget, low, high){
+    return budget > 10000 ? high : low;
+  }
+
   function dbJobToUi(row){
+    const budget=Number(row.budget||0);
     const statusMap={open:'disponibila',assigned:'in_lucru',completed:'finalizat',cancelled:'finalizat'};
     return {
       id:row.id,
       title:row.title,
       city:row.city||'',
+      county:row.county||'',
       cat:row.category||'',
       category:row.category||'',
-      budget:Number(row.budget||0),
+      budget,
       start:'Negociabil',
       desc:row.description||'',
-      access:0,
+      access:Number(row.unlock_count||0),
       max:Number(row.max_unlocks||6),
-      cost:Number(row.unlock_fee||0),
+      cost:Number(row.unlock_fee||priceForBudget(budget,25,35)),
       status:row.status==='cancelled'?'ascuns':'activ',
       ownerId:row.client_id,
       workflowStatus:statusMap[row.status]||'disponibila',
       unlockedBy:[],
-      publishFee:Number(row.publish_fee||0),
+      publishFee:Number(row.publish_fee||priceForBudget(budget,15,35)),
       paymentStatus:row.payment_status||'pending',
       createdAt:row.created_at
     };
@@ -39,6 +44,7 @@
     const {data,error}=await window.supabaseClient
       .from('jobs')
       .select('id,client_id,title,description,category,city,county,budget,status,created_at,publish_fee,unlock_fee,payment_status,max_unlocks')
+      .neq('status','cancelled')
       .order('created_at',{ascending:false});
     if(error){ console.error('Supabase jobs load:',error); return []; }
     return (data||[]).map(dbJobToUi);
@@ -58,9 +64,12 @@
       description:String(input.desc||input.description||'').trim(),
       category:String(input.cat||input.category||'').trim()||null,
       city:String(input.city||'').trim()||null,
+      county:String(input.county||'').trim()||null,
       budget,
       status:'open',
-      // Plata din interfata actuala este inca demo; nu o marcam ca plata reala.
+      publish_fee:priceForBudget(budget,15,35),
+      unlock_fee:priceForBudget(budget,25,35),
+      max_unlocks:6,
       payment_status:'pending'
     };
     if(!payload.description) throw new Error('Descrierea lucrarii este obligatorie.');
@@ -70,18 +79,22 @@
     return dbJobToUi(data);
   }
 
-  window.LDFSupabaseJobs={loadJobs:loadJobsFromSupabase,createJob:createJobInSupabase,mapJob:dbJobToUi};
-
-  // Incarca lucrarile cloud dupa restaurarea sesiunii, fara a bloca pagina.
-  window.addEventListener('load',async()=>{
+  async function refreshJobs(){
     try{
-      const {data}=await window.supabaseClient.auth.getSession();
-      if(!data?.session) return;
       const cloudJobs=await loadJobsFromSupabase();
-      if(cloudJobs.length && Array.isArray(window.jobs)){
+      if(Array.isArray(window.jobs)){
         window.jobs.splice(0,window.jobs.length,...cloudJobs);
         if(typeof window.renderJobs==='function') window.renderJobs();
       }
-    }catch(err){ console.error('Initializare lucrari cloud:',err); }
-  });
+      return cloudJobs;
+    }catch(err){
+      console.error('Initializare lucrari cloud:',err);
+      return [];
+    }
+  }
+
+  window.LDFSupabaseJobs={loadJobs:loadJobsFromSupabase,createJob:createJobInSupabase,mapJob:dbJobToUi,refreshJobs};
+
+  // Lucrarile trebuie sa fie vizibile si vizitatorilor neautentificati.
+  window.addEventListener('load',refreshJobs);
 })();
