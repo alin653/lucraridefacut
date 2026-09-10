@@ -8,7 +8,7 @@ Deno.serve(async(req)=>{
   const url=Deno.env.get('SUPABASE_URL')!,anon=Deno.env.get('SUPABASE_ANON_KEY')!,service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,stripeKey=Deno.env.get('STRIPE_SECRET_KEY');if(!stripeKey)throw new Error('Stripe nu este configurat pe server.')
   const userClient=createClient(url,anon,{global:{headers:{Authorization:auth}}});const {data:{user},error:userErr}=await userClient.auth.getUser();if(userErr||!user)throw new Error('Sesiune invalidă.')
   const admin=createClient(url,service);const {job_id}=await req.json();if(!job_id)throw new Error('Lucrare invalidă.')
-  const {data:profile}=await admin.from('profiles').select('role').eq('id',user.id).single();if(profile?.role!=='meseriaș'&&profile?.role!=='meserias')throw new Error('Doar meseriașii pot cumpăra lucrări.')
+  const {data:profile}=await admin.from('profiles').select('role').eq('id',user.id).single();if(profile?.role!=='worker'&&profile?.role!=='meseriaș'&&profile?.role!=='meserias')throw new Error('Doar meseriașii pot cumpăra lucrări.')
   const {data:job,error:jobErr}=await admin.from('jobs').select('id,title,status,unlock_fee,max_unlocks').eq('id',job_id).single();if(jobErr||!job||job.status!=='open')throw new Error('Lucrarea nu mai este disponibilă.')
   const amount=Math.round(Number(job.unlock_fee||0)*100);if(amount<=0)throw new Error('Prețul lucrării nu este configurat.')
   const {count}=await admin.from('job_unlocks').select('id',{count:'exact',head:true}).eq('job_id',job_id).eq('status','paid');if((count||0)>=Number(job.max_unlocks||6))throw new Error('Lucrarea a atins limita de meseriași.')
