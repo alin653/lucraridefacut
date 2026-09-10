@@ -1,1 +1,826 @@
-TEMP
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LucrăriDeFăcut.ro</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://orvqgnxbaxpoeoxmsjkl.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_aX6OM4xuz7XlC-v3U80LgA_DtrXOQTB';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+  <style>
+#v12-shell,#v11-security,#v13-online{display:none!important;}
+:root{--navy:#0b2340;--yellow:#ffbf00;--green:#08a83d;--light:#f4f7fa;--line:#dbe3ea;--text:#102033;--muted:#6a7888;--red:#c82333;--orange:#c47a00}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#fff}.topbar{position:sticky;top:0;z-index:20;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#fff;border-bottom:1px solid var(--line)}.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--navy)}.brand .logo{font-size:34px}.brand strong{font-size:22px}.brand strong span{color:var(--yellow)}.brand small{display:block;font-size:11px;margin-top:2px}.menu-btn{border:0;background:none;font-size:34px;color:var(--navy);cursor:pointer}.drawer{position:fixed;right:12px;top:82px;z-index:30;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px #0002;padding:8px;display:none;min-width:220px}.drawer.open{display:grid}.drawer button{padding:14px;text-align:left;border:0;background:#fff;border-radius:10px;font-weight:700}.drawer button:hover{background:var(--light)}.drawer hr{width:100%;border:0;border-top:1px solid var(--line)}.drawer .admin-link{color:var(--navy);background:#fff8db}main{max-width:1080px;margin:auto}.screen{display:none;padding:18px}.screen.active{display:block}.hero{min-height:450px;border-radius:22px;background:linear-gradient(90deg,#0b2340e8,#0b234070),url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80') center/cover;display:flex;align-items:center;padding:34px;color:#fff}.hero-copy{max-width:560px}.eyebrow{background:#ffffff18;padding:8px 12px;border-radius:999px;font-weight:700}.hero h1{font-size:48px;line-height:1.05;margin:18px 0 10px}.hero p{font-size:22px;line-height:1.35}.primary,.secondary,.danger,.warn,.good,.ghost{border:0;border-radius:12px;padding:12px 16px;font-weight:800;font-size:15px;cursor:pointer}.primary{background:var(--yellow);color:#0b2340}.secondary{background:#fff;color:var(--navy);margin-top:12px}.secondary.plain{border:1px solid var(--line);margin:0}.danger{background:#ffe8ea;color:#a01523}.warn{background:#fff1d6;color:#895000}.good{background:#e4f7e9;color:#08792f}.ghost{background:#eef3f8;color:var(--navy)}.big{width:100%;min-height:58px}.section-card,.form-card,.detail-card,.profile-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px;box-shadow:0 6px 20px #1020330c}.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.categories button{min-height:110px;border:1px solid var(--line);background:var(--light);border-radius:14px;font-size:30px}.categories span{display:block;font-size:14px;font-weight:700;margin-top:8px}.trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.trust-row div{padding:16px;border-radius:14px;background:var(--light);text-align:center;font-weight:700}.trust-row b{color:var(--green);display:block;font-size:22px}.page-head{display:flex;align-items:center;gap:12px}.page-head h1{font-size:28px;margin-bottom:4px}.compact{margin:0}.back{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:22px}.form-card{display:grid;gap:16px}.form-card label,.settings-grid label,.money-grid label{font-weight:800}.form-card input,.form-card select,.form-card textarea,.filters input,.filters select,.settings-grid input,.money-grid input,.money-grid select,.admin-panel-head input,.modal textarea{width:100%;padding:15px;border:1px solid #cdd6df;border-radius:12px;font-size:16px;margin-top:7px}.filters{display:grid;grid-template-columns:1fr 1fr;gap:12px}.jobs-list{display:grid;gap:14px;margin-top:16px}.job-card{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;display:grid;grid-template-columns:1fr auto;gap:12px}.job-card h3{margin:0 0 6px;font-size:22px}.job-card p{margin:5px 0;color:var(--muted)}.job-card .budget{color:var(--text);font-weight:800}.job-card button{align-self:center;background:var(--green);color:white;border:0;border-radius:12px;padding:14px 18px;font-weight:800}.badge{display:inline-block;background:#ffe7e7;color:#c52020;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.detail-card h2{font-size:30px;margin-top:0}.detail-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.info-box{background:var(--light);border-radius:14px;padding:16px}.unlock{background:#eef9ef;border:1px solid #bfe7c6;border-radius:14px;padding:16px}.unlock button{width:100%;background:var(--green);color:#fff;border:0;border-radius:12px;padding:16px;font-size:18px;font-weight:800}.balance-card{background:var(--navy);color:#fff;border-radius:18px;padding:24px;display:flex;justify-content:space-between;align-items:center}.balance-card strong{font-size:28px}.packages{display:grid;gap:12px}.packages button{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:#fff;padding:18px;border-radius:14px;font-size:17px}.packages span{color:var(--green);font-weight:700}.muted{color:var(--muted)}.profile-card{text-align:center}.avatar{font-size:68px}.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}.role-card{min-height:220px;border:2px solid var(--line);background:#fff;border-radius:18px;padding:22px;font-size:18px}.role-card span{display:block;font-size:54px}.role-card b,.role-card small{display:block;margin-top:10px}.role-card.featured{border-color:var(--yellow);background:#fff9dc}.notice{margin-top:20px;padding:16px;background:#eef9ef;border:1px solid #bfe7c6;border-radius:14px}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#102033;color:#fff;padding:12px 18px;border-radius:999px;display:none;z-index:70}
+.admin-screen{padding-bottom:60px}.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.admin-stats div{background:var(--navy);color:#fff;border-radius:16px;padding:18px}.admin-stats span{display:block;font-size:13px;opacity:.8}.admin-stats b{display:block;font-size:30px;margin-top:6px}.admin-tabs{display:flex;gap:8px;overflow:auto;padding-bottom:8px;border-bottom:1px solid var(--line)}.admin-tabs button{white-space:nowrap;border:0;background:var(--light);padding:11px 14px;border-radius:999px;font-weight:800;color:var(--navy)}.admin-tabs button.active{background:var(--yellow)}.admin-panel{display:none}.admin-panel.active{display:block}.admin-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0 10px}.admin-panel-head h2{margin:0}.admin-panel-head input{max-width:360px;margin:0}.admin-row{display:flex;justify-content:space-between;gap:18px;border:1px solid var(--line);border-radius:15px;padding:16px;margin:10px 0;background:#fff}.admin-main{display:grid;gap:4px}.admin-main b{font-size:18px}.admin-main span,.admin-main small{color:var(--muted)}.admin-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}.status{padding:6px 9px;border-radius:999px;font-size:12px;font-weight:800;text-transform:capitalize}.status.activ,.status.rezolvat{background:#e4f7e9;color:#08792f}.status.suspendat,.status.ascuns{background:#fff1d6;color:#895000}.status.blocat{background:#ffe8ea;color:#a01523}.status.deschis{background:#eaf1ff;color:#214c97}.money-grid,.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.money-grid .section-card,.settings-grid .section-card{display:grid;gap:14px}.toggle-row{display:flex;align-items:center;gap:10px}.toggle-row input{width:auto;margin:0}.history-list{display:grid;gap:8px}.history-item{border-left:4px solid var(--yellow);background:var(--light);padding:13px 14px;border-radius:10px}.history-item b,.history-item span{display:block}.history-item span{color:var(--muted);font-size:12px;margin-top:4px}.modal{position:fixed;inset:0;background:#0007;display:grid;place-items:center;padding:18px;z-index:60}.modal-card{width:min(520px,100%);background:#fff;border-radius:18px;padding:22px}.modal-card h2{margin-top:0}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+@media(max-width:700px){.topbar{height:66px}.brand strong{font-size:18px}.brand small{font-size:9px}.hero{min-height:500px;padding:24px 18px;border-radius:0;margin:0 -18px}.hero h1{font-size:42px}.hero p{font-size:20px}.categories{grid-template-columns:repeat(2,1fr)}.trust-row{grid-template-columns:1fr}.filters{grid-template-columns:1fr}.job-card{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.role-grid{grid-template-columns:1fr}.screen{padding:16px}.page-head h1{font-size:25px}.admin-stats{grid-template-columns:1fr 1fr}.admin-row{display:grid}.admin-actions{justify-content:flex-start}.admin-panel-head{display:grid}.admin-panel-head input{max-width:none}.money-grid,.settings-grid{grid-template-columns:1fr}.admin-tabs{margin-right:-16px}.admin-tabs button{font-size:13px}.modal-actions{display:grid;grid-template-columns:1fr 1fr}.modal-actions button{width:100%}}
+.stack{display:grid;gap:14px;margin-top:18px}.login-line{text-align:center;margin-top:18px}.link-btn{border:0;background:none;color:var(--navy);font-weight:800;text-decoration:underline;font-size:16px;cursor:pointer}.privacy-note{background:#eef9f1;border:1px solid #bfe8c8;padding:12px;border-radius:12px;margin:0;font-weight:700}.center-card{text-align:center}.verify-icon,.admin-shield{font-size:54px;margin-bottom:8px}.profile-actions{display:grid;gap:10px;margin-top:18px}.profile-meta{background:var(--light);border-radius:14px;padding:14px;text-align:left}.profile-meta p{margin:7px 0}.report-btn{margin-top:10px;width:100%}.account-badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef3f8;font-weight:800;margin-bottom:8px}.hidden{display:none!important}
+
+/* Chat suport */
+.floating-help{position:fixed;right:18px;bottom:18px;z-index:45;border:0;border-radius:999px;background:var(--green);color:#fff;padding:14px 18px;font-weight:900;font-size:16px;box-shadow:0 10px 28px #0003;cursor:pointer}.floating-help span{margin-left:5px}.support-layout{max-width:760px;margin:0 auto}.support-card{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;margin-top:18px;box-shadow:0 6px 20px #1020330c}.support-head{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid var(--line);background:var(--light)}.support-head b,.support-head span{display:block}.support-head span{font-size:12px;color:var(--muted);margin-top:3px}.support-avatar{font-size:30px}.quick-help{display:flex;gap:8px;overflow:auto;padding:12px;border-bottom:1px solid var(--line)}.quick-help button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 12px;font-weight:800;color:var(--navy)}.chat-messages{height:380px;overflow:auto;padding:16px;background:#f7f9fb;display:flex;flex-direction:column;gap:10px}.chat-empty{margin:auto;text-align:center;color:var(--muted);max-width:320px}.chat-bubble{max-width:78%;padding:11px 13px;border-radius:16px;line-height:1.35}.chat-bubble.user{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:5px}.chat-bubble.admin{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px}.chat-bubble small{display:block;margin-top:5px;opacity:.7;font-size:10px}.chat-compose{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px;border-top:1px solid var(--line);background:#fff}.chat-compose textarea{resize:none;width:100%;border:1px solid #cdd6df;border-radius:12px;padding:12px;font:inherit}.chat-compose button{min-width:100px}.admin-chat-layout{display:grid;grid-template-columns:300px 1fr;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}.support-threads{border-right:1px solid var(--line);max-height:520px;overflow:auto}.thread-btn{width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;text-align:left;padding:14px;cursor:pointer}.thread-btn.active{background:#fff8db}.thread-btn b,.thread-btn span{display:block}.thread-btn span{font-size:12px;color:var(--muted);margin-top:4px}.thread-badge{display:inline-block!important;background:var(--yellow);color:var(--navy)!important;border-radius:999px;padding:2px 7px;margin-top:6px!important;font-weight:800}.admin-chat{min-width:0}.admin-chat-title{padding:15px 16px;border-bottom:1px solid var(--line);font-weight:900}.admin-chat-messages{height:390px}.toast.show{display:block}
+@media(max-width:700px){.floating-help{right:12px;bottom:12px;padding:13px 15px}.floating-help span{display:none}.chat-messages{height:55vh;min-height:320px}.chat-compose{grid-template-columns:1fr}.chat-compose button{width:100%}.admin-chat-layout{grid-template-columns:1fr}.support-threads{border-right:0;border-bottom:1px solid var(--line);max-height:190px}.admin-chat-messages{height:330px}}
+
+/* v5 — profil meseriaș, portofoliu și recenzii */
+.workers-list{display:grid;gap:14px;max-width:900px;margin:0 auto;padding:0 16px 40px}.worker-card,.worker-profile{background:#fff;border:1px solid #e6e8ec;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(18,38,63,.06)}.worker-card{display:flex;gap:14px;align-items:center}.worker-avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#fff3bf;font-size:34px;flex:0 0 auto}.worker-card-main{flex:1}.worker-card h3,.worker-profile h2{margin:0 0 6px}.stars{font-size:18px;letter-spacing:1px}.verified-pill{display:inline-block;background:#e8f7ee;color:#137a3d;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}.portfolio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.portfolio div{aspect-ratio:1.25;border-radius:12px;background:#f1f3f5;display:grid;place-items:center;font-size:36px;border:1px solid #e5e7eb}.review{padding:14px 0;border-top:1px solid #eceff2}.review:first-child{border-top:0}.review-head{display:flex;justify-content:space-between;gap:12px}.review small{color:#6b7280}.worker-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.worker-stats div{background:#f8fafc;border-radius:12px;padding:12px;text-align:center}.worker-stats b{display:block;font-size:20px}.worker-profile{max-width:800px;margin:0 auto 40px}.worker-top{display:flex;gap:14px;align-items:center}.review-form{margin-top:18px;padding-top:18px;border-top:1px solid #eceff2}.review-form select,.review-form textarea{width:100%;margin-top:6px}.admin-review-note{background:#fff8db;padding:10px 12px;border-radius:10px;font-size:13px;margin:12px 0}.worker-card .primary{white-space:nowrap}@media(max-width:620px){.worker-card{align-items:flex-start;flex-wrap:wrap}.worker-card .primary{width:100%}.portfolio div{font-size:28px}.worker-stats{grid-template-columns:1fr 1fr 1fr}}
+
+/* v6 — notificări inteligente */
+.nav-badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--yellow);color:var(--navy);font-size:12px;font-weight:900;margin-left:6px}.notification-wrap{max-width:900px;margin:0 auto 50px}.notification-settings{margin-top:18px}.notification-setting-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.notification-setting-head h2{margin:0 0 5px}.switch-row{display:flex;align-items:center;gap:9px;background:#f8fafc;border:1px solid var(--line);padding:10px 12px;border-radius:12px;font-weight:800;white-space:nowrap}.switch-row input{width:20px;height:20px;margin:0}.notification-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.notification-list-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:24px 0 10px}.notification-list-head h2{margin:0}.notifications-list{display:grid;gap:10px}.notification-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 5px 18px rgba(18,38,63,.04)}.notification-card.unread{border-left:5px solid var(--yellow);background:#fffdf2}.notification-icon{font-size:25px}.notification-main p{margin:5px 0;color:#344054}.notification-main small{color:var(--muted)}.notification-title{display:flex;align-items:center;gap:8px}.notification-title span{font-size:11px;font-weight:900;background:var(--yellow);border-radius:999px;padding:3px 7px}.notification-card .primary{white-space:nowrap}@media(max-width:700px){.notification-setting-head{display:grid}.switch-row{justify-content:center}.notification-form-grid{grid-template-columns:1fr}.notification-list-head{align-items:flex-start;flex-direction:column}.notification-card{grid-template-columns:auto 1fr}.notification-card .primary{grid-column:1/-1;width:100%}}
+
+/* v7 — favorite, statusuri și istoric lucrări */
+.saved-wrap{max-width:900px;margin:0 auto 50px;display:grid;gap:18px}.saved-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.saved-head h2{margin:0}.saved-grid{display:grid;gap:12px}.saved-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 5px 18px rgba(18,38,63,.04)}.saved-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.saved-card h3{margin:5px 0}.saved-card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.favorite-btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 11px;font-weight:900;cursor:pointer}.favorite-btn.active{background:#fff4f4;border-color:#f3b8bd}.job-status{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}.job-status.activ{background:#e8f7ee;color:#137a3d}.job-status.in_lucru{background:#fff5d9;color:#8b5d00}.job-status.finalizat{background:#eaf1ff;color:#214c97}.job-status.ascuns{background:#f1f3f5;color:#5a6472}.status-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.timeline{display:grid;gap:10px;margin-top:12px}.timeline-item{border-left:4px solid var(--yellow);background:#f8fafc;border-radius:10px;padding:10px 12px}.timeline-item small{display:block;color:var(--muted);margin-top:3px}.empty-state{text-align:center;background:#fff;border:1px dashed #cdd6df;border-radius:16px;padding:28px}.job-bottom-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.detail-actions{display:grid;gap:10px}.favorite-large{width:100%}@media(max-width:700px){.saved-head,.saved-card-top{display:grid}.saved-card-actions,.status-controls{display:grid;grid-template-columns:1fr}.saved-card-actions button,.status-controls button{width:100%}.job-bottom-actions{width:100%;display:grid;grid-template-columns:1fr auto}.job-bottom-actions .primary{width:100%}}
+
+
+/* v8 — monetizare, checkout și tranzacții */
+.payment-summary{display:grid;grid-template-columns:1fr;gap:12px;max-width:900px;margin:18px auto}.transaction-list{display:grid;gap:10px;max-width:900px;margin:18px auto 50px}.transaction-row{display:flex;justify-content:space-between;gap:16px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:15px;padding:15px}.transaction-row span{display:block;color:var(--muted);font-size:12px;margin-top:4px}.transaction-amount{text-align:right}.checkout-card{text-align:center}.checkout-icon{font-size:48px}.checkout-total{display:flex;justify-content:space-between;align-items:center;background:var(--light);border-radius:14px;padding:16px;margin:16px 0}.checkout-total b{font-size:24px}.demo-warning{background:#fff8db;border:1px solid #f0dc8d;border-radius:12px;padding:12px;text-align:left}.packages button:hover{border-color:var(--yellow);background:#fffdf2}@media(max-width:700px){.transaction-row{align-items:flex-start}.transaction-amount{min-width:95px}}
+
+
+/* v9 — setări încasări */
+.payout-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.payout-note{background:#fff8db;border:1px solid #ead98c;border-radius:14px;padding:14px}.payout-note p{margin:7px 0 0;line-height:1.45}.payout-status{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);margin-top:18px;padding-top:16px}.payout-status span{color:var(--muted)}.payout-status b{color:#8b5d00}@media(max-width:760px){.payout-grid{grid-template-columns:1fr}.payout-status{align-items:flex-start;flex-direction:column}}
+
+</style>
+</head>
+<body>
+<style id="v12-consolidation-style">
+#v12-shell{font-family:Arial,sans-serif;max-width:980px;margin:18px auto;padding:14px}
+#v12-toolbar{position:sticky;top:0;z-index:999;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:10px;display:flex;gap:8px;flex-wrap:wrap;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+#v12-toolbar button{border:0;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer}
+#v12-toolbar .active{background:#f6c344;color:#14213d}
+#v12-toolbar .admin{background:#14213d;color:white}
+#v12-status{margin:12px 0;padding:12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0}
+.v12-checks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.v12-check{padding:10px;border-radius:10px;background:#fff;border:1px solid #e5e7eb}
+.v12-ok{font-weight:700}.v12-warn{font-weight:700}
+.v12-hidden-admin{display:none!important}
+@media(max-width:620px){.v12-checks{grid-template-columns:1fr}#v12-shell{margin:6px;padding:8px}}
+</style>
+
+<div id="v12-shell">
+  <div id="v12-toolbar">
+    <button id="v12ClientBtn" onclick="v12SetMode('client')">👤 Client</button>
+    <button id="v12WorkerBtn" onclick="v12SetMode('worker')">👷 Meseriaș</button>
+   
+  
+  </div>
+  <div id="v12-status">
+<b>Site verificat</b>
+
+  </div>
+</div>
+
+<script id="v12-consolidation-script">
+(function(){
+ const $=id=>document.getElementById(id);
+ const roleKey='ldf_v12_role';
+
+ function isAdminElement(el){
+   const txt=(el.innerText||el.textContent||'').toLowerCase();
+   return txt.includes('administrator') || txt.includes('anti-fraudă') || txt.includes('anti-frauda') || txt.includes('cereri de evaluare');
+ }
+
+ window.v12SetMode=function(role){
+   localStorage.setItem(roleKey,role);
+   ['v12ClientBtn','v12WorkerBtn','v12AdminBtn'].forEach(id=>$(id)?.classList.remove('active'));
+   if(role==='client') $('v12ClientBtn')?.classList.add('active');
+   if(role==='worker') $('v12WorkerBtn')?.classList.add('active');
+   if(role==='admin') $('v12AdminBtn')?.classList.add('active');
+
+   // Hide clearly administrative sections from normal users.
+   document.querySelectorAll('section,div').forEach(el=>{
+     if(isAdminElement(el) && !el.closest('#v12-shell')){
+       if(role==='admin') el.classList.remove('v12-hidden-admin');
+       else el.classList.add('v12-hidden-admin');
+     }
+   });
+
+   // Evaluation client section remains visible, but its admin subsection is hidden for non-admin.
+   document.querySelectorAll('.v10-admin').forEach(el=>{
+     if(role==='admin') el.classList.remove('v12-hidden-admin');
+     else el.classList.add('v12-hidden-admin');
+   });
+ };
+
+ window.v12RunChecks=function(){
+   const checks=[
+     ['Pagina principală', !!document.body],
+     ['Modul evaluare', !!document.getElementById('v10-evaluare')],
+     ['Modul securitate', !!document.getElementById('v11-security')],
+     ['Stocare locală demo', typeof localStorage!=='undefined'],
+     ['Separare roluri demo', !!document.getElementById('v12-toolbar')],
+     ['Pregătit pentru bază de date', false],
+     ['SMS real', false],
+     ['Plăți reale', false],
+     ['Chat între telefoane', false],
+     ['Securitate server', false]
+   ];
+   $('v12Checks').innerHTML=checks.map(([name,ok])=>`<div class="v12-check">${ok?'✅':'⚠️'} <span class="${ok?'v12-ok':'v12-warn'}">${name}</span></div>`).join('');
+ };
+
+ const role=localStorage.getItem(roleKey)||'client';
+ setTimeout(()=>{v12SetMode(role);v12RunChecks();},0);
+})();
+</script>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="LucrăriDeFăcut.ro acasă">
+      <span class="logo">🔨</span>
+      <span><strong>Lucrări<span>DeFăcut</span>.ro</strong><small>Lucrări reale. Oameni serioși.</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Meniu">☰</button>
+  </header>
+
+  <nav class="drawer" id="drawer">
+    <button data-nav="home">🏠 Acasă</button>
+    <button data-nav="jobs">🧰 Lucrări</button>
+    <button data-nav="notifications">🔔 Notificări <span id="navNotifBadge" class="nav-badge hidden">0</span></button>
+    <button data-nav="saved">❤️ Salvate & istoric</button>
+    <button data-nav="credits">💳 Plăți & istoric</button>
+    <button data-nav="profile">👤 Contul meu</button>
+    <button data-nav="workers">⭐ Meseriași</button>
+    <button data-nav="support">💬 Ajutor / Chat</button>
+    <hr>
+    <button class="admin-link" data-nav="adminLogin">🛡️ Administrator</button>
+  </nav>
+
+  <main>
+    <section id="home" class="screen active">
+      <div class="hero"><div class="hero-copy">
+        <span class="eyebrow">Simplu • Rapid • În toată România</span>
+        <h1>Ai o lucrare de făcut?</h1>
+        <p>Postează lucrarea și găsește meseriași interesați din zona ta.</p>
+        <button class="primary big" id="postJobBtn">+ Postează o lucrare</button>
+        <button class="secondary big" id="findJobsBtn">👷 Sunt meseriaș — văd lucrările</button>
+      </div></div>
+      <section class="section-card"><h2>Cele mai căutate</h2><div class="categories">
+        <button>🧱<span>Construcții</span></button><button>🪣<span>Zugravi</span></button><button>🚰<span>Instalații</span></button>
+        <button>⚡<span>Electricieni</span></button><button>🏠<span>Acoperișuri</span></button><button>🧹<span>Curățenie</span></button>
+      </div></section>
+      <section class="trust-row"><div><b>✓</b><span>Cont gratuit</span></div><div><b>✓</b><span>Date de contact protejate</span></div><div><b>✓</b><span>Plată sigură</span></div></section>
+    </section>
+
+    <section id="auth" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Creează cont gratuit</h1></div>
+      <div class="form-card">
+        <p class="muted">Alege ce vrei să faci pe platformă.</p>
+        <div class="role-grid">
+          <button class="role-card" data-auth-role="client"><span>👤</span><b>Am o lucrare</b><small>Vreau să găsesc meseriași</small></button>
+          <button class="role-card featured" data-auth-role="worker"><span>👷</span><b>Sunt meseriaș</b><small>Vreau să găsesc lucrări</small></button>
+        </div>
+        <form id="registerForm" class="stack hidden">
+          <input type="hidden" id="registerRole">
+          <label>Nume și prenume<input id="registerName" required placeholder="Ex: Ion Popescu"></label>
+          <label>Email<input id="registerPhone" type="email" required placeholder="exemplu@email.ro"></label>
+<label>Număr de telefon<input id="registerRealPhone" type="tel" inputmode="tel" required placeholder="07xx xxx xxx"></label>
+          <label>Parolă<input id="registerPassword" type="password" required minlength="6" placeholder="Minimum 6 caractere"></label>
+          <p class="privacy-note">Nu cerem CNP pentru conturile utilizatorilor.</p>
+          <button class="primary big" type="submit">crează cont</button>
+        </form>
+        <div class="login-line">Ai deja cont? <button class="link-btn" id="showLogin">Autentifică-te</button></div>
+      </div>
+    </section>
+
+    <section id="login" class="screen">
+      <div class="page-head"><button class="back" data-nav="auth">←</button><h1>Autentificare</h1></div>
+      <form id="loginForm" class="form-card">
+<label>Email<input id="loginPhone" type="email" required placeholder="exemplu@email.ro"></label>
+        <label>Parolă<input id="loginPassword" required type="password"></label>
+        <button class="primary big" type="submit">Intră în cont</button>
+        <p class="muted">Autentificarea contului este securizată prin Supabase.</p>
+      </form>
+    </section>
+
+    <section id="verify" class="screen">
+      <div class="page-head"><button class="back" data-nav="auth">←</button><h1>Verifică telefonul</h1></div>
+      <div class="form-card center-card">
+        <div class="verify-icon">📱</div><h2>Ți-am trimis un cod</h2>
+        <p class="muted">Pentru demo folosește codul <b>1234</b>. În versiunea reală codul va veni prin SMS.</p>
+        <label>Cod de verificare<input id="verifyCode" inputmode="numeric" maxlength="4" placeholder="1234"></label>
+        <button class="primary big" id="verifyBtn">Verifică și creează contul</button>
+      </div>
+    </section>
+
+    <section id="post" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Postează o lucrare</h1></div>
+      <form id="jobForm" class="form-card">
+        <label>Ce lucrare ai de făcut?<select id="jobCategory" required><option value="">Alege categoria</option><option>Construcții și renovări</option><option>Zugrăveli</option><option>Gresie și faianță</option><option>Instalații sanitare</option><option>Electricieni</option><option>Acoperișuri</option><option>Curățenie</option><option>Alte lucrări</option></select></label>
+        <label>Oraș / localitate<input id="jobCity" placeholder="Ex: București" required /></label>
+        <label>Descrie pe scurt lucrarea<textarea id="jobDescription" rows="5" placeholder="Ex: Vreau să renovez o baie de aproximativ 6 m²..." required></textarea></label>
+        <label>Buget estimat<input id="jobBudget" placeholder="Ex: 5.000 - 7.000 lei" required /></label>
+        <label>Când vrei să înceapă?<select id="jobStart"><option>Cât mai curând</option><option>În 1-2 săptămâni</option><option>În această lună</option><option>Negociabil</option></select></label>
+        <button class="primary big" type="submit">Continuă</button>
+      </form>
+    </section>
+
+    <section id="jobs" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Lucrări disponibile</h1></div>
+      <div class="filters"><input id="searchCity" placeholder="Oraș" /><select id="searchCategory"><option value="">Toate categoriile</option><option>Construcții și renovări</option><option>Zugrăveli</option><option>Instalații sanitare</option><option>Electricieni</option><option>Acoperișuri</option><option>Curățenie</option></select></div>
+      <div id="jobsList" class="jobs-list"></div>
+    </section>
+
+    <section id="jobDetail" class="screen"><div class="page-head"><button class="back" data-nav="jobs">←</button><h1>Detalii lucrare</h1></div><article id="jobDetailCard" class="detail-card"></article></section>
+
+    <section id="credits" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Creditele mele</h1></div>
+      <div class="balance-card"><span>Sold demonstrativ</span><strong><span id="creditBalance">20</span> credite</strong></div>
+      <div class="section-card"><h2>Cumpără credite</h2><p class="muted">Plata este simulată în această versiune. Prețurile pot fi schimbate din Panoul Administrator.</p><div class="packages" id="creditPackages"></div></div>
+    </section>
+
+
+    <section id="wallet" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><div><h1>💳 Plăți & istoric</h1><p class="muted compact">Toate sumele de aici sunt demonstrative.</p></div></div>
+      <div id="walletSummary" class="payment-summary"></div><div id="transactionList" class="transaction-list"></div>
+    </section>
+
+    <section id="workers" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Meseriași</h1></div>
+      <div class="filters"><input id="workerSearch" placeholder="Caută nume, meserie sau oraș" /></div>
+      <div id="workersList" class="workers-list"></div>
+    </section>
+
+    <section id="workerDetail" class="screen">
+      <div class="page-head"><button class="back" data-nav="workers">←</button><h1>Profil meseriaș</h1></div>
+      <div id="workerDetailCard"></div>
+    </section>
+
+    <section id="profile" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Contul meu</h1></div>
+      <div id="profileContent" class="profile-card"></div>
+    </section>
+
+
+
+    <section id="notifications" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><div><h1>🔔 Notificări</h1><p class="muted compact">Primești lucrări potrivite după meserie și zonă.</p></div></div>
+      <div id="notificationAccess" class="notification-wrap">
+        <div class="section-card notification-settings">
+          <div class="notification-setting-head"><div><h2>Ce lucrări vrei să primești?</h2><p class="muted">Setările sunt demonstrative și se salvează pe acest dispozitiv.</p></div><label class="switch-row"><input id="notifEnabled" type="checkbox"><span>Notificări active</span></label></div>
+          <div class="notification-form-grid">
+            <label>Oraș / zonă<input id="notifCity" placeholder="Ex: București"></label>
+            <label>Categoria principală<select id="notifCategory"><option>Toate categoriile</option><option>Construcții și renovări</option><option>Zugrăveli</option><option>Gresie și faianță</option><option>Instalații sanitare</option><option>Electricieni</option><option>Acoperișuri</option><option>Curățenie</option><option>Alte lucrări</option></select></label>
+          </div>
+          <button class="primary" id="saveNotifPrefs">Salvează preferințele</button>
+        </div>
+        <div class="notification-list-head"><h2>Lucrări noi pentru tine</h2><button class="secondary plain" id="markAllNotifications">Marchează toate ca citite</button></div>
+        <div id="notificationsList" class="notifications-list"></div>
+      </div>
+    </section>
+
+
+    <section id="saved" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><div><h1>❤️ Salvate & istoricul meu</h1><p class="muted compact">Păstrează lucrările interesante și urmărește ce s-a întâmplat cu ele.</p></div></div>
+      <div id="savedContent" class="saved-wrap"></div>
+    </section>
+
+    <section id="support" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><div><h1>Ajutor prin chat</h1><p class="muted compact">Scrie-ne aici dacă nu te descurci. Îți răspunde administratorul.</p></div></div>
+      <div class="support-layout">
+        <div class="support-card">
+          <div class="support-head"><div class="support-avatar">💬</div><div><b>Suport LucrăriDeFăcut.ro</b><span>Mesajele sunt salvate în demo pe acest dispozitiv.</span></div></div>
+          <div class="quick-help"><button data-quick="Nu știu cum să postez o lucrare.">Cum postez o lucrare?</button><button data-quick="Nu știu cum să găsesc sau să deblochez un client.">Cum găsesc o lucrare?</button><button data-quick="Am o problemă cu plata sau creditele.">Problemă cu plata</button></div>
+          <div id="supportMessages" class="chat-messages"></div>
+          <form id="supportForm" class="chat-compose"><textarea id="supportInput" rows="2" placeholder="Scrie mesajul tău..." required></textarea><button class="primary" type="submit">Trimite</button></form>
+        </div>
+      </div>
+    </section>
+
+    <section id="adminLogin" class="screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><h1>Acces Administrator</h1></div>
+      <form id="adminLoginForm" class="form-card">
+        <div class="admin-shield">🛡️</div>
+        <p>Panoul administrator este separat de conturile clienților și meseriașilor.</p>
+        <label>Cod administrator demo<input id="adminCode" type="password" inputmode="numeric" placeholder="Cod"></label>
+        <button class="primary big" type="submit">Intră în panoul administrator</button>
+        <p class="muted">Cod demo: <b>2468</b>. În versiunea reală vom folosi parolă securizată + autentificare în doi pași.</p>
+      </form>
+    </section>
+
+    <section id="admin" class="screen admin-screen">
+      <div class="page-head"><button class="back" data-nav="home">←</button><div><h1>Panou Administrator</h1><p class="muted compact">Control complet — versiune demonstrativă.</p></div></div>
+      <div class="admin-stats" id="adminStats"></div>
+      <div class="admin-tabs" role="tablist"><button class="active" data-admin-tab="users">Utilizatori</button><button data-admin-tab="jobsAdmin">Lucrări</button><button data-admin-tab="reports">Reclamații</button><button data-admin-tab="supportAdmin">💬 Suport</button><button data-admin-tab="money">Credite & plăți</button><button data-admin-tab="transactionsAdmin">Tranzacții</button><button data-admin-tab="payouts">Încasări</button><button data-admin-tab="settings">Setări</button><button data-admin-tab="history">Istoric</button></div>
+      <section id="users" class="admin-panel active"><div class="admin-panel-head"><h2>Utilizatori</h2><input id="userSearch" placeholder="Caută nume, telefon sau oraș" /></div><div id="adminUsers"></div></section>
+      <section id="jobsAdmin" class="admin-panel"><div class="admin-panel-head"><h2>Moderare lucrări</h2><span class="muted">Poți ascunde, reactiva sau șterge anunțuri.</span></div><div id="adminJobs"></div></section>
+      <section id="reports" class="admin-panel"><div class="admin-panel-head"><h2>Reclamații</h2><span class="muted">Sesizări trimise de clienți și meseriași.</span></div><div id="adminReports"></div></section>
+      <section id="supportAdmin" class="admin-panel"><div class="admin-panel-head"><h2>Chat suport</h2><span class="muted">Răspunde utilizatorilor care au nevoie de ajutor.</span></div><div class="admin-chat-layout"><div id="supportThreads" class="support-threads"></div><div class="admin-chat"><div id="adminChatTitle" class="admin-chat-title">Alege o conversație</div><div id="adminSupportMessages" class="chat-messages admin-chat-messages"></div><form id="adminSupportForm" class="chat-compose"><textarea id="adminSupportInput" rows="2" placeholder="Scrie răspunsul administratorului..."></textarea><button class="primary" type="submit">Răspunde</button></form></div></div></section>
+      <section id="money" class="admin-panel"><div class="admin-panel-head"><h2>Credite & plăți</h2><span class="muted">Control monetizare.</span></div><div class="money-grid"><div class="section-card"><h3>Acordă credite</h3><label>Utilizator<select id="creditUser"></select></label><label>Număr credite<input id="creditAmount" type="number" min="1" value="10"></label><button class="primary" id="grantCredits">Acordă credite</button></div><div class="section-card"><h3>Rezumat venituri</h3><p>Încasări: <b id="demoRevenue">0 lei</b></p><p>Credite vândute: <b id="creditsSold">0</b></p><p>Deblocări contacte: <b id="unlockCount">0</b></p><p>Publicări plătite: <b id="postingCount">0</b></p></div></div></section>
+      <section id="transactionsAdmin" class="admin-panel"><div class="admin-panel-head"><h2>Tranzacții</h2><span class="muted">Istoric plăți.</span></div><div id="adminTransactions" class="transaction-list"></div></section>
+
+      <section id="payouts" class="admin-panel"><div class="admin-panel-head"><h2>Setări încasări</h2><span class="muted">Pregătite pentru conectarea unui procesator de plăți.</span></div><div class="payout-grid"><div class="section-card"><h3>Unde vrei să primești banii?</h3><label>Tip cont<select id="payoutAccountType"><option value="personal">Cont personal</option><option value="business">Cont firmă / PFA</option></select></label><label>Nume titular<input id="payoutHolder" placeholder="Numele titularului contului"></label><label>IBAN<input id="payoutIban" placeholder="ROxx xxxx xxxx xxxx xxxx xxxx"></label><label>Procesator de plăți<select id="payoutProvider"><option value="neales">Îl alegem la lansare</option><option value="netopia">NETOPIA</option><option value="stripe">Stripe</option><option value="other">Alt procesator</option></select></label><button class="primary" id="savePayout">Salvează setările demo</button></div><div class="section-card"><h3>Important</h3><div class="payout-note"><b>Acesta este doar un formular demonstrativ.</b><p>Nu se transferă bani și nu se verifică IBAN-ul în această versiune. La lansare, procesatorul ales va verifica datele și eligibilitatea contului.</p></div><p class="muted">Poți începe cu setarea „Cont personal”, iar mai târziu poți schimba tipul de cont fără să refacem platforma.</p><div class="payout-status"><span>Status integrare</span><b>Neconectat — demo</b></div></div></div></section>
+      <section id="settings" class="admin-panel"><div class="settings-grid"><div class="section-card"><h3>Setări monetizare</h3><label>Cost publicare lucrare<input id="postingPrice" type="number" min="0" step="0.01" value="9.99"></label><label>Cost implicit deblocare (credite)<input id="unlockCost" type="number" min="1" value="5"></label><label>Maxim meseriași / lucrare<input id="maxWorkers" type="number" min="1" value="6"></label><label>20 credite — preț lei<input id="pack20Price" type="number" min="0" step="0.01" value="20"></label><label>50 credite — preț lei<input id="pack50Price" type="number" min="0" step="0.01" value="45"></label><label>100 credite — preț lei<input id="pack100Price" type="number" min="0" step="0.01" value="80"></label><button class="primary" id="saveSettings">Salvează setările</button></div><div class="section-card"><h3>Siguranță</h3><label class="toggle-row"><input id="phoneVerification" type="checkbox" checked> Verificare telefon obligatorie</label><label class="toggle-row"><input id="autoHideReports" type="checkbox"> Ascunde automat după 3 reclamații</label><p class="muted">În versiunea reală accesul administratorului va avea 2FA.</p></div></div></section>
+      <section id="history" class="admin-panel"><div class="admin-panel-head"><h2>Istoric acțiuni</h2><span class="muted">Vezi ce s-a modificat.</span></div><div id="adminHistory" class="history-list"></div></section>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="checkoutModal"><div class="modal-card checkout-card"><div class="checkout-icon">💳</div><h2 id="checkoutTitle">Confirmă plata demo</h2><p id="checkoutText" class="muted"></p><div class="checkout-total"><span>Total</span><b id="checkoutTotal">0 lei</b></div><p class="demo-warning">⚠️ Nu se retrag bani reali. Acesta este doar fluxul de test.</p><div class="modal-actions"><button class="secondary plain" id="cancelCheckout">Renunță</button><button class="primary" id="confirmCheckout">Simulează plata</button></div></div></div>
+  <div class="modal hidden" id="reasonModal"><div class="modal-card"><h2 id="reasonTitle">Motiv acțiune</h2><p class="muted">Motivul va apărea în istoricul de administrator.</p><textarea id="reasonText" rows="4" placeholder="Ex: client neserios / anunț fals / limbaj nepotrivit"></textarea><div class="modal-actions"><button class="secondary plain" id="cancelReason">Renunță</button><button class="danger" id="confirmReason">Confirmă</button></div></div></div>
+  <div class="modal hidden" id="reportModal"><div class="modal-card"><h2>Raportează utilizatorul</h2><p class="muted">Spune-ne pe scurt problema. Administratorul va verifica sesizarea.</p><textarea id="reportText" rows="4" placeholder="Ex: nu răspunde, date false, comportament nepotrivit"></textarea><div class="modal-actions"><button class="secondary plain" id="cancelReport">Renunță</button><button class="danger" id="confirmReport">Trimite raportarea</button></div></div></div>
+  <button class="floating-help" id="floatingHelp" aria-label="Ajutor prin chat">💬 <span>Ajutor</span></button>
+  <div class="toast" id="toast"></div>
+  <script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const demoJobs=[
+{id:101,title:'Renovare baie completă',city:'București',cat:'Construcții și renovări',budget:'5.000 - 7.000 lei',start:'Cât mai curând',desc:'Renovare baie aproximativ 6 m². Demontare, gresie, faianță și obiecte sanitare.',access:2,max:6,cost:25,status:'activ',ownerId:1},
+{id:102,title:'Zugrăvit apartament 3 camere',city:'Ploiești',cat:'Zugrăveli',budget:'2.500 - 3.500 lei',start:'În 1-2 săptămâni',desc:'Zugrăvit alb, mici reparații la pereți, apartament locuit.',access:1,max:6,cost:25,status:'activ',ownerId:3},
+{id:103,title:'Reparație acoperiș',city:'Brașov',cat:'Acoperișuri',budget:'Negociabil',start:'Cât mai curând',desc:'Infiltrații după ploaie, verificare și reparație locală.',access:0,max:6,cost:25,status:'activ',ownerId:1}
+];
+let users=JSON.parse(localStorage.getItem('ldf_users')||'null')||[
+{id:1,name:'Client Demo',phone:'0711 111 111',city:'București',role:'client',status:'activ',verified:true,reports:0,credits:0,password:'demo123'},
+{id:2,name:'Meseriaș Demo',phone:'0722 222 222',city:'București',role:'meseriaș',status:'activ',verified:true,reports:1,credits:20,password:'demo123'},
+{id:3,name:'Client Test',phone:'0733 333 333',city:'Ploiești',role:'client',status:'activ',verified:true,reports:0,credits:0,password:'demo123'}
+];
+users.forEach(u=>{if(u.role==='meseriaș'){u.trade=u.trade||'Renovări și finisaje';u.city=u.city||'București';u.about=u.about||'Meseriaș cu experiență în renovări, zugrăveli, gresie și faianță. Lucrez curat și respect programările.';u.completed=u.completed||12;u.portfolio=u.portfolio||['🛁','🧱','🎨'];u.notifPrefs=u.notifPrefs||{enabled:true,city:u.city||'',category:'Construcții și renovări'};}});
+let jobs=JSON.parse(localStorage.getItem('ldf_jobs')||'null')||demoJobs;
+let reports=JSON.parse(localStorage.getItem('ldf_reports')||'null')||[{id:1,against:2,from:'Client Demo',reason:'Nu s-a prezentat la ora stabilită.',status:'deschis'}];
+let supportMessages=JSON.parse(localStorage.getItem('ldf_supportMessages')||'null')||[{id:1,userId:1,userName:'Client Demo',sender:'user',text:'Bună ziua, nu știu cum să postez o lucrare.',time:'Demo'},{id:2,userId:1,userName:'Client Demo',sender:'admin',text:'Bună ziua! Apăsați pe butonul „Postează o lucrare” și vă ghidăm pas cu pas.',time:'Demo'}];
+let notifications=JSON.parse(localStorage.getItem('ldf_notifications')||'null')||[{id:9001,userId:2,jobId:101,title:'Lucrare nouă potrivită pentru tine',text:'Renovare baie completă în București',time:'Demo',read:false}];
+let history=JSON.parse(localStorage.getItem('ldf_history')||'[]');
+let settings=JSON.parse(localStorage.getItem('ldf_settings')||'null')||{postingPrice:15,unlockCost:25,maxWorkers:6,phoneVerification:true,autoHideReports:false,pack20Price:20,pack50Price:45,pack100Price:80};
+settings.pack20Price??=20;settings.pack50Price??=45;settings.pack100Price??=80;
+let transactions=JSON.parse(localStorage.getItem('ldf_transactions')||'[]');
+let payoutSettings=JSON.parse(localStorage.getItem('ldf_payoutSettings')||'null')||{accountType:'personal',holder:'',iban:'',provider:'neales'};
+let pendingCheckout=null;
+let currentUser=JSON.parse(localStorage.getItem('ldf_currentUser')||'null');
+let credits=currentUser?.role==='meseriaș'?currentUser.credits:20;
+let pendingRegistration=null,selectedJob=null,pendingAction=null,reportTarget=null,adminAuthenticated=false,selectedSupportUserId=null,selectedWorkerId=null;
+let savedJobs=JSON.parse(localStorage.getItem('ldf_savedJobs')||'[]');
+let jobHistory=JSON.parse(localStorage.getItem('ldf_jobHistory')||'[]');
+jobs.forEach(j=>{j.workflowStatus=j.workflowStatus||'disponibila';});
+let reviews=JSON.parse(localStorage.getItem('ldf_reviews')||'null')||[{id:1,workerId:2,from:'Client Demo',rating:5,text:'A lucrat curat și a terminat la timp. Recomand.',verified:true,hidden:false,date:'05.09.2026'},{id:2,workerId:2,from:'Client Test',rating:4,text:'Lucrare bună și comunicare ok.',verified:true,hidden:false,date:'29.08.2026'}];
+
+function persist(){localStorage.setItem('ldf_users',JSON.stringify(users));localStorage.setItem('ldf_jobs',JSON.stringify(jobs));localStorage.setItem('ldf_reports',JSON.stringify(reports));localStorage.setItem('ldf_history',JSON.stringify(history));localStorage.setItem('ldf_settings',JSON.stringify(settings));localStorage.setItem('ldf_supportMessages',JSON.stringify(supportMessages));localStorage.setItem('ldf_reviews',JSON.stringify(reviews));localStorage.setItem('ldf_notifications',JSON.stringify(notifications));localStorage.setItem('ldf_savedJobs',JSON.stringify(savedJobs));localStorage.setItem('ldf_jobHistory',JSON.stringify(jobHistory));localStorage.setItem('ldf_transactions',JSON.stringify(transactions));localStorage.setItem('ldf_payoutSettings',JSON.stringify(payoutSettings));if(currentUser)localStorage.setItem('ldf_currentUser',JSON.stringify(currentUser));else localStorage.removeItem('ldf_currentUser');}
+function budgetNumber(jobOrBudget){const raw=typeof jobOrBudget==='string'?jobOrBudget:(jobOrBudget?.budget||'');const nums=(String(raw).replace(/\./g,'').match(/\d+(?:,\d+)?/g)||[]).map(x=>Number(x.replace(',','.'))).filter(Number.isFinite);return nums.length?Math.max(...nums):0;}
+function formatBudget(jobOrBudget){const n=budgetNumber(jobOrBudget);return n?new Intl.NumberFormat('ro-RO').format(n)+' lei':String(typeof jobOrBudget==='string'?jobOrBudget:(jobOrBudget?.budget||''));}
+function clientPostingPrice(jobOrBudget){return budgetNumber(jobOrBudget)>10000?35:15;}
+function workerUnlockPrice(jobOrBudget){return budgetNumber(jobOrBudget)>10000?35:25;}
+const MAX_WORKERS_PER_JOB=6;
+function nav(id){if(id==='admin'&&!adminAuthenticated)id='adminLogin';$$('.screen').forEach(s=>s.classList.toggle('active',s.id===id));$('#drawer').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});if(id==='jobs')renderJobs();if(id==='profile')renderProfile();if(id==='admin')renderAdmin();if(id==='support')renderSupport();if(id==='notifications')renderNotifications();if(id==='saved')renderSaved();if(id==='credits')renderCreditPackages();if(id==='wallet')renderWallet();}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function logAction(text){history.unshift({text,time:new Date().toLocaleString('ro-RO')});persist();}
+
+$$('[data-nav]').forEach(b=>b.onclick=()=>nav(b.dataset.nav));$('#menuBtn').onclick=()=>$('#drawer').classList.toggle('open');$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');$('#findJobsBtn').onclick=()=>currentUser?.role==='meseriaș'?nav('jobs'):nav('auth');
+
+$$('[data-auth-role]').forEach(b=>b.onclick=()=>{const role=b.dataset.authRole;$('#registerRole').value=role;$('#registerForm').classList.remove('hidden');$$('[data-auth-role]').forEach(x=>x.classList.toggle('selected',x===b));$('#registerName').focus();});
+$('#showLogin').onclick=()=>nav('login');
+$('#registerForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=$('#registerPhone').value.trim().toLowerCase();
+  const phone=$('#registerRealPhone').value.trim();
+  const password=$('#registerPassword').value;
+  const role=$('#registerRole').value==='worker'?'meseriaș':'client';
+  const name=$('#registerName').value.trim();
+  if(!role||!name||!email||!password){toast('Completează toate câmpurile.');return;}
+  const btn=e.submitter; if(btn){btn.disabled=true;btn.textContent='Se creează contul...';}
+  try{
+    const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{name,role,phone}}});
+    if(error) throw error;
+    const authUser=data.user;
+    if(!authUser){toast('Nu am putut crea contul. Încearcă din nou.');return;}
+    let u=users.find(x=>String(x.id)===String(authUser.id)||String(x.email||x.phone||'').toLowerCase()===email);
+    const base={id:authUser.id,name,email,phone,role,status:'activ',verified:!!data.session,reports:0,credits:role==='meseriaș'?0:20,notifPrefs:role==='meseriaș'?{enabled:true,city:'',category:'Toate categoriile'}:undefined};
+    if(u) Object.assign(u,base); else {u=base;users.push(u);}
+    persist();
+    if(data.session){currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();toast('Cont creat cu succes');nav(u.role==='meseriaș'?'jobs':'profile');}
+    else {toast('Cont creat. Verifică emailul pentru confirmare.');nav('login');}
+  }catch(err){toast(err?.message||'Eroare la crearea contului.');}
+  finally{if(btn){btn.disabled=false;btn.textContent='Creează cont';}}
+});
+
+$('#verifyBtn').onclick=()=>{toast('Verificarea contului se face acum prin email.');nav('login');};
+
+$('#loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=$('#loginPhone').value.trim().toLowerCase();
+  const password=$('#loginPassword').value;
+  const btn=e.submitter; if(btn){btn.disabled=true;btn.textContent='Se autentifică...';}
+  try{
+    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error) throw error;
+    const a=data.user,meta=a?.user_metadata||{};
+    let u=users.find(x=>String(x.id)===String(a.id)||String(x.email||x.phone||'').toLowerCase()===email);
+    if(!u){u={id:a.id,name:meta.name||email.split('@')[0],email,phone:meta.phone||'',city:'',role:meta.role||'client',status:'activ',verified:true,reports:0,credits:0};users.push(u);}
+    else {u.id=a.id;u.email=email;u.verified=true;if(meta.phone)u.phone=meta.phone;if(meta.name)u.name=meta.name;if(meta.role)u.role=meta.role;}
+    if(u.status!=='activ'){await supabaseClient.auth.signOut();toast('Acest cont este suspendat sau blocat.');return;}
+    currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();toast('Autentificare reușită');nav('profile');
+  }catch(err){toast(err?.message||'Email sau parolă incorectă.');}
+  finally{if(btn){btn.disabled=false;btn.textContent='Intră în cont';}}
+});
+
+(async function restoreSupabaseSession(){
+  try{
+    const {data}=await supabaseClient.auth.getSession();
+    const a=data?.session?.user;
+    if(!a){currentUser=null;persist();updateNotificationBadge();return;}
+    const email=(a.email||'').toLowerCase(),meta=a.user_metadata||{};
+    let u=users.find(x=>String(x.id)===String(a.id)||String(x.email||x.phone||'').toLowerCase()===email);
+    if(!u){u={id:a.id,name:meta.name||email.split('@')[0],email,phone:meta.phone||'',city:'',role:meta.role||'client',status:'activ',verified:true,reports:0,credits:0};users.push(u);}
+    else {u.id=a.id;u.email=email;u.verified=true;if(meta.phone)u.phone=meta.phone;if(meta.name)u.name=meta.name;if(meta.role)u.role=meta.role;}
+    currentUser=u;credits=u.role==='meseriaș'?u.credits:20;persist();updateCredits();updateNotificationBadge();
+  }catch(_){ }
+})();
+
+function renderProfile(){const box=$('#profileContent');if(!currentUser){box.innerHTML='<div class="avatar">👤</div><h2>Nu ești autentificat</h2><p>Contul este gratuit pentru clienți și meseriași.</p><button class="primary big" id="profileCreate">Creează cont gratuit</button>';$('#profileCreate').onclick=()=>nav('auth');return;}box.innerHTML=`<div class="avatar">${currentUser.role==='meseriaș'?'👷':'👤'}</div><span class="account-badge">${currentUser.role==='meseriaș'?'Meseriaș verificat':'Client verificat'}</span><h2>${currentUser.name}</h2><div class="profile-meta"><p>📧 ${currentUser.email||''}</p><p>📱 ${currentUser.phone||'Telefon necompletat'}</p><p>${currentUser.verified?'✅ Email verificat':'⚠️ Email neverificat'}</p><p>🟢 Cont ${currentUser.status}</p></div><div class="profile-actions">${currentUser.role==='client'?'<button class="primary" id="profilePost">Postează o lucrare</button>':'<button class="primary" id="profileJobs">Vezi lucrările</button><button class="secondary plain" id="profileNotifications">🔔 Notificările mele</button>'}<button class="secondary plain" id="logoutBtn">Ieși din cont</button></div>`;const pp=$('#profilePost');if(pp)pp.onclick=()=>nav('post');const pj=$('#profileJobs');if(pj)pj.onclick=()=>nav('jobs');const pn=$('#profileNotifications');if(pn)pn.onclick=()=>nav('notifications');$('#logoutBtn').onclick=async()=>{await supabaseClient.auth.signOut();currentUser=null;persist();updateNotificationBadge();toast('Ai ieșit din cont');nav('home');};}
+function workflowLabel(j){return j.workflowStatus==='in_lucru'?'În lucru':j.workflowStatus==='finalizat'?'Finalizată':'Disponibilă';}
+function isSaved(id){return !!currentUser&&savedJobs.some(x=>String(x.userId)===String(currentUser.id)&&String(x.jobId)===String(id));}
+function toggleSaved(id){if(!currentUser){toast('Autentifică-te pentru a salva lucrarea.');nav('auth');return;}const i=savedJobs.findIndex(x=>String(x.userId)===String(currentUser.id)&&String(x.jobId)===String(id));if(i>=0){savedJobs.splice(i,1);toast('Lucrarea a fost scoasă din Salvate');}else{savedJobs.unshift({userId:currentUser.id,jobId:id,savedAt:new Date().toLocaleString('ro-RO')});toast('Lucrarea a fost salvată');}persist();renderJobs();if(String(selectedJob?.id)===String(id))openJob(id);}
+function addJobHistory(jobId,text){jobHistory.unshift({id:Date.now()+Math.random(),jobId,text,time:new Date().toLocaleString('ro-RO')});persist();}
+function setWorkflowStatus(id,status){const j=jobs.find(x=>String(x.id)===String(id));if(!j)return;j.workflowStatus=status;addJobHistory(id,`Status schimbat în „${workflowLabel(j)}”`);persist();renderSaved();toast('Statusul lucrării a fost actualizat');}
+function renderJobs(){const city=($('#searchCity')?.value||'').toLowerCase(),cat=$('#searchCategory')?.value||'';const wrap=$('#jobsList');wrap.innerHTML='';jobs.filter(j=>j.status==='activ'&&j.workflowStatus!=='finalizat'&&(!city||j.city.toLowerCase().includes(city))&&(!cat||j.cat===cat)).forEach(j=>{const card=document.createElement('article');card.className='job-card';card.innerHTML=`<div><span class="job-cat">${j.cat}</span> <span class="job-status ${j.workflowStatus==='in_lucru'?'in_lucru':'activ'}">${workflowLabel(j)}</span><h2>${j.title}</h2><p>📍 ${j.city} &nbsp; • &nbsp; 💰 ${formatBudget(j.budget)}</p><p class="muted">${j.desc}</p><div class="job-bottom"><span>👷 ${j.access}/${j.max} interesați</span><div class="job-bottom-actions"><button class="favorite-btn ${isSaved(j.id)?'active':''}" data-save-job="${j.id}">${isSaved(j.id)?'❤️':'🤍'}</button><button class="primary" data-job="${j.id}">Vezi lucrarea</button></div></div></div>`;wrap.appendChild(card)});$$('[data-job]').forEach(b=>b.onclick=()=>openJob(b.dataset.job));$$('[data-save-job]').forEach(b=>b.onclick=e=>{e.stopPropagation();toggleSaved(b.dataset.saveJob);});}
+function openJob(id){selectedJob=jobs.find(j=>String(j.id)===String(id));const j=selectedJob;if(!j)return;const owner=users.find(u=>String(u.id)===String(j.ownerId));j.max=MAX_WORKERS_PER_JOB;j.unlockedBy=Array.isArray(j.unlockedBy)?j.unlockedBy:[];const own=currentUser?.role==='client'&&String(currentUser.id)===String(j.ownerId);const alreadyUnlocked=currentUser?.role==='meseriaș'&&j.unlockedBy.map(String).includes(String(currentUser.id));const full=j.access>=MAX_WORKERS_PER_JOB&&!alreadyUnlocked;const price=workerUnlockPrice(j);$('#jobDetailCard').innerHTML=`<div class="detail-main"><span class="job-cat">${j.cat}</span> <span class="job-status ${j.workflowStatus==='in_lucru'?'in_lucru':j.workflowStatus==='finalizat'?'finalizat':'activ'}">${workflowLabel(j)}</span><h2>${j.title}</h2><p>📍 ${j.city}</p><h3>Descriere</h3><p>${j.desc}</p><div class="info-grid"><div><span>Buget</span><b>${formatBudget(j.budget)}</b></div><div><span>Începere</span><b>${j.start}</b></div></div><div class="owner-box"><b>✅ Client verificat: ${owner?.name||'Client'}</b><p>📱 ${alreadyUnlocked?(owner?.phone||'Telefon indisponibil'):'07•• ••• •••'}</p><button class="danger report-btn" id="reportUserBtn">⚑ Raportează utilizatorul</button></div>${own?`<div class="status-controls"><button class="secondary plain" data-workflow="disponibila">Disponibilă</button><button class="secondary plain" data-workflow="in_lucru">În lucru</button><button class="secondary plain" data-workflow="finalizat">Finalizată</button></div>`:''}</div><aside class="detail-actions"><button class="favorite-btn favorite-large ${isSaved(j.id)?'active':''}" id="saveDetailBtn">${isSaved(j.id)?'❤️ Salvată':'🤍 Salvează lucrarea'}</button>${own?'<button class="secondary plain" id="goHistoryBtn">Vezi istoricul</button>':alreadyUnlocked?`<div class="notice"><b>Contact deblocat</b><br>📱 ${owner?.phone||'Telefon indisponibil'}</div>`:full?'<div class="notice"><b>Limita de 6 meseriași a fost atinsă</b></div>':`<button class="good big" id="unlockBtn">🔓 Deblochează contactul — ${price} RON</button><p class="muted">Plătești o singură dată pentru acces la contact.</p>`}<div class="info-box" style="margin-top:12px"><b>👷 ${Math.min(j.access,MAX_WORKERS_PER_JOB)} din ${MAX_WORKERS_PER_JOB}</b><p>meseriași au accesat această lucrare</p></div></aside>`;nav('jobDetail');$('#saveDetailBtn').onclick=()=>toggleSaved(j.id);const ub=$('#unlockBtn');if(ub)ub.onclick=unlockContact;$('#reportUserBtn').onclick=()=>openReport(owner?.id);$$('[data-workflow]').forEach(b=>b.onclick=()=>{setWorkflowStatus(j.id,b.dataset.workflow);openJob(j.id);});const gh=$('#goHistoryBtn');if(gh)gh.onclick=()=>nav('saved');}
+function unlockContact(){if(!currentUser||currentUser.role!=='meseriaș'){toast('Deblocarea este disponibilă pentru conturile de meseriaș.');nav('auth');return;}const j=selectedJob,owner=users.find(u=>String(u.id)===String(j.ownerId));j.unlockedBy=Array.isArray(j.unlockedBy)?j.unlockedBy:[];if(j.unlockedBy.map(String).includes(String(currentUser.id))){openJob(j.id);return;}if((j.access||0)>=MAX_WORKERS_PER_JOB){toast('Limita de 6 meseriași a fost atinsă.');openJob(j.id);return;}const price=workerUnlockPrice(j);openCheckout('Deblocare contact',price,()=>{j.unlockedBy.push(currentUser.id);j.access=Math.min(MAX_WORKERS_PER_JOB,(j.access||0)+1);j.max=MAX_WORKERS_PER_JOB;addTransaction('Deblocare contact',price,'meseriaș',0);persist();openJob(j.id);toast('Contact deblocat cu succes');});}
+function openReport(userId){reportTarget=userId;$('#reportText').value='';$('#reportModal').classList.remove('hidden');}
+$('#cancelReport').onclick=()=>{$('#reportModal').classList.add('hidden');reportTarget=null;};
+$('#confirmReport').onclick=()=>{const reason=$('#reportText').value.trim();if(!reason){toast('Scrie motivul raportării.');return;}const u=users.find(x=>x.id===reportTarget);reports.unshift({id:Date.now(),against:reportTarget,from:currentUser?.name||'Utilizator',reason,status:'deschis'});if(u)u.reports=(u.reports||0)+1;persist();$('#reportModal').classList.add('hidden');reportTarget=null;toast('Raportarea a fost trimisă administratorului');};
+function updateCredits(){$('#creditBalance').textContent=currentUser?.role==='meseriaș'?currentUser.credits:credits;}
+$('#searchCity').addEventListener('input',renderJobs);$('#searchCategory').addEventListener('change',renderJobs);
+
+$('#jobForm').addEventListener('submit',e=>{e.preventDefault();if(!currentUser||currentUser.role!=='client'){toast('Trebuie să fii autentificat ca client.');nav('auth');return;}if(!currentUser.phone){toast('Completează numărul de telefon în cont înainte de publicare.');nav('profile');return;}const data={title:$('#jobCategory').value,city:$('#jobCity').value,cat:$('#jobCategory').value,budget:$('#jobBudget').value,start:$('#jobStart').value,desc:$('#jobDescription').value};const postingFee=clientPostingPrice(data.budget);openCheckout('Publicare lucrare',postingFee,async()=>{try{let newJob;if(window.LDFSupabaseJobs?.createJob){newJob=await window.LDFSupabaseJobs.createJob(data);}else{newJob={id:Date.now(),...data,access:0,max:MAX_WORKERS_PER_JOB,cost:workerUnlockPrice(data.budget),unlockedBy:[],status:'activ',ownerId:currentUser.id,workflowStatus:'disponibila'};}jobs.unshift(newJob);addJobHistory(newJob.id,'Lucrarea a fost publicată');notifyMatchingWorkers(newJob);addTransaction('Publicare lucrare',postingFee,'client',0);persist();e.target.reset();toast('Lucrarea a fost publicată cu succes.');nav('jobs');renderJobs();}catch(err){console.error(err);toast(err?.message||'Nu am putut publica lucrarea.');}});});
+
+$('#adminLoginForm').addEventListener('submit',e=>{e.preventDefault();if($('#adminCode').value!=='2468'){toast('Cod administrator incorect.');return;}adminAuthenticated=true;$('#adminCode').value='';toast('Acces administrator activ');nav('admin');});
+function renderAdmin(){renderStats();renderAdminUsers();renderAdminJobs();renderReports();renderAdminSupport();renderMoney();renderTransactionsAdmin();renderPayoutSettings();renderSettings();renderHistory();}
+function renderStats(){const activeUsers=users.filter(u=>u.status==='activ').length,activeJobs=jobs.filter(j=>j.status==='activ').length,openReports=reports.filter(r=>r.status==='deschis').length,openChats=[...new Set(supportMessages.filter(m=>m.sender==='user'&&!m.readByAdmin).map(m=>m.userId))].length;$('#adminStats').innerHTML=`<div><span>Utilizatori activi</span><b>${activeUsers}</b></div><div><span>Lucrări active</span><b>${activeJobs}</b></div><div><span>Reclamații deschise</span><b>${openReports}</b></div><div><span>Chat-uri noi</span><b>${openChats}</b></div>`;}
+function statusPill(status){return `<span class="status ${status}">${status}</span>`}
+function renderAdminUsers(){const q=($('#userSearch').value||'').toLowerCase(),wrap=$('#adminUsers');wrap.innerHTML='';users.filter(u=>!q||`${u.name} ${u.phone} ${u.city}`.toLowerCase().includes(q)).forEach(u=>{const row=document.createElement('div');row.className='admin-row';row.innerHTML=`<div class="admin-main"><b>${u.name}</b><span>${u.role} · ${u.city||'fără oraș'} · ${u.phone}</span><small>${u.verified?'✅ Telefon verificat':'⚠️ Telefon neverificat'} · ${u.reports||0} reclamații · ${u.credits||0} credite</small></div><div class="admin-actions">${statusPill(u.status)}<button class="ghost" data-user-verify="${u.id}">${u.verified?'Retrage verificarea':'Verifică'}</button>${u.status==='activ'?`<button class="warn" data-user-suspend="${u.id}">Suspendă</button><button class="danger" data-user-block="${u.id}">Blochează</button>`:`<button class="good" data-user-unblock="${u.id}">Reactivează</button>`}</div>`;wrap.appendChild(row)});wireUserButtons();}
+function wireUserButtons(){$$('[data-user-verify]').forEach(b=>b.onclick=()=>{const u=users.find(x=>x.id==b.dataset.userVerify);u.verified=!u.verified;logAction(`${u.verified?'Verificare acordată':'Verificare retrasă'} pentru ${u.name}`);renderAdmin();toast('Utilizator actualizat');});$$('[data-user-suspend]').forEach(b=>b.onclick=()=>askReason('Suspendare utilizator',()=>changeUserStatus(+b.dataset.userSuspend,'suspendat')));$$('[data-user-block]').forEach(b=>b.onclick=()=>askReason('Blocare utilizator',()=>changeUserStatus(+b.dataset.userBlock,'blocat')));$$('[data-user-unblock]').forEach(b=>b.onclick=()=>{const u=users.find(x=>x.id==b.dataset.userUnblock);u.status='activ';logAction(`Utilizator reactivat: ${u.name}`);renderAdmin();toast('Utilizator reactivat');});}
+function changeUserStatus(id,status){const u=users.find(x=>String(x.id)===String(id));u.status=status;logAction(`Utilizator ${status}: ${u.name}${pendingAction?.reason?' — '+pendingAction.reason:''}`);if(currentUser?.id===u.id&&status!=='activ'){currentUser=null;}persist();renderAdmin();toast(`Utilizator ${status}`);}
+function renderAdminJobs(){const wrap=$('#adminJobs');wrap.innerHTML='';jobs.forEach(j=>{const owner=users.find(u=>u.id===j.ownerId),row=document.createElement('div');row.className='admin-row';row.innerHTML=`<div class="admin-main"><b>${j.title}</b><span>${j.city} · ${j.budget}</span><small>Client: ${owner?.name||'necunoscut'} · ${j.access}/${j.max} accesări</small></div><div class="admin-actions">${statusPill(j.status)}${j.status==='activ'?`<button class="warn" data-hide-job="${j.id}">Ascunde</button>`:`<button class="good" data-show-job="${j.id}">Reactivează</button>`}<button class="danger" data-delete-job="${j.id}">Șterge</button></div>`;wrap.appendChild(row)});$$('[data-hide-job]').forEach(b=>b.onclick=()=>askReason('Ascunde lucrarea',()=>setJobStatus(+b.dataset.hideJob,'ascuns')));$$('[data-show-job]').forEach(b=>b.onclick=()=>setJobStatus(+b.dataset.showJob,'activ'));$$('[data-delete-job]').forEach(b=>b.onclick=()=>askReason('Șterge lucrarea',()=>deleteJob(+b.dataset.deleteJob)));}
+function setJobStatus(id,status){const j=jobs.find(x=>String(x.id)===String(id));j.status=status;logAction(`Lucrare ${status}: ${j.title}${pendingAction?.reason?' — '+pendingAction.reason:''}`);persist();renderAdmin();toast('Lucrare actualizată');}
+function deleteJob(id){const j=jobs.find(x=>String(x.id)===String(id));jobs=jobs.filter(x=>x.id!==id);logAction(`Lucrare ștearsă: ${j.title}${pendingAction?.reason?' — '+pendingAction.reason:''}`);persist();renderAdmin();toast('Lucrare ștearsă');}
+function renderReports(){const wrap=$('#adminReports');wrap.innerHTML='';reports.forEach(r=>{const u=users.find(x=>x.id===r.against),row=document.createElement('div');row.className='admin-row';row.innerHTML=`<div class="admin-main"><b>Împotriva: ${u?.name||'Utilizator'}</b><span>De la: ${r.from}</span><small>${r.reason}</small></div><div class="admin-actions">${statusPill(r.status)}${r.status==='deschis'?`<button class="good" data-close-report="${r.id}">Rezolvată</button>`:''}</div>`;wrap.appendChild(row)});$$('[data-close-report]').forEach(b=>b.onclick=()=>{const r=reports.find(x=>x.id==b.dataset.closeReport);r.status='rezolvat';logAction(`Reclamație #${r.id} marcată rezolvată`);renderAdmin();toast('Reclamație rezolvată');});}
+function renderMoney(){const sel=$('#creditUser');sel.innerHTML=users.filter(u=>u.role==='meseriaș').map(u=>`<option value="${u.id}">${u.name} — ${u.credits||0} credite</option>`).join('');const paid=transactions.filter(t=>t.status==='reușită');$('#demoRevenue').textContent=paid.reduce((s,t)=>s+t.amount,0).toFixed(2)+' lei';$('#creditsSold').textContent=paid.reduce((s,t)=>s+(t.credits||0),0);$('#unlockCount').textContent=paid.filter(t=>t.type==='Deblocare contact').length;$('#postingCount').textContent=paid.filter(t=>t.type==='Publicare lucrare').length;}
+function maskIban(v){const x=String(v||'').replace(/\s/g,'');if(!x)return '';if(x.length<=8)return x;return x.slice(0,4)+' •••• •••• '+x.slice(-4);}
+function renderPayoutSettings(){if(!$('#payoutAccountType'))return;$('#payoutAccountType').value=payoutSettings.accountType||'personal';$('#payoutHolder').value=payoutSettings.holder||'';$('#payoutIban').value=payoutSettings.iban||'';$('#payoutProvider').value=payoutSettings.provider||'neales';}
+function renderSettings(){$('#postingPrice').value=settings.postingPrice;$('#unlockCost').value=settings.unlockCost;$('#maxWorkers').value=settings.maxWorkers;$('#pack20Price').value=settings.pack20Price;$('#pack50Price').value=settings.pack50Price;$('#pack100Price').value=settings.pack100Price;$('#phoneVerification').checked=settings.phoneVerification;$('#autoHideReports').checked=settings.autoHideReports;}
+function renderHistory(){const wrap=$('#adminHistory');wrap.innerHTML=history.length?history.map(h=>`<div class="history-item"><b>${h.text}</b><span>${h.time}</span></div>`).join(''):'<div class="notice">Încă nu există acțiuni administrative.</div>';}
+$$('[data-admin-tab]').forEach(b=>b.onclick=()=>{$$('[data-admin-tab]').forEach(x=>x.classList.toggle('active',x===b));$$('.admin-panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.adminTab));});
+$('#userSearch').addEventListener('input',renderAdminUsers);$('#grantCredits').onclick=()=>{const id=+$('#creditUser').value,amount=+$('#creditAmount').value;if(amount<1)return;const u=users.find(x=>String(x.id)===String(id));u.credits=(u.credits||0)+amount;if(currentUser?.id===u.id)currentUser.credits=u.credits;logAction(`${amount} credite acordate lui ${u.name}`);persist();renderAdmin();toast('Credite acordate');};
+$('#savePayout').onclick=()=>{payoutSettings={accountType:$('#payoutAccountType').value,holder:$('#payoutHolder').value.trim(),iban:$('#payoutIban').value.trim(),provider:$('#payoutProvider').value};logAction(`Setări încasări actualizate: ${payoutSettings.accountType==='personal'?'cont personal':'cont firmă / PFA'}${payoutSettings.iban?' · '+maskIban(payoutSettings.iban):''}`);persist();toast('Setările de încasări demo au fost salvate');};
+$('#saveSettings').onclick=()=>{settings={postingPrice:+$('#postingPrice').value,unlockCost:+$('#unlockCost').value,maxWorkers:+$('#maxWorkers').value,phoneVerification:$('#phoneVerification').checked,autoHideReports:$('#autoHideReports').checked,pack20Price:+$('#pack20Price').value,pack50Price:+$('#pack50Price').value,pack100Price:+$('#pack100Price').value};logAction('Setările platformei au fost actualizate');persist();renderAdmin();toast('Setări salvate');};
+function askReason(title,callback){pendingAction={callback,reason:''};$('#reasonTitle').textContent=title;$('#reasonText').value='';$('#reasonModal').classList.remove('hidden');}
+$('#cancelReason').onclick=()=>{pendingAction=null;$('#reasonModal').classList.add('hidden');};$('#confirmReason').onclick=()=>{if(!pendingAction)return;const reason=$('#reasonText').value.trim();if(!reason){toast('Scrie motivul acțiunii.');return;}const cb=pendingAction.callback;pendingAction.reason=reason;$('#reasonModal').classList.add('hidden');cb();pendingAction=null;};
+
+
+
+
+// v6 — notificări inteligente pentru meseriași (demo local)
+function normalized(v){return String(v||'').trim().toLowerCase();}
+function workerMatchesJob(worker,job){const p=worker.notifPrefs||{};if(!p.enabled)return false;const cityOk=!p.city||normalized(job.city).includes(normalized(p.city))||normalized(p.city).includes(normalized(job.city));const catOk=!p.category||p.category==='Toate categoriile'||p.category===job.cat;return cityOk&&catOk;}
+function notifyMatchingWorkers(job){users.filter(u=>u.role==='meseriaș'&&u.status==='activ'&&workerMatchesJob(u,job)).forEach(u=>{if(notifications.some(n=>String(n.userId)===String(u.id)&&n.jobId===job.id))return;notifications.unshift({id:Date.now()+Math.random(),userId:u.id,jobId:job.id,title:'Lucrare nouă potrivită pentru tine',text:`${job.title} în ${job.city} · ${job.budget}`,time:new Date().toLocaleString('ro-RO',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),read:false});});updateNotificationBadge();}
+function syncNotificationsForWorker(userId){const u=users.find(x=>String(x.id)===String(userId));if(!u||u.role!=='meseriaș')return;jobs.filter(j=>j.status==='activ'&&workerMatchesJob(u,j)).forEach(j=>{if(!notifications.some(n=>String(n.userId)===String(u.id)&&n.jobId===j.id)){notifications.unshift({id:Date.now()+Math.random(),userId:u.id,jobId:j.id,title:'Lucrare potrivită preferințelor tale',text:`${j.title} în ${j.city} · ${j.budget}`,time:'Acum',read:false});}});persist();updateNotificationBadge();}
+function currentNotifications(){return currentUser?.role==='meseriaș'?notifications.filter(n=>String(n.userId)===String(currentUser.id)):[];}
+function updateNotificationBadge(){const badge=$('#navNotifBadge');if(!badge)return;const unread=currentNotifications().filter(n=>!n.read).length;badge.textContent=unread;badge.classList.toggle('hidden',unread===0);}
+function renderNotifications(){const wrap=$('#notificationAccess');if(!wrap)return;if(!currentUser||currentUser.role!=='meseriaș'){wrap.innerHTML='<div class="form-card center-card"><div class="verify-icon">🔔</div><h2>Notificările sunt pentru meseriași</h2><p class="muted">Creează sau autentifică-te într-un cont de meseriaș pentru a primi lucrări după meserie și zonă.</p><button class="primary big" id="notifLoginBtn">Intră / Creează cont</button></div>';$('#notifLoginBtn').onclick=()=>nav('auth');updateNotificationBadge();return;}const u=users.find(x=>x.id===currentUser.id)||currentUser;u.notifPrefs=u.notifPrefs||{enabled:true,city:u.city||'',category:'Toate categoriile'};currentUser.notifPrefs=u.notifPrefs;wrap.innerHTML=`<div class="section-card notification-settings"><div class="notification-setting-head"><div><h2>Ce lucrări vrei să primești?</h2><p class="muted">Setările sunt demonstrative și se salvează pe acest dispozitiv.</p></div><label class="switch-row"><input id="notifEnabled" type="checkbox"><span>Notificări active</span></label></div><div class="notification-form-grid"><label>Oraș / zonă<input id="notifCity" placeholder="Ex: București"></label><label>Categoria principală<select id="notifCategory"><option>Toate categoriile</option><option>Construcții și renovări</option><option>Zugrăveli</option><option>Gresie și faianță</option><option>Instalații sanitare</option><option>Electricieni</option><option>Acoperișuri</option><option>Curățenie</option><option>Alte lucrări</option></select></label></div><button class="primary" id="saveNotifPrefs">Salvează preferințele</button></div><div class="notification-list-head"><h2>Lucrări noi pentru tine</h2><button class="secondary plain" id="markAllNotifications">Marchează toate ca citite</button></div><div id="notificationsList" class="notifications-list"></div>`;$('#notifEnabled').checked=!!u.notifPrefs.enabled;$('#notifCity').value=u.notifPrefs.city||'';$('#notifCategory').value=u.notifPrefs.category||'Toate categoriile';const list=$('#notificationsList'),items=currentNotifications();list.innerHTML=items.length?items.map(n=>`<article class="notification-card ${n.read?'':'unread'}"><div class="notification-icon">${n.read?'🔔':'🟡'}</div><div class="notification-main"><div class="notification-title"><b>${esc(n.title)}</b>${n.read?'':'<span>Nou</span>'}</div><p>${esc(n.text)}</p><small>${esc(n.time||'')}</small></div><button class="primary" data-notif-job="${n.jobId}" data-notif-id="${n.id}">Vezi lucrarea</button></article>`).join(''):'<div class="notice"><b>Nu ai notificări încă.</b><br>Salvează zona și categoria, iar lucrările potrivite vor apărea aici.</div>';$$('[data-notif-job]').forEach(b=>b.onclick=()=>{const n=notifications.find(x=>String(x.id)===String(b.dataset.notifId));if(n)n.read=true;persist();updateNotificationBadge();const j=jobs.find(x=>x.id===+b.dataset.notifJob);if(j)openJob(j.id);else{renderNotifications();toast('Lucrarea nu mai este disponibilă.');}});$('#saveNotifPrefs').onclick=()=>{u.notifPrefs={enabled:$('#notifEnabled').checked,city:$('#notifCity').value.trim(),category:$('#notifCategory').value};currentUser.notifPrefs=u.notifPrefs;if(u.notifPrefs.city)u.city=u.notifPrefs.city;syncNotificationsForWorker(u.id);persist();renderNotifications();toast('Preferințele de notificare au fost salvate');};$('#markAllNotifications').onclick=()=>{currentNotifications().forEach(n=>n.read=true);persist();updateNotificationBadge();renderNotifications();toast('Toate notificările au fost marcate ca citite');};updateNotificationBadge();}
+
+
+// Chat suport utilizator ↔ administrator (demo local)
+function supportIdentity(){return currentUser?{id:currentUser.id,name:currentUser.name}:{id:'guest',name:'Vizitator'};}
+function formatChatTime(){return new Date().toLocaleString('ro-RO',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}
+function esc(text){return String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderSupport(){const ident=supportIdentity(),wrap=$('#supportMessages');if(!wrap)return;const msgs=supportMessages.filter(m=>String(m.userId)===String(ident.id));wrap.innerHTML=msgs.length?msgs.map(m=>`<div class="chat-bubble ${m.sender==='admin'?'admin':'user'}">${esc(m.text)}<small>${m.sender==='admin'?'Administrator':'Tu'} · ${esc(m.time||'')}</small></div>`).join(''):`<div class="chat-empty"><b>Ai nevoie de ajutor?</b><p>Scrie-ne problema ta. În versiunea reală, administratorul va vedea mesajul în panoul său și îți va răspunde aici.</p></div>`;wrap.scrollTop=wrap.scrollHeight;}
+$('#floatingHelp').onclick=()=>nav('support');
+$$('[data-quick]').forEach(b=>b.onclick=()=>{$('#supportInput').value=b.dataset.quick;$('#supportInput').focus();});
+$('#supportForm').addEventListener('submit',e=>{e.preventDefault();const input=$('#supportInput'),text=input.value.trim();if(!text)return;const ident=supportIdentity();supportMessages.push({id:Date.now(),userId:ident.id,userName:ident.name,sender:'user',text,time:formatChatTime(),readByAdmin:false});input.value='';persist();renderSupport();toast('Mesaj trimis către suport');});
+function supportThreadsData(){const map=new Map();supportMessages.forEach(m=>{const key=String(m.userId);if(!map.has(key))map.set(key,{userId:m.userId,userName:m.userName||'Utilizator',last:m,unread:0});const t=map.get(key);t.last=m;if(m.sender==='user'&&!m.readByAdmin)t.unread++;});return [...map.values()].sort((a,b)=>(b.last.id||0)-(a.last.id||0));}
+function renderAdminSupport(){const threads=$('#supportThreads');if(!threads)return;const data=supportThreadsData();if(!selectedSupportUserId&&data.length)selectedSupportUserId=data[0].userId;threads.innerHTML=data.length?data.map(t=>`<button class="thread-btn ${String(t.userId)===String(selectedSupportUserId)?'active':''}" data-thread="${esc(t.userId)}"><b>${esc(t.userName)}</b><span>${esc((t.last.text||'').slice(0,70))}</span>${t.unread?`<span class="thread-badge">${t.unread} nou${t.unread>1?'ă':''}</span>`:''}</button>`).join(''):'<div class="notice">Nu există conversații de suport.</div>';$$('[data-thread]').forEach(b=>b.onclick=()=>{selectedSupportUserId=b.dataset.thread;supportMessages.forEach(m=>{if(String(m.userId)===String(selectedSupportUserId)&&m.sender==='user')m.readByAdmin=true;});persist();renderAdminSupport();renderStats();});renderSelectedAdminChat();}
+function renderSelectedAdminChat(){const box=$('#adminSupportMessages'),title=$('#adminChatTitle');if(!box||!title)return;if(selectedSupportUserId===null){title.textContent='Alege o conversație';box.innerHTML='<div class="chat-empty">Selectează un utilizator din listă.</div>';return;}const msgs=supportMessages.filter(m=>String(m.userId)===String(selectedSupportUserId)),name=msgs[0]?.userName||'Utilizator';title.textContent=`Conversație cu ${name}`;box.innerHTML=msgs.map(m=>`<div class="chat-bubble ${m.sender==='admin'?'user':'admin'}">${esc(m.text)}<small>${m.sender==='admin'?'Tu — Administrator':esc(name)} · ${esc(m.time||'')}</small></div>`).join('');box.scrollTop=box.scrollHeight;}
+$('#adminSupportForm').addEventListener('submit',e=>{e.preventDefault();if(selectedSupportUserId===null){toast('Alege mai întâi o conversație.');return;}const input=$('#adminSupportInput'),text=input.value.trim();if(!text)return;const existing=supportMessages.find(m=>String(m.userId)===String(selectedSupportUserId));supportMessages.push({id:Date.now(),userId:selectedSupportUserId,userName:existing?.userName||'Utilizator',sender:'admin',text,time:formatChatTime(),readByAdmin:true});input.value='';persist();renderAdminSupport();toast('Răspuns trimis');});
+
+
+function starText(n){return '★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));}
+function workerRating(id){const rs=reviews.filter(r=>r.workerId===id&&!r.hidden);return rs.length?rs.reduce((a,r)=>a+r.rating,0)/rs.length:0;}
+function renderWorkers(){const wrap=$('#workersList');if(!wrap)return;const q=($('#workerSearch')?.value||'').toLowerCase();const ws=users.filter(u=>u.role==='meseriaș'&&u.status==='activ'&&(!q||`${u.name} ${u.trade||''} ${u.city||''}`.toLowerCase().includes(q)));wrap.innerHTML=ws.length?ws.map(u=>{const rating=workerRating(u.id),count=reviews.filter(r=>r.workerId===u.id&&!r.hidden).length;return `<article class="worker-card"><div class="worker-avatar">👷</div><div class="worker-card-main"><span class="verified-pill">${u.verified?'✓ Telefon verificat':'Telefon neverificat'}</span><h3>${esc(u.name)}</h3><div><b>${esc(u.trade||'Meseriaș')}</b> · 📍 ${esc(u.city||'România')}</div><div class="stars">${starText(rating||0)} <small>${rating?rating.toFixed(1):'Fără rating'} · ${count} recenzii</small></div><small>${u.completed||0} lucrări finalizate</small></div><button class="primary" data-worker="${u.id}">Vezi profilul</button></article>`}).join(''):'<div class="notice">Nu am găsit meseriași.</div>';$$('[data-worker]').forEach(b=>b.onclick=()=>openWorker(+b.dataset.worker));}
+function openWorker(id){selectedWorkerId=id;renderWorkerDetail();nav('workerDetail');}
+function renderWorkerDetail(){const u=users.find(x=>x.id===selectedWorkerId),box=$('#workerDetailCard');if(!u||!box)return;const rs=reviews.filter(r=>r.workerId===u.id&&!r.hidden),rating=workerRating(u.id);box.innerHTML=`<article class="worker-profile"><div class="worker-top"><div class="worker-avatar">👷</div><div><span class="verified-pill">${u.verified?'✓ Telefon verificat':'Telefon neverificat'}</span><h2>${esc(u.name)}</h2><b>${esc(u.trade||'Meseriaș')}</b><div>📍 ${esc(u.city||'România')}</div></div></div><div class="worker-stats"><div><b>${rating?rating.toFixed(1):'—'}</b><span>⭐ Rating</span></div><div><b>${rs.length}</b><span>Recenzii</span></div><div><b>${u.completed||0}</b><span>Lucrări</span></div></div><h3>Despre mine</h3><p>${esc(u.about||'Profil în curs de completare.')}</p><h3>Portofoliu</h3><div class="portfolio">${(u.portfolio||['🧰']).map(x=>`<div>${x}</div>`).join('')}</div><h3>Recenzii</h3><div class="admin-review-note">Recenziile marcate „Lucrare verificată” provin din fluxul demonstrativ al platformei. Administratorul poate ascunde recenzii abuzive, dar nu le poate modifica textul.</div><div>${rs.length?rs.map(r=>`<div class="review"><div class="review-head"><b>${esc(r.from)}</b><span class="stars">${starText(r.rating)}</span></div><small>${r.verified?'✓ Lucrare verificată · ':''}${esc(r.date||'')}</small><p>${esc(r.text)}</p></div>`).join(''):'<p class="muted">Încă nu există recenzii.</p>'}</div>${currentUser?.role==='client'?`<form id="reviewForm" class="review-form"><h3>Lasă o recenzie</h3><label>Nota<select id="reviewRating"><option value="5">5 — Excelent</option><option value="4">4 — Foarte bine</option><option value="3">3 — Bine</option><option value="2">2 — Slab</option><option value="1">1 — Foarte slab</option></select></label><label>Recenzia ta<textarea id="reviewText" rows="3" required placeholder="Cum a fost colaborarea?"></textarea></label><button class="primary" type="submit">Trimite recenzia</button></form>`:''}<button class="danger report-btn" id="reportWorker">⚑ Raportează meseriașul</button></article>`;$('#reportWorker').onclick=()=>openReport(u.id);const f=$('#reviewForm');if(f)f.onsubmit=e=>{e.preventDefault();const text=$('#reviewText').value.trim();if(!text)return;reviews.unshift({id:Date.now(),workerId:u.id,from:currentUser.name,rating:+$('#reviewRating').value,text,verified:true,hidden:false,date:new Date().toLocaleDateString('ro-RO')});persist();renderWorkerDetail();toast('Recenzia a fost publicată');};}
+if($('#workerSearch'))$('#workerSearch').addEventListener('input',renderWorkers);
+
+function renderSaved(){const wrap=$('#savedContent');if(!wrap)return;if(!currentUser){wrap.innerHTML='<div class="empty-state"><h2>Autentifică-te</h2><p>Favoritele și istoricul sunt legate de contul tău.</p><button class="primary" id="savedLogin">Intră în cont</button></div>';$('#savedLogin').onclick=()=>nav('auth');return;}const favIds=savedJobs.filter(x=>String(x.userId)===String(currentUser.id)).map(x=>x.jobId);const favs=jobs.filter(j=>favIds.includes(j.id));const mine=currentUser.role==='client'?jobs.filter(j=>String(j.ownerId)===String(currentUser.id)):[];let html='<div class="saved-head"><h2>❤️ Lucrări salvate</h2><span class="muted">'+favs.length+' salvate</span></div><div class="saved-grid">';html+=favs.length?favs.map(j=>`<article class="saved-card"><div class="saved-card-top"><div><span class="job-status ${j.workflowStatus==='in_lucru'?'in_lucru':j.workflowStatus==='finalizat'?'finalizat':'activ'}">${workflowLabel(j)}</span><h3>${esc(j.title)}</h3><p>📍 ${esc(j.city)} · 💰 ${esc(j.budget)}</p></div></div><div class="saved-card-actions"><button class="primary" data-saved-open="${j.id}">Vezi lucrarea</button><button class="favorite-btn active" data-saved-remove="${j.id}">❤️ Scoate din salvate</button></div></article>`).join(''):'<div class="empty-state"><b>Nu ai salvat încă nicio lucrare.</b><p>Apasă pe inimă la o lucrare ca să o găsești rapid aici.</p></div>';html+='</div>';if(currentUser.role==='client'){html+=`<div class="saved-head" style="margin-top:8px"><h2>🧾 Lucrările mele</h2><span class="muted">${mine.length} lucrări</span></div><div class="saved-grid">`;html+=mine.length?mine.map(j=>{const events=jobHistory.filter(h=>h.jobId===j.id).slice(0,6);return `<article class="saved-card"><div class="saved-card-top"><div><span class="job-status ${j.workflowStatus==='in_lucru'?'in_lucru':j.workflowStatus==='finalizat'?'finalizat':'activ'}">${workflowLabel(j)}</span><h3>${esc(j.title)}</h3><p>📍 ${esc(j.city)} · 💰 ${esc(j.budget)}</p></div></div><div class="status-controls"><button data-my-status="disponibila" data-my-job="${j.id}">Disponibilă</button><button data-my-status="in_lucru" data-my-job="${j.id}">În lucru</button><button data-my-status="finalizat" data-my-job="${j.id}">Finalizată</button></div><div class="timeline">${events.length?events.map(e=>`<div class="timeline-item">${esc(e.text)}<small>${esc(e.time)}</small></div>`).join(''):'<div class="timeline-item">Lucrare existentă în demo<small>Istoricul începe de la următoarea modificare.</small></div>'}</div></article>`}).join(''):'<div class="empty-state">Nu ai publicat încă nicio lucrare.</div>';html+='</div>';}wrap.innerHTML=html;$$('[data-saved-open]').forEach(b=>b.onclick=()=>openJob(+b.dataset.savedOpen));$$('[data-saved-remove]').forEach(b=>b.onclick=()=>toggleSaved(+b.dataset.savedRemove));$$('[data-my-status]').forEach(b=>b.onclick=()=>setWorkflowStatus(+b.dataset.myJob,b.dataset.myStatus));}
+
+renderJobs();renderProfile();updateCredits();updateNotificationBadge();
+
+
+// v8 — monetizare demo
+function addTransaction(type,amount,role,creditsDelta=0){transactions.unshift({id:Date.now()+Math.random(),type,amount:+amount||0,credits:creditsDelta>0?creditsDelta:0,creditsDelta,userId:currentUser?.id||null,userName:currentUser?.name||'Demo',role,status:'reușită',time:new Date().toLocaleString('ro-RO')});persist();}
+function openCheckout(title,amount,onSuccess){pendingCheckout={title,amount:+amount||0,onSuccess};$('#checkoutTitle').textContent=title;$('#checkoutText').textContent='Confirmă operațiunea pentru a continua în prototip.';$('#checkoutTotal').textContent=(+amount||0).toFixed(2)+' lei';$('#checkoutModal').classList.remove('hidden');}
+$('#cancelCheckout').onclick=()=>{$('#checkoutModal').classList.add('hidden');pendingCheckout=null;};
+$('#confirmCheckout').onclick=()=>{const c=pendingCheckout;$('#checkoutModal').classList.add('hidden');pendingCheckout=null;if(c?.onSuccess)c.onSuccess();};
+function renderCreditPackages(){const wrap=$('#creditPackages');if(!wrap)return;const packs=[[20,settings.pack20Price],[50,settings.pack50Price],[100,settings.pack100Price]];wrap.innerHTML=packs.map(([c,p])=>`<button data-buy-credits="${c}" data-price="${p}"><b>${c} credite</b><span>${(+p).toFixed(2)} lei</span></button>`).join('');$$('[data-buy-credits]').forEach(b=>b.onclick=()=>{if(!currentUser||currentUser.role!=='meseriaș'){toast('Autentifică-te cu un cont de meseriaș.');nav('auth');return;}const c=+b.dataset.buyCredits,p=+b.dataset.price;openCheckout(c+' credite',p,()=>{currentUser.credits=(currentUser.credits||0)+c;const u=users.find(x=>x.id===currentUser.id);if(u)u.credits=currentUser.credits;addTransaction('Pachet credite',p,'meseriaș',c);persist();updateCredits();renderCreditPackages();toast('Plată demo reușită. Creditele au fost adăugate.');});});}
+function renderWallet(){const sum=$('#walletSummary'),list=$('#transactionList');if(!currentUser){sum.innerHTML='<div class="empty-state"><b>Autentifică-te pentru istoricul tău.</b></div>';list.innerHTML='';return;}const mine=transactions.filter(t=>String(t.userId)===String(currentUser.id));const total=mine.reduce((s,t)=>s+t.amount,0);sum.innerHTML=`<div class="section-card"><span class="muted">Total plăți demo</span><h2>${total.toFixed(2)} lei</h2><p>${mine.length} tranzacții înregistrate</p></div>`;list.innerHTML=mine.length?mine.map(transactionHtml).join(''):'<div class="empty-state">Nu ai încă tranzacții demo.</div>';}
+function transactionHtml(t){return `<div class="transaction-row"><div><b>${esc(t.type)}</b><span>${esc(t.userName)} · ${esc(t.time)}</span></div><div class="transaction-amount"><b>${t.amount?Number(t.amount).toFixed(2)+' lei':(t.creditsDelta<0?t.creditsDelta+' credite':'0 lei')}</b><span class="status activ">reușită</span></div></div>`;}
+function renderTransactionsAdmin(){const wrap=$('#adminTransactions');if(!wrap)return;wrap.innerHTML=transactions.length?transactions.map(transactionHtml).join(''):'<div class="empty-state">Nu există încă tranzacții demo.</div>';}
+
+</script>
+
+<style id="v10-evaluare-style">
+#v10-evaluare{font-family:Arial,sans-serif;max-width:760px;margin:24px auto;padding:18px;background:#fff;border:1px solid #e5e7eb;border-radius:18px}
+#v10-evaluare h2{margin:0 0 8px;color:#14213d}.v10-sub{color:#4b5563;margin-bottom:16px}
+.v10-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.v10-field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+#v10-evaluare input,#v10-evaluare textarea,#v10-evaluare select{font-size:17px;padding:13px;border:1px solid #cbd5e1;border-radius:12px}
+#v10-evaluare textarea{min-height:90px}.v10-btn{width:100%;padding:15px;border:0;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;background:#f6c344;color:#14213d}
+.v10-btn.secondary{background:#166534;color:#fff}.v10-card{margin-top:16px;padding:14px;border-radius:14px;background:#f8fafc;border:1px solid #e2e8f0}
+.v10-badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#fef3c7;font-weight:700}.v10-admin{margin-top:20px;border-top:2px solid #e5e7eb;padding-top:16px}
+.v10-actions{display:flex;gap:8px;flex-wrap:wrap}.v10-actions button{padding:10px 12px;border:0;border-radius:10px;cursor:pointer}
+@media(max-width:620px){.v10-grid{grid-template-columns:1fr}#v10-evaluare{margin:10px;padding:14px}}
+</style>
+<section id="v10-evaluare">
+  <h2>👷 Evaluare lucrare la fața locului</h2>
+  <div class="v10-sub">Nu știi exact ce trebuie făcut? Solicită o evaluare orientativă înainte să publici lucrarea.</div>
+  <form id="v10Form">
+    <div class="v10-field"><label>Ce problemă sau lucrare ai?</label><textarea id="v10Desc" required placeholder="Ex.: Vreau să renovez baia, dar nu știu ce materiale și etape sunt necesare."></textarea></div>
+    <div class="v10-grid">
+      <div class="v10-field"><label>Localitate</label><input id="v10City" required placeholder="Ex.: București"></div>
+      <div class="v10-field"><label>Data dorită</label><input id="v10Date" type="date" required></div>
+    </div>
+    <div class="v10-field"><label>Fotografii (opțional)</label><input id="v10Photos" type="file" accept="image/*" multiple></div>
+    <div class="v10-card"><b>Tarif evaluare:</b> <span id="v10Price">se stabilește din Panoul Administrator</span><br><small>Evaluarea este orientativă și nu înlocuiește o expertiză/proiectare autorizată acolo unde legea o cere.</small></div>
+    <button class="v10-btn" type="submit">SOLICITĂ EVALUAREA</button>
+  </form>
+  <div id="v10ClientList"></div>
+
+  <div class="v10-admin">
+    <h3>🔐 Administrator – Cereri de evaluare</h3>
+    <div class="v10-grid">
+      <div class="v10-field"><label>Tarif demonstrativ (lei)</label><input id="v10AdminPrice" type="number" min="0" placeholder="Ex.: 150"></div>
+      <div class="v10-field"><label>&nbsp;</label><button type="button" class="v10-btn secondary" onclick="v10SavePrice()">Salvează tariful</button></div>
+    </div>
+    <div id="v10AdminList"></div>
+  </div>
+</section>
+<script id="v10-evaluare-script">
+(function(){
+ const KEY='ldf_v10_evaluari', PRICE='ldf_v10_eval_price';
+ const $=id=>document.getElementById(id);
+ const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+ function save(x){localStorage.setItem(KEY,JSON.stringify(x))}
+ function price(){return localStorage.getItem(PRICE)||''}
+ window.v10SavePrice=function(){localStorage.setItem(PRICE,$('v10AdminPrice').value); render(); alert('Tariful demonstrativ a fost salvat.');}
+ window.v10Status=function(id,status){let a=load(); let x=a.find(v=>v.id===id); if(x){x.status=status;save(a);render();}}
+ window.v10Report=function(id){
+   let a=load(),x=a.find(v=>v.id===id); if(!x)return;
+   x.etape=prompt('Etapele recomandate:',x.etape||'')||x.etape||'';
+   x.materiale=prompt('Materiale orientative:',x.materiale||'')||x.materiale||'';
+   x.buget=prompt('Buget estimativ:',x.buget||'')||x.buget||'';
+   x.durata=prompt('Durată aproximativă:',x.durata||'')||x.durata||'';
+   x.status='Raport finalizat'; save(a); render();
+ }
+ window.v10Publish=function(id){let a=load(),x=a.find(v=>v.id===id);if(x){x.publicata=true;save(a);render();alert('Demo: evaluarea a fost transformată într-o lucrare publicată.');}}
+ function render(){
+   let p=price(); $('v10Price').textContent=p? p+' lei (demo)':'se stabilește din Panoul Administrator';
+   $('v10AdminPrice').value=p;
+   let a=load();
+   $('v10ClientList').innerHTML=a.length?'<h3>Cererile mele</h3>'+a.map(x=>`<div class="v10-card"><span class="v10-badge">${esc(x.status)}</span><h4>${esc(x.city)} · ${esc(x.date)}</h4><p>${esc(x.desc)}</p>${x.etape?`<p><b>Etape:</b> ${esc(x.etape)}<br><b>Materiale:</b> ${esc(x.materiale)}<br><b>Buget:</b> ${esc(x.buget)}<br><b>Durată:</b> ${esc(x.durata)}</p><button class="v10-btn secondary" onclick="v10Publish('${x.id}')">${x.publicata?'✓ Lucrare publicată':'PUBLICĂ ACEASTĂ LUCRARE'}</button>`:''}</div>`).join(''):'';
+   $('v10AdminList').innerHTML=a.length?a.map(x=>`<div class="v10-card"><b>${esc(x.city)}</b> · ${esc(x.date)}<p>${esc(x.desc)}</p><div class="v10-actions"><button onclick="v10Status('${x.id}','Programată')">Programată</button><button onclick="v10Status('${x.id}','Efectuată')">Efectuată</button><button onclick="v10Report('${x.id}')">Completează raport</button></div></div>`).join(''):'<p>Nu există cereri încă.</p>';
+ }
+ $('v10Form').addEventListener('submit',e=>{
+   e.preventDefault(); let a=load();
+   a.unshift({id:'ev'+Date.now(),desc:$('v10Desc').value,city:$('v10City').value,date:$('v10Date').value,photos:$('v10Photos').files.length,status:'Nouă',created:new Date().toISOString(),etape:'',materiale:'',buget:'',durata:'',publicata:false});
+   save(a); e.target.reset(); render(); alert('Cererea de evaluare a fost înregistrată în demo.');
+ });
+ render();
+})();
+</script>
+
+<style id="v11-security-style">
+#v11-security{font-family:Arial,sans-serif;max-width:760px;margin:24px auto;padding:18px;background:#fff;border:1px solid #e5e7eb;border-radius:18px}
+#v11-security h2{color:#14213d;margin:0 0 8px}.v11-note{background:#fff7d6;padding:12px;border-radius:12px;margin:12px 0}
+.v11-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.v11-card{padding:14px;margin:10px 0;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc}
+.v11-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#fee2e2;font-weight:700}.v11-ok{background:#dcfce7}
+.v11-btn{padding:11px 13px;border:0;border-radius:10px;font-weight:700;cursor:pointer;margin:3px;background:#f6c344;color:#14213d}
+.v11-danger{background:#b91c1c;color:white}.v11-safe{background:#166534;color:white}
+#v11-security input,#v11-security select{font-size:16px;padding:11px;border:1px solid #cbd5e1;border-radius:10px;width:100%;box-sizing:border-box}
+.v11-log{font-size:14px;max-height:220px;overflow:auto}.v11-row{border-bottom:1px solid #e5e7eb;padding:8px 0}
+@media(max-width:620px){.v11-grid{grid-template-columns:1fr}#v11-security{margin:10px;padding:14px}}
+</style>
+
+<section id="v11-security">
+ <h2>🛡️ Securitate & Anti-fraudă — Administrator</h2>
+ <div class="v11-note"><b>Mod demonstrativ.</b> Aceste controale simulează fluxurile de siguranță. Parolele, sesiunile, plățile și blocările reale vor fi validate pe server în versiunea online.</div>
+
+ <div class="v11-grid">
+  <div class="v11-card">
+   <h3>🔐 Protecție Administrator</h3>
+   <label>Număr maxim încercări autentificare</label>
+   <input id="v11MaxAttempts" type="number" min="3" max="10" value="5">
+   <label style="display:block;margin-top:10px">Blocare temporară</label>
+   <select id="v11LockMinutes"><option value="15">15 minute</option><option value="30">30 minute</option><option value="60">60 minute</option></select>
+   <button class="v11-btn v11-safe" onclick="v11SaveSecurity()">Salvează regulile</button>
+  </div>
+  <div class="v11-card">
+   <h3>💳 Protecție credite/plăți</h3>
+   <label><input id="v11PaymentCheck" type="checkbox" checked style="width:auto"> Marchează tranzacțiile neobișnuite pentru verificare</label><br><br>
+   <label><input id="v11CreditCheck" type="checkbox" checked style="width:auto"> Jurnal pentru modificările manuale de credite</label>
+  </div>
+ </div>
+
+ <div class="v11-card">
+  <h3>🚩 Conturi raportate / suspecte</h3>
+  <div id="v11Users"></div>
+ </div>
+
+ <div class="v11-card">
+  <h3>📄 Verificare anunțuri duplicate</h3>
+  <button class="v11-btn" onclick="v11ScanDuplicates()">Scanează anunțurile demo</button>
+  <div id="v11Duplicates"></div>
+ </div>
+
+ <div class="v11-card">
+  <h3>🧾 Istoric acțiuni Administrator</h3>
+  <div id="v11Log" class="v11-log"></div>
+ </div>
+</section>
+
+<script id="v11-security-script">
+(function(){
+ const U='ldf_v11_users', L='ldf_v11_security_log', S='ldf_v11_security_settings';
+ const $=id=>document.getElementById(id);
+ const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ function users(){try{return JSON.parse(localStorage.getItem(U)||'null')||[
+  {id:'u1',name:'Client Demo',reports:3,status:'Activ',risk:'Ridicat'},
+  {id:'u2',name:'Meseriaș Demo',reports:1,status:'Activ',risk:'Scăzut'}
+ ]}catch(e){return[]}}
+ function saveUsers(x){localStorage.setItem(U,JSON.stringify(x))}
+ function logs(){try{return JSON.parse(localStorage.getItem(L)||'[]')}catch(e){return[]}}
+ function log(action){let x=logs();x.unshift({at:new Date().toLocaleString('ro-RO'),action});localStorage.setItem(L,JSON.stringify(x.slice(0,100)));render()}
+ window.v11Action=function(id,status){
+  let a=users(),u=a.find(x=>String(x.id)===String(id)); if(!u)return;
+  u.status=status; saveUsers(a); log(status+' — '+u.name);
+ }
+ window.v11SaveSecurity=function(){
+  let s={maxAttempts:$('v11MaxAttempts').value,lockMinutes:$('v11LockMinutes').value,payment:$('v11PaymentCheck').checked,credits:$('v11CreditCheck').checked};
+  localStorage.setItem(S,JSON.stringify(s)); log('Reguli de securitate actualizate');
+ }
+ window.v11ScanDuplicates=function(){
+  const demo=[
+   {title:'Renovare baie completă',city:'București'},
+   {title:'Renovare baie completă',city:'București'},
+   {title:'Zugrăvit apartament',city:'Brașov'}
+  ];
+  let seen={},dups=[];
+  demo.forEach(x=>{let k=(x.title+'|'+x.city).toLowerCase(); if(seen[k])dups.push(x); else seen[k]=1});
+  $('v11Duplicates').innerHTML=dups.length?dups.map(x=>`<div class="v11-row"><span class="v11-badge">Posibil duplicat</span> ${esc(x.title)} — ${esc(x.city)} <button class="v11-btn v11-danger" onclick="v11DemoHide()">Ascunde</button></div>`).join(''):'<p>Nu au fost găsite duplicate.</p>';
+  log('Scanare anunțuri duplicate efectuată');
+ }
+ window.v11DemoHide=function(){log('Anunț duplicat demonstrativ ascuns'); alert('Anunțul demo a fost marcat ca ascuns.');}
+ function render(){
+  let a=users();
+  $('v11Users').innerHTML=a.map(u=>`<div class="v11-row"><b>${esc(u.name)}</b> · ${u.reports} raportări · <span class="v11-badge ${u.risk==='Scăzut'?'v11-ok':''}">${esc(u.risk)}</span><br>Status: <b>${esc(u.status)}</b><br><button class="v11-btn" onclick="v11Action('${u.id}','Suspendat 24h')">Suspendă 24h</button><button class="v11-btn v11-danger" onclick="v11Action('${u.id}','Blocat definitiv')">Blochează</button><button class="v11-btn v11-safe" onclick="v11Action('${u.id}','Activ')">Reactivează</button></div>`).join('');
+  let l=logs(); $('v11Log').innerHTML=l.length?l.map(x=>`<div class="v11-row">${esc(x.at)} — ${esc(x.action)}</div>`).join(''):'<p>Nu există acțiuni încă.</p>';
+ }
+ try{
+  let s=JSON.parse(localStorage.getItem(S)||'{}');
+  if(s.maxAttempts)$('v11MaxAttempts').value=s.maxAttempts;
+  if(s.lockMinutes)$('v11LockMinutes').value=s.lockMinutes;
+  if(typeof s.payment==='boolean')$('v11PaymentCheck').checked=s.payment;
+  if(typeof s.credits==='boolean')$('v11CreditCheck').checked=s.credits;
+ }catch(e){}
+ render();
+})();
+</script>
+
+<style id="teams121-style">
+#teams121{font-family:Arial,sans-serif;max-width:980px;margin:22px auto;padding:16px}
+#teams121 h2{color:#14213d}.t121-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.t121-card{border:1px solid #e5e7eb;border-radius:16px;padding:15px;background:#fff}
+.t121-badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:13px;font-weight:700;margin-right:5px}
+.t121-verified{background:#dcfce7;color:#166534}.t121-promoted{background:#fef3c7;color:#854d0e}
+.t121-btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;cursor:pointer;background:#f6c344;color:#14213d;margin:3px}
+.t121-admin{margin-top:20px;border-top:2px solid #e5e7eb;padding-top:16px}.t121-field{display:flex;flex-direction:column;gap:5px;margin:8px 0}
+#teams121 input,#teams121 select,#teams121 textarea{padding:11px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
+@media(max-width:650px){.t121-grid{grid-template-columns:1fr}#teams121{margin:8px;padding:10px}}
+</style>
+
+<section id="teams121">
+ <h2>⭐ Echipe recomandate și verificate</h2>
+ <p>Echipe selectate pentru clienții care vor să găsească mai ușor profesioniști serioși. <b>Verificat</b> înseamnă verificare efectuată; <b>Promovat</b> înseamnă poziționare plătită.</p>
+ <div id="t121List" class="t121-grid"></div>
+
+ <div class="t121-admin" id="t121Admin">
+  <h3>🔐 Administrator – Gestionează echipele</h3>
+  <div class="t121-grid">
+   <div>
+    <div class="t121-field"><label>Numele echipei</label><input id="t121Name" placeholder="Ex.: Echipa Renovări București"></div>
+    <div class="t121-field"><label>Meserie / categorie</label><input id="t121Category" placeholder="Renovări, instalații, acoperișuri..."></div>
+    <div class="t121-field"><label>Oraș / județ</label><input id="t121Area" placeholder="București / Ilfov"></div>
+   </div>
+   <div>
+    <div class="t121-field"><label>Telefon</label><input id="t121Phone" placeholder="07xx xxx xxx"></div>
+    <div class="t121-field"><label>Promovare</label><select id="t121Promo"><option value="Nu">Nu</option><option value="7 zile">7 zile</option><option value="30 zile">30 zile</option><option value="TOP 30 zile">TOP 30 zile</option></select></div>
+    <div class="t121-field"><label>Sumă plătită (demo)</label><input id="t121Paid" type="number" min="0" placeholder="0"></div>
+   </div>
+  </div>
+  <div class="t121-field"><label>Descriere / portofoliu</label><textarea id="t121Desc" placeholder="Experiență, tipuri de lucrări, observații..."></textarea></div>
+  <label><input type="checkbox" id="t121Verified" style="width:auto"> Am verificat această echipă și poate primi marcajul „Verificat”</label><br><br>
+  <button class="t121-btn" onclick="t121Add()">Adaugă echipa</button>
+ </div>
+</section>
+
+<script id="teams121-script">
+(function(){
+ const KEY='ldf_121_teams';
+ const $=id=>document.getElementById(id);
+ const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+ function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
+ window.t121Add=function(){
+   const name=$('t121Name').value.trim(), cat=$('t121Category').value.trim(), area=$('t121Area').value.trim();
+   if(!name||!cat||!area){alert('Completează numele, categoria și zona.');return}
+   let a=load();
+   a.unshift({id:'t'+Date.now(),name,cat,area,phone:$('t121Phone').value.trim(),promo:$('t121Promo').value,paid:Number($('t121Paid').value||0),verified:$('t121Verified').checked,desc:$('t121Desc').value.trim(),rating:'Nou'});
+   save(a); ['t121Name','t121Category','t121Area','t121Phone','t121Paid','t121Desc'].forEach(id=>$(id).value=''); $('t121Verified').checked=false; render();
+ }
+ window.t121ToggleVerify=function(id){let a=load(),x=a.find(v=>v.id===id);if(x){x.verified=!x.verified;save(a);render()}}
+ window.t121Remove=function(id){if(confirm('Ștergi echipa din listă?')){save(load().filter(x=>x.id!==id));render()}}
+ function render(){
+   let a=load().sort((x,y)=>(y.promo==='TOP 30 zile')-(x.promo==='TOP 30 zile') || (y.promo!=='Nu')-(x.promo!=='Nu'));
+   $('t121List').innerHTML=a.length?a.map(x=>`<article class="t121-card">
+    <div>${x.verified?'<span class="t121-badge t121-verified">✓ Verificat</span>':''}${x.promo!=='Nu'?'<span class="t121-badge t121-promoted">Promovat</span>':''}</div>
+    <h3>${esc(x.name)}</h3><p><b>${esc(x.cat)}</b><br>📍 ${esc(x.area)}</p>
+    <p>${esc(x.desc)}</p><p>⭐ ${esc(x.rating)} ${x.phone?' · ☎ '+esc(x.phone):''}</p>
+    <button class="t121-btn" onclick="alert('Demo: profilul complet al echipei.')">Vezi profilul</button>
+    <div class="t121-admin-actions"><button class="t121-btn" onclick="t121ToggleVerify('${x.id}')">${x.verified?'Retrage verificarea':'Marchează verificat'}</button><button class="t121-btn" onclick="t121Remove('${x.id}')">Șterge</button></div>
+   </article>`).join(''):'<div class="t121-card">Administratorul nu a adăugat încă echipe recomandate.</div>';
+
+   const role=localStorage.getItem('ldf_v12_role')||'client';
+   $('t121Admin').style.display=role==='admin'?'block':'none';
+   document.querySelectorAll('.t121-admin-actions').forEach(e=>e.style.display=role==='admin'?'block':'none');
+ }
+ const old=window.v12SetMode;
+ if(old){window.v12SetMode=function(role){old(role);setTimeout(render,0)}}
+ render();
+})();
+</script>
+
+<style id="v13-style">
+#v13-online{max-width:980px;margin:22px auto;padding:16px;font-family:Arial,sans-serif}
+.v13-box{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin:10px 0}
+.v13-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.v13-pill{display:inline-block;border-radius:999px;padding:6px 10px;font-weight:700;background:#fef3c7;color:#854d0e}
+.v13-ok{background:#dcfce7;color:#166534}
+@media(max-width:650px){.v13-grid{grid-template-columns:1fr}#v13-online{margin:8px;padding:10px}}
+</style>
+
+<section id="v13-online">
+ <h2>🌐 Versiunea 13 – Platformă online</h2>
+ <div class="v13-box">
+   <span id="v13Mode" class="v13-pill">Mod local demonstrativ</span>
+   <p id="v13ModeText">Site-ul funcționează în continuare local. Structura pentru server și bază de date este pregătită, dar nu pretinde că există un server real până când acesta nu este configurat.</p>
+ </div>
+ <div class="v13-grid">
+   <div class="v13-box"><b>👤 Conturi</b><p>Interfață pregătită pentru autentificare prin API și sesiuni server.</p></div>
+   <div class="v13-box"><b>🧰 Lucrări</b><p>Structură API pentru publicare, listare și actualizarea statusului.</p></div>
+   <div class="v13-box"><b>💬 Mesaje</b><p>Structură pregătită pentru conversații sincronizate între dispozitive.</p></div>
+   <div class="v13-box"><b>⭐ Echipe</b><p>Echipele verificate/promovate pot fi mutate din localStorage în baza de date.</p></div>
+ </div>
+ <div class="v13-box" id="v13AdminOnly">
+   <b>🔐 Administrator – stare infrastructură</b>
+   <p>Backend: <b id="v13BackendState">neconectat</b> · Bază de date: <b>neconfigurată</b> · Plăți/SMS: <b>neconfigurate</b></p>
+ </div>
+</section>
+
+<script id="v13-runtime">
+window.LDF_V13 = {
+  apiBase: "",
+  mode: "local-demo",
+  async request(path, options={}) {
+    if (!this.apiBase) throw new Error("Backend-ul V13 nu este încă configurat.");
+    const res = await fetch(this.apiBase + path, {
+      credentials: "include",
+      headers: {"Content-Type":"application/json", ...(options.headers||{})},
+      ...options
+    });
+    if (!res.ok) throw new Error("Eroare server: " + res.status);
+    return res.status === 204 ? null : res.json();
+  }
+};
+(function(){
+  function refresh(){
+    const role=localStorage.getItem('ldf_v12_role')||'client';
+    const a=document.getElementById('v13AdminOnly');
+    if(a) a.style.display=role==='admin'?'block':'none';
+  }
+  const old=window.v12SetMode;
+  if(old) window.v12SetMode=function(role){old(role);setTimeout(refresh,0)};
+  refresh();
+})();
+</script>
+
+<style id="trust-footer-style">
+#ldf-trust-footer{max-width:980px;margin:30px auto 12px;padding:18px;text-align:center;
+font-family:Arial,sans-serif;border-top:1px solid #e5e7eb;color:#334155}
+#ldf-trust-footer .trust-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;
+border-radius:999px;background:#fef3c7;color:#854d0e;font-weight:700}
+#ldf-trust-footer small{display:block;margin-top:9px;line-height:1.4}
+</style>
+<footer id="ldf-trust-footer">
+  <div class="trust-badge">✅ Site verificat</div>
+  <small>LucrăriDeFăcut.ro · Platformă verificată funcțional.</small>
+</footer>
+<script src="supabase-data.js?v=20260910-3"></script>
+<script src="supabase-bridge.js?v=20260910-3"></script>
+<script src="evaluation-entry.js"></script>
+<script src="buy-job-loader.js"></script>
+<script src="auth-entry.js?v=20260910-4"></script>
+<script src="supabase-jobs.js?v=20260910-3"></script>
+
+<script src="nav-hotfix.js?v=20260910-1"></script>
+</body>
+</html>
