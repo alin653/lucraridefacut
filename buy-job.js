@@ -8,8 +8,8 @@
   }
 
   function formatMoney(value){
-    const n=Number(value||0);
-    if(!Number.isFinite(n) || n<=0) return 'Nespecificat';
+    const n=Number(String(value??'').replace(/[^0-9.,]/g,'').replace(',','.'));
+    if(!Number.isFinite(n) || n<=0) return value ? String(value) : 'Nespecificat';
     return new Intl.NumberFormat('ro-RO',{maximumFractionDigits:0}).format(n)+' lei';
   }
 
@@ -22,17 +22,25 @@
     const job=window.selectedJob;
     if(!job) return;
     if((job.access||0)>=(job.max||6)) return message('Lucrarea a atins limita de 6 meseriași.');
-
     const price=priceFor(job);
     if(!price) return message('Plata acestei lucrări nu este configurată încă.');
-
     if(typeof window.createJobCheckout==='function'){
       try{
         const result=await window.createJobCheckout(job.id);
         if(result?.url){ window.location.assign(result.url); return; }
       }catch(err){ console.error(err); }
     }
-    message('Plata securizată pentru cumpărarea lucrării este în curs de configurare.');
+    message('Plata securizată nu este disponibilă momentan. Încearcă din nou.');
+  }
+
+  function installVerifiedClient(){
+    const detail=document.getElementById('jobDetailCard');
+    if(!detail) return;
+    const candidates=[...detail.querySelectorAll('.owner-box b, b')];
+    const label=candidates.find(el=>/^Client\s*:/i.test((el.textContent||'').trim()));
+    if(!label) return;
+    label.textContent='Client: ✅ Client verificat';
+    label.style.color='#08792f';
   }
 
   function installBudget(job,anchor){
@@ -52,6 +60,7 @@
   function installButton(){
     const job=window.selectedJob;
     if(!job) return;
+    installVerifiedClient();
     const phoneLike=[...document.querySelectorAll('button')].find(b=>/deblocheaz|contact|cumpără lucrarea/i.test(b.textContent||''));
     if(!phoneLike) return;
     const price=priceFor(job);
