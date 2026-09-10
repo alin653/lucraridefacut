@@ -18,60 +18,21 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
-
-          if '#v12-shell,#v11-security,#v13-online{display:none!important;}' not in s:
-              s = s.replace('#v12-shell{display:none!important;}', '#v12-shell,#v11-security,#v13-online{display:none!important;}', 1)
-
-          replacements = {
-            "x.jobId===id": "String(x.jobId)===String(id)",
-            "x=>x.id===id": "x=>String(x.id)===String(id)",
-            "selectedJob=jobs.find(j=>j.id===id)": "selectedJob=jobs.find(j=>String(j.id)===String(id))",
-            "openJob(+b.dataset.job)": "openJob(b.dataset.job)",
-            "toggleSaved(+b.dataset.saveJob)": "toggleSaved(b.dataset.saveJob)",
-            "selectedJob?.id===id": "String(selectedJob?.id)===String(id)",
-            "currentUser.role==='meseriaș'?'Meseriaș':'Client'": "currentUser.role==='meseriaș'?'Meseriaș verificat':'Client verificat'",
-            "<b>Client: ${owner?.name||'Client'}</b>": "<b>✅ Client verificat: ${owner?.name||'Client'}</b>",
-            "Control monetizare demo.": "Control monetizare.",
-            "Rezumat venituri demo": "Rezumat venituri",
-            "Încasări simulate:": "Încasări:",
-            "Istoric complet al plăților simulate.": "Istoric plăți."
-          }
-          for old,new in replacements.items():
-              s = s.replace(old,new)
-
-          # Keep the original role-aware post button. auth-entry.js performs the final session/profile check.
-          forced = "$('#postJobBtn').onclick=async()=>{try{const {data}=await supabaseClient.auth.getSession();if(data?.session?.user){nav('post');return;}}catch(e){}nav('auth');};"
-          original = "$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');"
-          s = s.replace(forced, original)
-
-          # Ensure the reliable delegated navigation hotfix is loaded after the normal navigation code.
-          tag = '<script src="navigation-hotfix.js?v=20260910-1"></script>'
-          if 'navigation-hotfix.js' not in s:
-              s = s.replace('</body>', tag+'\n</body>', 1)
-          else:
-              s = re.sub(r'<script src="navigation-hotfix\.js(?:\?v=[^"]*)?"></script>', tag, s)
-
-          versions = {
-            'supabase-data.js':'20260910-3',
-            'supabase-bridge.js':'20260910-3',
-            'auth-entry.js':'20260910-4',
-            'supabase-jobs.js':'20260910-3'
-          }
-          for name,ver in versions.items():
-              s = re.sub(rf'<script src="{re.escape(name)}(?:\?v=[^"]*)?"></script>', f'<script src="{name}?v={ver}"></script>', s)
-
-          p.write_text(s, encoding='utf-8')
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          forced="$('#postJobBtn').onclick=async()=>{try{const {data}=await supabaseClient.auth.getSession();if(data?.session?.user){nav('post');return;}}catch(e){}nav('auth');};"
+          original="$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');"
+          s=s.replace(forced,original)
+          s=re.sub(r'<script src="(?:navigation-hotfix|nav-hotfix)\.js(?:\?v=[^"]*)?"></script>','',s)
+          s=s.replace('</body>','<script src="nav-hotfix.js?v=20260910-1"></script>\n</body>',1)
+          for name,ver in {'supabase-data.js':'20260910-3','supabase-bridge.js':'20260910-3','auth-entry.js':'20260910-4','supabase-jobs.js':'20260910-3'}.items():
+              s=re.sub(rf'<script src="{re.escape(name)}(?:\?v=[^"]*)?"></script>',f'<script src="{name}?v={ver}"></script>',s)
+          p.write_text(s,encoding='utf-8')
           PY
       - name: Commit patch
         run: |
-          if git diff --quiet -- index.html; then
-            echo "No change needed"
-            exit 0
-          fi
+          if git diff --quiet -- index.html; then echo "No change needed"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Fix support navigation and refresh launch scripts"
+          git commit -m "Load correct navigation hotfix"
           git push
