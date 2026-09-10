@@ -20,6 +20,10 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
+          # Hide old standalone/demo panels at source, not via a cached JS helper.
+          if '#v12-shell,#v11-security,#v13-online{display:none!important;}' not in s:
+              s = s.replace('#v12-shell{display:none!important;}', '#v12-shell,#v11-security,#v13-online{display:none!important;}', 1)
+
           tags = [
             '<script src="supabase-data.js"></script>',
             '<script src="supabase-bridge.js"></script>',
@@ -44,15 +48,10 @@ jobs:
             "Control monetizare demo.": "Control monetizare.",
             "Rezumat venituri demo": "Rezumat venituri",
             "Încasări simulate:": "Încasări:",
-            "Istoric complet al plăților simulate.": "Istoric plăți.",
+            "Istoric complet al plăților simulate.": "Istoric plăți."
           }
           for old,new in replacements.items():
             s = s.replace(old,new)
-
-          old = "$('#jobForm').addEventListener('submit',e=>{e.preventDefault();if(!currentUser||currentUser.role!=='client'){toast('Trebuie să fii autentificat ca client.');nav('auth');return;}if(!currentUser.phone){toast('Completează numărul de telefon în cont înainte de publicare.');nav('profile');return;}const data={title:$('#jobCategory').value,city:$('#jobCity').value,cat:$('#jobCategory').value,budget:$('#jobBudget').value,start:$('#jobStart').value,desc:$('#jobDescription').value};const postingFee=clientPostingPrice(data.budget);openCheckout('Publicare lucrare',postingFee,()=>{const newJob={id:Date.now(),...data,access:0,max:MAX_WORKERS_PER_JOB,cost:workerUnlockPrice(data.budget),unlockedBy:[],status:'activ',ownerId:currentUser.id,workflowStatus:'disponibila'};jobs.unshift(newJob);addJobHistory(newJob.id,'Lucrarea a fost publicată după plată');notifyMatchingWorkers(newJob);addTransaction('Publicare lucrare',postingFee,'client',0);persist();e.target.reset();toast('Plată reușită. Lucrarea a fost publicată.');nav('jobs');});});"
-          new = "$('#jobForm').addEventListener('submit',e=>{e.preventDefault();if(!currentUser||currentUser.role!=='client'){toast('Trebuie să fii autentificat ca client.');nav('auth');return;}if(!currentUser.phone){toast('Completează numărul de telefon în cont înainte de publicare.');nav('profile');return;}const data={title:$('#jobCategory').value,city:$('#jobCity').value,cat:$('#jobCategory').value,budget:$('#jobBudget').value,start:$('#jobStart').value,desc:$('#jobDescription').value};const postingFee=clientPostingPrice(data.budget);openCheckout('Publicare lucrare',postingFee,async()=>{try{let newJob;if(window.LDFSupabaseJobs?.createJob){newJob=await window.LDFSupabaseJobs.createJob(data);}else{newJob={id:Date.now(),...data,access:0,max:MAX_WORKERS_PER_JOB,cost:workerUnlockPrice(data.budget),unlockedBy:[],status:'activ',ownerId:currentUser.id,workflowStatus:'disponibila'};}jobs.unshift(newJob);addJobHistory(newJob.id,'Lucrarea a fost publicată');notifyMatchingWorkers(newJob);addTransaction('Publicare lucrare',postingFee,'client',0);persist();e.target.reset();toast('Lucrarea a fost publicată cu succes.');nav('jobs');renderJobs();}catch(err){console.error(err);toast(err?.message||'Nu am putut publica lucrarea.');}});});"
-          if old in s:
-            s = s.replace(old,new,1)
 
           p.write_text(s, encoding='utf-8')
           PY
@@ -65,5 +64,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Apply launch fixes"
+          git commit -m "Hide legacy demo panels at source"
           git push
