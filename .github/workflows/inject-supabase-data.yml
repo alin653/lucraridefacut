@@ -17,6 +17,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
@@ -38,21 +39,28 @@ jobs:
             "Istoric complet al plăților simulate.": "Istoric plăți."
           }
           for old,new in replacements.items():
-            s = s.replace(old,new)
+              s = s.replace(old,new)
 
-          old = "$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');"
-          new = "$('#postJobBtn').onclick=async()=>{try{const {data}=await supabaseClient.auth.getSession();if(data?.session?.user){nav('post');return;}}catch(e){}nav('auth');};"
-          s = s.replace(old,new)
+          # Keep the original role-aware post button. auth-entry.js performs the final session/profile check.
+          forced = "$('#postJobBtn').onclick=async()=>{try{const {data}=await supabaseClient.auth.getSession();if(data?.session?.user){nav('post');return;}}catch(e){}nav('auth');};"
+          original = "$('#postJobBtn').onclick=()=>currentUser?.role==='client'?nav('post'):nav('auth');"
+          s = s.replace(forced, original)
+
+          # Ensure the reliable delegated navigation hotfix is loaded after the normal navigation code.
+          tag = '<script src="navigation-hotfix.js?v=20260910-1"></script>'
+          if 'navigation-hotfix.js' not in s:
+              s = s.replace('</body>', tag+'\n</body>', 1)
+          else:
+              s = re.sub(r'<script src="navigation-hotfix\.js(?:\?v=[^"]*)?"></script>', tag, s)
 
           versions = {
-            'supabase-data.js':'20260910-2',
-            'supabase-bridge.js':'20260910-2',
-            'auth-entry.js':'20260910-3',
-            'supabase-jobs.js':'20260910-2'
+            'supabase-data.js':'20260910-3',
+            'supabase-bridge.js':'20260910-3',
+            'auth-entry.js':'20260910-4',
+            'supabase-jobs.js':'20260910-3'
           }
           for name,ver in versions.items():
-            import re
-            s = re.sub(rf'<script src="{re.escape(name)}(?:\?v=[^"]*)?"></script>', f'<script src="{name}?v={ver}"></script>', s)
+              s = re.sub(rf'<script src="{re.escape(name)}(?:\?v=[^"]*)?"></script>', f'<script src="{name}?v={ver}"></script>', s)
 
           p.write_text(s, encoding='utf-8')
           PY
@@ -65,5 +73,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Fix client post navigation and refresh scripts"
+          git commit -m "Fix support navigation and refresh launch scripts"
           git push
