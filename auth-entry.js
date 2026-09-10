@@ -28,8 +28,10 @@
     if(!client?.auth?.signOut) return;
     try{
       await client.auth.signOut();
-      try{ localStorage.removeItem('currentUser'); }catch(_e){}
-      if(typeof window.currentUser!=='undefined') window.currentUser=null;
+      try{ localStorage.removeItem('ldf_currentUser'); localStorage.removeItem('currentUser'); }catch(_e){}
+      if(typeof currentUser!=='undefined') currentUser=null;
+      if(typeof persist==='function') persist();
+      if(typeof updateNotificationBadge==='function') updateNotificationBadge();
       renderState(false);
       if(typeof window.toast==='function') window.toast('Te-ai delogat.');
       go('home');
