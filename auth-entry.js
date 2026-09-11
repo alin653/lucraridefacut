@@ -142,14 +142,6 @@
       btn.dataset.ldfGuard='1';
       btn.addEventListener('click',()=>setTimeout(hideLegacyStandalone,0));
     });
-    document.querySelectorAll('[data-nav="support"],#floatingHelp').forEach(btn=>{
-      btn.onclick=(e)=>{
-        e.preventDefault(); e.stopPropagation();
-        const drawer=document.getElementById('drawer');
-        if(drawer) drawer.classList.remove('open');
-        go('support');
-      };
-    });
     bindRoleButtons();
   }
 
@@ -160,7 +152,7 @@
       bar.id='ldf-auth-entry';
       bar.setAttribute('aria-label','Acces cont');
       const style=document.createElement('style');
-      style.textContent='#v11-security,#v13-online{display:none!important}#ldf-auth-entry{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:55;display:flex;gap:10px;width:min(94vw,430px);padding:10px;background:#fff;border:1px solid #dbe3ea;border-radius:16px;box-shadow:0 10px 28px #0002}#ldf-auth-entry button{flex:1;border:0;border-radius:12px;padding:14px 12px;font-size:16px;font-weight:900;cursor:pointer}.ldf-login,.ldf-account{background:#0b2340;color:#fff}.ldf-signup{background:#ffbf00;color:#0b2340}.ldf-logout{background:#ffe8ea;color:#a01523}@media(min-width:800px){#ldf-auth-entry{left:auto;right:18px;bottom:18px;transform:none;width:390px}}';
+      style.textContent='#v11-security,#v13-online{display:none!important}body{padding-bottom:86px}#ldf-auth-entry{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:55;display:flex;gap:8px;width:min(92vw,400px);padding:7px;background:#fff;border:1px solid #dbe3ea;border-radius:14px;box-shadow:0 8px 22px #0002}#ldf-auth-entry button{flex:1;min-height:46px;border:0;border-radius:10px;padding:10px 8px;font-size:15px;font-weight:900;cursor:pointer}.ldf-login,.ldf-account{background:#0b2340;color:#fff}.ldf-signup{background:#ffbf00;color:#0b2340}.ldf-logout{background:#ffe8ea;color:#a01523}@media(max-width:480px){body{padding-bottom:76px}#ldf-auth-entry{bottom:8px;width:calc(100vw - 24px);padding:6px;gap:6px;border-radius:12px}#ldf-auth-entry button{min-height:44px;padding:9px 6px;font-size:14px;border-radius:9px}}@media(min-width:800px){body{padding-bottom:0}#ldf-auth-entry{left:auto;right:18px;bottom:18px;transform:none;width:360px}}';
       document.head.appendChild(style);
       document.body.appendChild(bar);
     }
