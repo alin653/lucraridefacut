@@ -9,7 +9,7 @@
   <div style="font-family:Arial;padding:24px;text-align:center">Se încarcă LucrăriDeFăcut.ro…</div>
   <script>
   (async function () {
-    const b = '20260911-2257';
+    const b = '20260911-2300';
     try {
       const r = await fetch('app-shell.html?build=' + b, { cache: 'no-store' });
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -22,6 +22,7 @@
         .replace(/nav-hotfix\.js\?v=[^\"']+/g, 'nav-hotfix.js?v=' + b)
         .replace(/navigation-hotfix\.js\?v=[^\"']+/g, 'navigation-hotfix.js?v=' + b)
         .replace(/admin-access\.js\?v=[^\"']+/g, 'admin-access.js?v=' + b)
+        .replace(/admin-role-hotfix\.js\?v=[^\"']+/g, 'admin-role-hotfix.js?v=' + b)
         .replace('src="evaluation-entry.js"', 'src="evaluation-entry.js?v=' + b + '"')
         .replace('src="buy-job-loader.js"', 'src="buy-job-loader.js?v=' + b + '"')
         .replace('src="nav-hotfix.js"', 'src="nav-hotfix.js?v=' + b + '"')
