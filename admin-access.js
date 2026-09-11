@@ -2,7 +2,6 @@
 'use strict';
 
 const ADMIN_SCREEN_ID='admin';
-
 function getClient(){return window.supabaseClient || (typeof supabaseClient!=='undefined'?supabaseClient:null);}
 function hideAdmin(){
   document.querySelectorAll('[data-owner-admin]').forEach(el=>el.remove());
@@ -21,27 +20,31 @@ async function isAdmin(){
   try{
     const client=getClient();if(!client?.auth?.getSession)return false;
     const {data}=await client.auth.getSession();const user=data?.session?.user;if(!user)return false;
-    const {data:row,error}=await client.from('admin_users').select('user_id').eq('user_id',user.id).maybeSingle();
-    if(error)return false;
-    return row?.user_id===user.id;
+    const {data:profile,error}=await client.from('profiles').select('role').eq('id',user.id).maybeSingle();
+    if(!error && profile?.role==='admin') return true;
+    try{
+      const {data:row,error:adminErr}=await client.from('admin_users').select('user_id').eq('user_id',user.id).maybeSingle();
+      return !adminErr && row?.user_id===user.id;
+    }catch(_e){return false;}
   }catch(_e){return false;}
 }
 function addAdminButton(){
   const drawer=document.getElementById('drawer');if(!drawer||drawer.querySelector('[data-owner-admin]'))return;
   const hr=document.createElement('hr');hr.setAttribute('data-owner-admin','1');
   const btn=document.createElement('button');btn.type='button';btn.setAttribute('data-owner-admin','1');btn.innerHTML='🛡️ Panou administrator';
-  btn.style.cssText='color:#0b2340;background:#fff8db;font-weight:900';
-  btn.addEventListener('click',async e=>{e.preventDefault();e.stopPropagation();if(await isAdmin())showScreen(ADMIN_SCREEN_ID);else hideAdmin();});
+  btn.style.cssText='display:block!important;color:#0b2340;background:#fff8db;font-weight:900';
+  btn.addEventListener('click',async e=>{e.preventDefault();e.stopPropagation();if(await isAdmin())showScreen(ADMIN_SCREEN_ID);});
   drawer.appendChild(hr);drawer.appendChild(btn);
 }
 async function sync(){
   if(await isAdmin()){
-    const admin=document.getElementById(ADMIN_SCREEN_ID);if(admin){admin.style.removeProperty('display');admin.removeAttribute('aria-hidden');}
+    const admin=document.getElementById(ADMIN_SCREEN_ID);if(admin){admin.removeAttribute('aria-hidden');}
     addAdminButton();
   }else hideAdmin();
 }
 
 document.addEventListener('click',async function(e){
+  const own=e.target.closest?.('[data-owner-admin]');if(own)return;
   const adminTarget=e.target.closest?.('[data-nav="admin"],[data-nav="adminLogin"],.admin-link');
   if(!adminTarget)return;
   if(!(await isAdmin())){e.preventDefault();e.stopImmediatePropagation();hideAdmin();}
@@ -51,5 +54,5 @@ window.addEventListener('ldfcloudready',sync);
 window.addEventListener('focus',sync);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync();});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});else sync();
-setTimeout(sync,800);setTimeout(sync,1800);
+let tries=0;const timer=setInterval(()=>{tries++;sync();if(tries>=12)clearInterval(timer)},750);
 })();
