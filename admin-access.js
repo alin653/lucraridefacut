@@ -21,9 +21,9 @@ async function isAdmin(){
   try{
     const client=getClient();if(!client?.auth?.getSession)return false;
     const {data}=await client.auth.getSession();const user=data?.session?.user;if(!user)return false;
-    const {data:profile,error}=await client.from('profiles').select('role').eq('id',user.id).maybeSingle();
+    const {data:row,error}=await client.from('admin_users').select('user_id').eq('user_id',user.id).maybeSingle();
     if(error)return false;
-    return profile?.role==='admin';
+    return row?.user_id===user.id;
   }catch(_e){return false;}
 }
 function addAdminButton(){
@@ -35,8 +35,10 @@ function addAdminButton(){
   drawer.appendChild(hr);drawer.appendChild(btn);
 }
 async function sync(){
-  if(await isAdmin()){const admin=document.getElementById(ADMIN_SCREEN_ID);if(admin){admin.style.removeProperty('display');admin.removeAttribute('aria-hidden');}addAdminButton();}
-  else hideAdmin();
+  if(await isAdmin()){
+    const admin=document.getElementById(ADMIN_SCREEN_ID);if(admin){admin.style.removeProperty('display');admin.removeAttribute('aria-hidden');}
+    addAdminButton();
+  }else hideAdmin();
 }
 
 document.addEventListener('click',async function(e){
