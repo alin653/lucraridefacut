@@ -1,4 +1,42 @@
 <!doctype html>
-<html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LucrăriDeFăcut.ro</title></head><body><div style="font-family:Arial;padding:24px;text-align:center">Se încarcă LucrăriDeFăcut.ro…</div><script>
-(async()=>{try{const b='20260911-2248';let h=await fetch('app-shell.html?build='+b,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()});h=h.replace(/supabase-data\.js\?v=[^\"']+/g,'supabase-data.js?v='+b).replace(/supabase-bridge\.js\?v=[^\"']+/g,'supabase-bridge.js?v='+b).replace(/auth-entry\.js\?v=[^\"']+/g,'auth-entry.js?v='+b).replace(/supabase-jobs\.js\?v=[^\"']+/g,'supabase-jobs.js?v='+b).replace(/nav-hotfix\.js\?v=[^\"']+/g,'nav-hotfix.js?v='+b).replace(/navigation-hotfix\.js\?v=[^\"']+/g,'navigation-hotfix.js?v='+b).replace(/admin-access\.js\?v=[^\"']+/g,'admin-access.js?v='+b).replace('src="evaluation-entry.js"','src="evaluation-entry.js?v='+b+'"').replace('src="buy-job-loader.js"','src="buy-job-loader.js?v='+b+'"').replace('src="nav-hotfix.js"','src="nav-hotfix.js?v='+b+'"').replace('src="navigation-hotfix.js"','src="navigation-hotfix.js?v='+b+'"');document.open();document.write(h);document.close();setTimeout(()=>{if(!document.querySelector('script[src^="admin-access.js"]')){const s=document.createElement('script');s.src='admin-access.js?v='+b;document.body.appendChild(s)}},0);}catch(e){document.body.innerHTML='<div style="font-family:Arial;padding:24px"><h2>Nu am putut încărca site-ul.</h2><p>Reîncarcă pagina.</p></div>';console.error(e)}})();
-</script></body></html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LucrăriDeFăcut.ro</title>
+</head>
+<body>
+  <div style="font-family:Arial;padding:24px;text-align:center">Se încarcă LucrăriDeFăcut.ro…</div>
+  <script>
+  (async function () {
+    const b = '20260911-2250';
+    try {
+      const r = await fetch('app-shell.html?build=' + b, { cache: 'no-store' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      let h = await r.text();
+      h = h
+        .replace(/supabase-data\.js\?v=[^\"']+/g, 'supabase-data.js?v=' + b)
+        .replace(/supabase-bridge\.js\?v=[^\"']+/g, 'supabase-bridge.js?v=' + b)
+        .replace(/auth-entry\.js\?v=[^\"']+/g, 'auth-entry.js?v=' + b)
+        .replace(/supabase-jobs\.js\?v=[^\"']+/g, 'supabase-jobs.js?v=' + b)
+        .replace(/nav-hotfix\.js\?v=[^\"']+/g, 'nav-hotfix.js?v=' + b)
+        .replace(/navigation-hotfix\.js\?v=[^\"']+/g, 'navigation-hotfix.js?v=' + b)
+        .replace(/admin-access\.js\?v=[^\"']+/g, 'admin-access.js?v=' + b)
+        .replace('src="evaluation-entry.js"', 'src="evaluation-entry.js?v=' + b + '"')
+        .replace('src="buy-job-loader.js"', 'src="buy-job-loader.js?v=' + b + '"')
+        .replace('src="nav-hotfix.js"', 'src="nav-hotfix.js?v=' + b + '"')
+        .replace('src="navigation-hotfix.js"', 'src="navigation-hotfix.js?v=' + b + '"');
+      if (!/admin-access\.js/.test(h)) {
+        h = h.replace('</body>', '<script src="admin-access.js?v=' + b + '"><\/script></body>');
+      }
+      document.open();
+      document.write(h);
+      document.close();
+    } catch (e) {
+      document.body.innerHTML = '<div style="font-family:Arial;padding:24px"><h2>Nu am putut încărca site-ul.</h2><p>Reîncarcă pagina.</p></div>';
+      console.error(e);
+    }
+  })();
+  </script>
+</body>
+</html>
