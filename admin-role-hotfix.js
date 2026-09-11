@@ -21,16 +21,20 @@ function paintAdminBadge(){
     });
   });
 }
-async function sync(){adminState=await checkAdmin(true);paintAdminBadge();}
+async function sync(){
+  adminState=await checkAdmin(true);
+  if(adminState && typeof currentUser!=='undefined' && currentUser){currentUser.role='admin';}
+  paintAdminBadge();
+}
 
-document.addEventListener('submit',async function(e){
+document.addEventListener('submit',function(e){
   const form=e.target;
-  if(!form || form.id!=='jobForm') return;
-  if(!(await checkAdmin())) return;
+  if(!form || form.id!=='jobForm' || !adminState) return;
   if(typeof currentUser==='undefined' || !currentUser) return;
-  const oldRole=currentUser.role;
   currentUser.role='client';
-  setTimeout(()=>{try{if(currentUser)currentUser.role='admin';paintAdminBadge();}catch(_e){}},0);
+  setTimeout(()=>{
+    try{if(currentUser)currentUser.role='admin';paintAdminBadge();}catch(_e){}
+  },0);
 },true);
 
 document.addEventListener('click',()=>setTimeout(paintAdminBadge,0),true);
@@ -38,5 +42,5 @@ window.addEventListener('ldfcloudready',sync);
 window.addEventListener('focus',sync);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync();});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});else sync();
-setTimeout(sync,700);setTimeout(sync,1600);
+setTimeout(sync,300);setTimeout(sync,900);setTimeout(sync,1800);
 })();
