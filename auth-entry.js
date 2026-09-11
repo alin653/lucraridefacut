@@ -39,7 +39,7 @@
           currentUser.name=profile.full_name||currentUser.name||'';
           currentUser.city=profile.city||currentUser.city||'';
           currentUser.county=profile.county||currentUser.county||'';
-          currentUser.role=profile.role==='worker'?'meseriaș':'client';
+          currentUser.role=profile.role==='admin'?'admin':(profile.role==='worker'?'meseriaș':'client');
         }
         if(typeof persist==='function') persist();
       }
@@ -116,7 +116,7 @@
         const state=await syncLocalUserFromSession();
         if(!state?.session?.user){go('auth');return;}
         const role=state.profile?.role || (typeof currentUser!=='undefined'?currentUser?.role:null);
-        if(role==='client'){go('post');return;}
+        if(role==='client'||role==='admin'){go('post');return;}
         if(typeof window.toast==='function')window.toast('Pentru a posta o lucrare ai nevoie de cont de client.');
         go('profile');
       };
@@ -129,7 +129,7 @@
         const state=await syncLocalUserFromSession();
         if(!state?.session?.user){go('auth');return;}
         const role=state.profile?.role || (typeof currentUser!=='undefined'?currentUser?.role:null);
-        if(role==='worker'||role==='meseriaș'){go('jobs');return;}
+        if(role==='worker'||role==='meseriaș'||role==='admin'){go('jobs');return;}
         if(typeof window.toast==='function')window.toast('Pentru a vedea lucrările ca meseriaș ai nevoie de cont de meseriaș.');
         go('profile');
       };
