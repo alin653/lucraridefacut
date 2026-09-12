@@ -9,7 +9,7 @@
   <div style="font-family:Arial;padding:24px;text-align:center">Se încarcă LucrăriDeFăcut.ro…</div>
   <script>
   (async function () {
-    const b = '20260911-2300';
+    const b = '20260912-0825';
     try {
       const r = await fetch('app-shell.html?build=' + b, { cache: 'no-store' });
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -27,15 +27,9 @@
         .replace('src="buy-job-loader.js"', 'src="buy-job-loader.js?v=' + b + '"')
         .replace('src="nav-hotfix.js"', 'src="nav-hotfix.js?v=' + b + '"')
         .replace('src="navigation-hotfix.js"', 'src="navigation-hotfix.js?v=' + b + '"');
-      if (!/admin-access\.js/.test(h)) {
-        h = h.replace('</body>', '<script src="admin-access.js?v=' + b + '"><\/script></body>');
-      }
-      if (!/admin-role-hotfix\.js/.test(h)) {
-        h = h.replace('</body>', '<script src="admin-role-hotfix.js?v=' + b + '"><\/script></body>');
-      }
-      document.open();
-      document.write(h);
-      document.close();
+      if (!/admin-access\.js/.test(h)) h = h.replace('</body>', '<script src="admin-access.js?v=' + b + '"><\/script></body>');
+      if (!/admin-role-hotfix\.js/.test(h)) h = h.replace('</body>', '<script src="admin-role-hotfix.js?v=' + b + '"><\/script></body>');
+      document.open();document.write(h);document.close();
     } catch (e) {
       document.body.innerHTML = '<div style="font-family:Arial;padding:24px"><h2>Nu am putut încărca site-ul.</h2><p>Reîncarcă pagina.</p></div>';
       console.error(e);
