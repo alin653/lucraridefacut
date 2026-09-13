@@ -11,7 +11,7 @@
 
   async function listOpenJobs(){const client=readyClient();const {data,error}=await client.from('jobs').select('id,client_id,title,description,category,city,county,budget,status,created_at,publish_fee,unlock_fee,max_unlocks,payment_status').eq('status','open').eq('payment_status','paid').order('created_at',{ascending:false});if(error)throw error;return data||[];}
 
-  async function createPublishCheckout(job){const data=await invokeAuthed('create-publish-checkout',job);if(!data?.url)throw new Error('Nu am primit pagina securizată de plată.');return data;}
+  async function createPublishCheckout(job){const data=await invokeAuthed('create-publish-checkout',job);if(!data?.url&&!data?.free)throw new Error('Nu am primit pagina securizată de plată.');return data;}
 
   async function createJob(job){
     if(window.LDFSupabaseJobs?.createJob) return window.LDFSupabaseJobs.createJob(job);
