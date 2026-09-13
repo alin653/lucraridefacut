@@ -1,5 +1,4 @@
-// LucrariDeFacut.ro — flux acces lucrare
-// Platile sunt puse temporar pe pauza pana la finalizarea procesatorului de plati.
+// LucrariDeFacut.ro — flux acces lucrare prin PayPal
 (function(){
   'use strict';
 
@@ -12,10 +11,6 @@
   function message(text){
     if(typeof window.toast==='function') window.toast(text);
     else alert(text);
-  }
-
-  function paymentPaused(){
-    message('Plățile vor fi disponibile în curând. Momentan poți folosi celelalte funcții ale platformei.');
   }
 
   function installVerifiedClient(){
@@ -38,24 +33,29 @@
       anchor.parentNode.insertBefore(box,anchor);
     }
     box.innerHTML='<div><strong>💰 Buget lucrare:</strong> '+formatMoney(job?.budget)+'</div>'+
-      '<div style="margin-top:6px;color:#6a7888"><strong>💳 Plăți:</strong> disponibile în curând</div>';
+      '<div style="margin-top:6px;color:#6a7888"><strong>💳 Acces meseriaș:</strong> '+formatMoney(job?.cost||job?.unlock_fee||25)+' prin PayPal</div>';
   }
 
   function installButton(){
     const job=window.selectedJob;
     if(!job) return;
     installVerifiedClient();
-    const button=[...document.querySelectorAll('button')].find(b=>/deblocheaz|contact|cumpără lucrarea|plătește/i.test(b.textContent||''));
+    const button=[...document.querySelectorAll('button')].find(b=>/deblocheaz|contact|cumpără lucrarea|plătește|disponibile în curând/i.test(b.textContent||''));
     if(!button) return;
-    button.textContent='Plăți disponibile în curând';
-    button.onclick=paymentPaused;
-    button.dataset.ldfPurchase='paused';
-    button.style.background='#eef3f8';
-    button.style.color='#0b2340';
+    const price=Number(job?.cost||job?.unlock_fee||25);
+    button.textContent='Plătește '+price+' lei cu PayPal și vezi contactul';
+    button.dataset.ldfPurchase='paypal';
+    button.style.background='';
+    button.style.color='';
+    button.onclick=function(e){
+      e.preventDefault();
+      if(typeof window.unlockContact==='function') return window.unlockContact();
+      message('Funcția de plată se încarcă. Reîncarcă pagina și încearcă din nou.');
+    };
     installBudget(job,button);
   }
 
   document.addEventListener('click',()=>setTimeout(installButton,0),true);
   window.addEventListener('hashchange',()=>setTimeout(installButton,0));
-  window.addEventListener('load',()=>setTimeout(installButton,100));
+  window.addEventListener('load',()=>setTimeout(installButton,150));
 })();
