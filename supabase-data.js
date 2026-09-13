@@ -9,12 +9,10 @@
   async function getMyPhone(){const client=readyClient(),user=await requireUser();const {data,error}=await client.from('profile_contacts').select('phone').eq('user_id',user.id).maybeSingle();if(error)throw error;return data?.phone||'';}
   async function setMyPhone(phone){const client=readyClient(),user=await requireUser(),value=String(phone||'').trim();if(value.length<7)throw new Error('Numărul de telefon este prea scurt.');const {data,error}=await client.from('profile_contacts').upsert({user_id:user.id,phone:value,updated_at:new Date().toISOString()},{onConflict:'user_id'}).select().single();if(error)throw error;return data;}
 
-  // La lansare, plățile sunt temporar oprite. Afișăm lucrările deschise indiferent de payment_status.
-  async function listOpenJobs(){const client=readyClient();const {data,error}=await client.from('jobs').select('id,client_id,title,description,category,city,county,budget,status,created_at,publish_fee,unlock_fee,max_unlocks,payment_status').eq('status','open').order('created_at',{ascending:false});if(error)throw error;return data||[];}
+  async function listOpenJobs(){const client=readyClient();const {data,error}=await client.from('jobs').select('id,client_id,title,description,category,city,county,budget,status,created_at,publish_fee,unlock_fee,max_unlocks,payment_status').eq('status','open').eq('payment_status','paid').order('created_at',{ascending:false});if(error)throw error;return data||[];}
 
   async function createPublishCheckout(job){const data=await invokeAuthed('create-publish-checkout',job);if(!data?.url)throw new Error('Nu am primit pagina securizată de plată.');return data;}
 
-  // Publicarea funcționează acum fără checkout; taxele rămân salvate în job pentru activarea plății ulterior.
   async function createJob(job){
     if(window.LDFSupabaseJobs?.createJob) return window.LDFSupabaseJobs.createJob(job);
     throw new Error('Publicarea lucrării nu este disponibilă momentan. Reîncarcă pagina și încearcă din nou.');
@@ -25,11 +23,36 @@
   async function unsaveJob(jobId){const client=readyClient(),user=await requireUser();const {error}=await client.from('saved_jobs').delete().eq('user_id',user.id).eq('job_id',jobId);if(error)throw error;return true;}
   async function getJobAccessSummary(jobId){const client=readyClient();await requireUser();const {data,error}=await client.rpc('get_job_access_summary',{p_job_id:jobId});if(error)throw error;const row=Array.isArray(data)?(data[0]||null):data;return row?{unlockCount:Number(row.unlock_count||0),maxUnlocks:Number(row.max_unlocks||6),alreadyUnlocked:!!row.already_unlocked}:null;}
   async function getUnlockedContact(jobId){const client=readyClient();await requireUser();const {data,error}=await client.rpc('get_unlocked_job_contact',{p_job_id:jobId});if(error)throw error;return Array.isArray(data)?(data[0]||null):data;}
-  async function createJobCheckout(jobId){throw new Error('Plățile sunt temporar indisponibile.');}
+  async function createJobCheckout(jobId){const data=await invokeAuthed('create-job-checkout',{job_id:jobId});if(!data?.url)throw new Error('Nu am primit pagina securizată PayPal.');return data;}
+  async function capturePaypal(orderId){return invokeAuthed('capture-paypal',{order_id:orderId});}
   async function ensureSupportThread(){const client=readyClient(),user=await requireUser();let {data,error}=await client.from('support_threads').select('id,user_id,subject,status,created_at,updated_at').eq('user_id',user.id).eq('status','open').order('created_at',{ascending:false}).limit(1);if(error)throw error;if(data&&data[0])return data[0];const created=await client.from('support_threads').insert({user_id:user.id,subject:'Asistență',status:'open'}).select('id,user_id,subject,status,created_at,updated_at').single();if(created.error)throw created.error;return created.data;}
   async function listSupportMessages(threadId){const client=readyClient();await requireUser();const {data,error}=await client.from('support_messages').select('id,thread_id,sender_id,body,created_at').eq('thread_id',threadId).order('created_at',{ascending:true});if(error)throw error;return data||[];}
   async function sendSupportMessage(threadId,body){const client=readyClient(),user=await requireUser(),text=String(body||'').trim();if(!text)throw new Error('Mesajul este gol.');let tid=threadId;if(!tid){const thread=await ensureSupportThread();tid=thread.id;}const {data,error}=await client.from('support_messages').insert({thread_id:tid,sender_id:user.id,body:text}).select('id,thread_id,sender_id,body,created_at').single();if(error)throw error;return data;}
+
+  async function handlePaypalReturn(){
+    const params=new URLSearchParams(location.search);
+    if(params.get('paypal')==='cancelled'){
+      setTimeout(()=>window.toast?.('Plata PayPal a fost anulată.'),250);
+      history.replaceState({},'',location.pathname);
+      return;
+    }
+    if(params.get('paypal')!=='return')return;
+    const orderId=params.get('token');
+    if(!orderId)return;
+    try{
+      const result=await capturePaypal(orderId);
+      const msg=result?.purpose==='job_publish'?'Plata a fost confirmată. Lucrarea este publicată.':'Plata a fost confirmată. Ai acces la lucrare.';
+      setTimeout(()=>window.toast?.(msg),250);
+      history.replaceState({},'',location.pathname);
+      setTimeout(()=>location.reload(),900);
+    }catch(err){
+      console.error('PayPal capture:',err);
+      setTimeout(()=>window.toast?.(err?.message||'Nu am putut confirma plata PayPal.'),250);
+    }
+  }
+
   window.createJobCheckout=createJobCheckout;window.createPublishCheckout=createPublishCheckout;
-  window.LDFCloud={getSession,getMyProfile,updateMyProfile,getMyPhone,setMyPhone,listOpenJobs,createJob,createPublishCheckout,listSavedJobs,saveJob,unsaveJob,getJobAccessSummary,getUnlockedContact,createJobCheckout,ensureSupportThread,listSupportMessages,sendSupportMessage};
+  window.LDFCloud={getSession,getMyProfile,updateMyProfile,getMyPhone,setMyPhone,listOpenJobs,createJob,createPublishCheckout,listSavedJobs,saveJob,unsaveJob,getJobAccessSummary,getUnlockedContact,createJobCheckout,capturePaypal,ensureSupportThread,listSupportMessages,sendSupportMessage};
   window.dispatchEvent(new CustomEvent('ldfcloudready'));
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(handlePaypalReturn,0),{once:true});else setTimeout(handlePaypalReturn,0);
 })();
