@@ -1,19 +1,89 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import Stripe from 'https://esm.sh/stripe@16?target=deno'
-const cors={'Access-Control-Allow-Origin':'https://alin653.github.io','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Access-Control-Allow-Methods':'POST, OPTIONS'}
+
+const cors={
+  'Access-Control-Allow-Origin':'https://alin653.github.io',
+  'Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods':'POST, OPTIONS'
+}
+const json=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...cors,'Content-Type':'application/json'}})
+
+async function paypalAccessToken(){
+  const clientId=Deno.env.get('PAYPAL_CLIENT_ID')
+  const clientSecret=Deno.env.get('PAYPAL_CLIENT_SECRET')
+  if(!clientId||!clientSecret) throw new Error('PayPal nu este configurat pe server.')
+  const basic=btoa(`${clientId}:${clientSecret}`)
+  const r=await fetch('https://api-m.paypal.com/v1/oauth2/token',{
+    method:'POST',
+    headers:{Authorization:`Basic ${basic}`,'Content-Type':'application/x-www-form-urlencoded'},
+    body:'grant_type=client_credentials'
+  })
+  const data=await r.json().catch(()=>({}))
+  if(!r.ok||!data?.access_token) throw new Error('Nu am putut autentifica PayPal.')
+  return data.access_token as string
+}
+
+async function createPaypalOrder(amount:number,title:string,customId:string,returnUrl:string,cancelUrl:string){
+  const token=await paypalAccessToken()
+  const r=await fetch('https://api-m.paypal.com/v2/checkout/orders',{
+    method:'POST',
+    headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json','PayPal-Request-Id':crypto.randomUUID()},
+    body:JSON.stringify({
+      intent:'CAPTURE',
+      purchase_units:[{
+        custom_id:customId,
+        description:title.slice(0,127),
+        amount:{currency_code:'RON',value:amount.toFixed(2)}
+      }],
+      payment_source:{paypal:{experience_context:{user_action:'PAY_NOW',return_url:returnUrl,cancel_url:cancelUrl}}}
+    })
+  })
+  const data=await r.json().catch(()=>({}))
+  if(!r.ok) throw new Error(data?.message||'PayPal nu a putut crea plata.')
+  const approve=(data?.links||[]).find((l:any)=>l.rel==='payer-action'||l.rel==='approve')?.href
+  if(!approve) throw new Error('PayPal nu a returnat pagina de plată.')
+  return {id:String(data.id),url:String(approve)}
+}
+
 Deno.serve(async(req)=>{
- if(req.method==='OPTIONS')return new Response('ok',{headers:cors})
- try{
-  const auth=req.headers.get('Authorization')||'';if(!auth.startsWith('Bearer '))throw new Error('Autentificare necesară.')
-  const url=Deno.env.get('SUPABASE_URL')!,anon=Deno.env.get('SUPABASE_ANON_KEY')!,service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,stripeKey=Deno.env.get('STRIPE_SECRET_KEY');if(!stripeKey)throw new Error('Stripe nu este configurat pe server.')
-  const userClient=createClient(url,anon,{global:{headers:{Authorization:auth}}});const {data:{user},error:userErr}=await userClient.auth.getUser();if(userErr||!user)throw new Error('Sesiune invalidă.')
-  const admin=createClient(url,service);const {job_id}=await req.json();if(!job_id)throw new Error('Lucrare invalidă.')
-  const {data:profile}=await admin.from('profiles').select('role').eq('id',user.id).single();if(profile?.role!=='worker'&&profile?.role!=='meseriaș'&&profile?.role!=='meserias')throw new Error('Doar meseriașii pot cumpăra lucrări.')
-  const {data:job,error:jobErr}=await admin.from('jobs').select('id,title,status,unlock_fee,max_unlocks').eq('id',job_id).single();if(jobErr||!job||job.status!=='open')throw new Error('Lucrarea nu mai este disponibilă.')
-  const amount=Math.round(Number(job.unlock_fee||0)*100);if(amount<=0)throw new Error('Prețul lucrării nu este configurat.')
-  const {count}=await admin.from('job_unlocks').select('id',{count:'exact',head:true}).eq('job_id',job_id).eq('status','paid');if((count||0)>=Number(job.max_unlocks||6))throw new Error('Lucrarea a atins limita de meseriași.')
-  const {data:existing}=await admin.from('job_unlocks').select('id').eq('job_id',job_id).eq('worker_id',user.id).eq('status','paid').maybeSingle();if(existing)throw new Error('Ai cumpărat deja această lucrare.')
-  const stripe=new Stripe(stripeKey,{apiVersion:'2024-06-20'});const session=await stripe.checkout.sessions.create({mode:'payment',line_items:[{price_data:{currency:'ron',unit_amount:amount,product_data:{name:`Cumpărare lucrare: ${job.title||'Lucrare'}`}},quantity:1}],metadata:{job_id:String(job_id),worker_id:user.id,purpose:'job_unlock'},success_url:`https://alin653.github.io/lucraridefacut/?payment=success&job=${encodeURIComponent(job_id)}`,cancel_url:`https://alin653.github.io/lucraridefacut/?payment=cancelled&job=${encodeURIComponent(job_id)}`})
-  return new Response(JSON.stringify({url:session.url}),{headers:{...cors,'Content-Type':'application/json'}})
- }catch(e){return new Response(JSON.stringify({error:e instanceof Error?e.message:'Eroare'}),{status:400,headers:{...cors,'Content-Type':'application/json'}})}
+  if(req.method==='OPTIONS') return new Response('ok',{headers:cors})
+  try{
+    const auth=req.headers.get('Authorization')||''
+    if(!auth.startsWith('Bearer ')) throw new Error('Autentificare necesară.')
+    const accessToken=auth.slice(7)
+    const url=Deno.env.get('SUPABASE_URL')!
+    const service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    const admin=createClient(url,service)
+    const {data:{user},error:userErr}=await admin.auth.getUser(accessToken)
+    if(userErr||!user) throw new Error('Sesiune invalidă.')
+
+    const {job_id}=await req.json()
+    if(!job_id) throw new Error('Lucrare invalidă.')
+
+    const {data:profile}=await admin.from('profiles').select('role').eq('id',user.id).single()
+    const role=String(profile?.role||'').toLowerCase()
+    if(!['worker','meseriaș','meserias'].includes(role)) throw new Error('Doar meseriașii pot cumpăra lucrări.')
+
+    const {data:job,error:jobErr}=await admin.from('jobs').select('id,title,status,unlock_fee,max_unlocks,payment_status').eq('id',job_id).single()
+    if(jobErr||!job||job.status!=='open'||job.payment_status!=='paid') throw new Error('Lucrarea nu mai este disponibilă.')
+    const amount=Number(job.unlock_fee||0)
+    if(amount<=0) throw new Error('Prețul lucrării nu este configurat.')
+
+    const {count}=await admin.from('job_unlocks').select('id',{count:'exact',head:true}).eq('job_id',job_id).eq('status','paid')
+    if((count||0)>=Number(job.max_unlocks||6)) throw new Error('Lucrarea a atins limita de meseriași.')
+    const {data:existing}=await admin.from('job_unlocks').select('id').eq('job_id',job_id).eq('worker_id',user.id).eq('status','paid').maybeSingle()
+    if(existing) throw new Error('Ai cumpărat deja această lucrare.')
+
+    const base='https://alin653.github.io/lucraridefacut/'
+    const customId=`job_unlock|${job_id}|${user.id}`
+    const order=await createPaypalOrder(
+      amount,
+      `Acces lucrare: ${job.title||'Lucrare'}`,
+      customId,
+      `${base}?paypal=return&purpose=job_unlock&job=${encodeURIComponent(job_id)}`,
+      `${base}?paypal=cancelled&purpose=job_unlock&job=${encodeURIComponent(job_id)}`
+    )
+    return json({url:order.url,order_id:order.id})
+  }catch(e){
+    return json({error:e instanceof Error?e.message:'Eroare'},200)
+  }
 })
