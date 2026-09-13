@@ -61,7 +61,12 @@ Deno.serve(async(req)=>{
 
     stage='role'
     const {data:profile}=await admin.from('profiles').select('role').eq('id',user.id).maybeSingle()
-    if(profile?.role!=='client') throw new Error('Doar clienții pot publica lucrări.')
+    const profileRole=String(profile?.role||'').trim().toLowerCase()
+    const metaRole=String(user.user_metadata?.role||'').trim().toLowerCase()
+    const role=profileRole||metaRole
+    const isAdmin=role==='admin'
+    const isClient=role==='client'
+    if(!isClient&&!isAdmin) throw new Error('Doar clienții pot publica lucrări.')
 
     stage='payload'
     const body=await req.json()
@@ -69,15 +74,19 @@ Deno.serve(async(req)=>{
     const description=String(body.description||'').trim()
     const budget=Number(body.budget||0)
     if(!description||budget<=0) throw new Error('Completează descrierea și bugetul.')
-    const publishFee=budget>10000?35:15
+    const publishFee=isAdmin?0:(budget>10000?35:15)
     const unlockFee=budget>10000?35:25
 
     stage='job'
     const {data:job,error:jobErr}=await admin.from('jobs').insert({
       client_id:user.id,title,description,category:body.category||'Alte lucrări',city:body.city||null,county:body.county||null,
-      budget,status:'open',payment_status:'pending',publish_fee:publishFee,unlock_fee:unlockFee,max_unlocks:6
+      budget,status:'open',payment_status:isAdmin?'paid':'pending',publish_fee:publishFee,unlock_fee:unlockFee,max_unlocks:6
     }).select('id,title').single()
     if(jobErr||!job) throw new Error(jobErr?.message||'Nu am putut pregăti lucrarea.')
+
+    if(isAdmin){
+      return json({free:true,job_id:job.id})
+    }
 
     stage='paypal'
     try{
